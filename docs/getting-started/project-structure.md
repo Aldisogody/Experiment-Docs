@@ -19,11 +19,11 @@ my-experiment/
 │   │       ├── index.jsx              # Variation 2 entry point
 │   │       └── styles.module.scss
 │   │
-│   ├── config.js                      # testName, targetSelector, translations, MODEL_CODE_MAP
-│   └── helpers.js                     # Samsung API fetch, price formatting, uniqueBuild
+│   ├── config.js                      # testName, targetSelector, fallbackSelector, translations, MODEL_CODE_MAP
+│   └── helpers.js                     # Samsung API fetch, price formatting (product-card only)
 │
 ├── lib/
-│   └── framework.js                   # Runtime: runScript, trackAAEvent, waitFor, setupTracking
+│   └── framework.js                   # Runtime: runScript, mountExperiment, trackAAEvent, waitFor, watchFor, setupTracking
 │
 ├── scripts/
 │   ├── build.js                       # Vite IIFE builds — one bundle per variation
@@ -84,18 +84,20 @@ export const translationByMarket = {
 
 ### `src/helpers.js`
 
-Samsung-specific utilities. The key exports are:
+Samsung-specific utilities included in the `product-card` boilerplate. The key exports are:
 
-- `uniqueBuild(variation)` — generates the dedup guard ID and selector
 - `fetchProductCard()` — fetches Samsung product data from the search API
 - `formatPrice(price)` — formats a price using `Intl.NumberFormat` for the current locale
 - `modelCode()` — resolves the model code from `MODEL_CODE_MAP` based on locale
+
+The `minimal` boilerplate generates an empty `helpers.js` — no Samsung API integration needed.
 
 ### `lib/framework.js`
 
 The experiment runtime. Imported in every variation entry point. Provides:
 
 - `runScript(fn)` — ensures DOM is ready before executing
+- `mountExperiment(selector, fallback?, position?)` — creates and injects the container `div`
 - `trackAAEvent(evar, event, data)` — fires Adobe Analytics events
 - `waitFor(selectors, callback)` — polls until elements are present
 - `watchFor(selector, callback, options?)` — waits via MutationObserver
@@ -105,34 +107,28 @@ See the [Framework API](/framework-api/) for full documentation.
 
 ### `src/js/v1/index.jsx`
 
-The variation entry point. Every variation follows the same five-step pattern:
+The variation entry point. Every variation follows the same four-step pattern:
 
 ```jsx
 import { render, h } from 'preact';
-import { runScript, setupTracking } from '@lib/framework';
+import { mountExperiment, runScript, setupTracking } from '@lib/framework';
 import ExperimentCard from '@components/ExperimentCard';
-import { fetchProductCard, formatPrice, uniqueBuild } from '../../helpers';
-import { translationByMarket, targetSelector } from '../../config';
+import { fetchProductCard } from '../../helpers';
+import { translationByMarket, targetSelector, fallbackSelector } from '../../config';
 
 runScript(async () => {
-    // 1. Select target and prevent duplication
-    const target = document.querySelector(targetSelector);
-    const { uniqueId, injectedSelector } = uniqueBuild('v1');
-    if (!target || document.querySelector(injectedSelector)) return;
+    // 1. Mount container — falls back to body if targetSelector misses
+    const container = mountExperiment(targetSelector, fallbackSelector);
+    if (!container) return;
 
-    // 2. Create injection container
-    const container = document.createElement('div');
-    container.dataset.injectedExperiment = uniqueId;
-    target.insertAdjacentElement('afterend', container);
-
-    // 3. Fetch data
+    // 2. Fetch data
     const { data } = await fetchProductCard();
     if (!data) return;
 
-    // 4. Render component
+    // 3. Render component
     render(<ExperimentCard ... />, container);
 
-    // 5. Set up tracking — MUST come after render
+    // 4. Set up tracking — MUST come after render
     setupTracking(container, { label: 'my-experiment: v1 cta clicked' });
 });
 ```

@@ -30,13 +30,12 @@ The generated project includes:
 
 ## `minimal`
 
-Use this for experiments that don't need product data. It generates a simple, locale-aware button component with stripped-down helpers.
+Use this for experiments that don't need product data. It generates a simple, locale-aware button component with a stripped-down config.
 
 The generated project includes:
 
 - `src/components/ExperimentButton/` — a Preact button component
-- `uniqueBuild()` — dedup guard (same as product-card)
-- No Samsung API integration
+- `src/helpers.js` — empty (no Samsung API integration needed)
 - No per-variation SCSS files
 
 **Best for:** CTA copy tests, layout experiments, button style tests, anything that doesn't pull live product data.

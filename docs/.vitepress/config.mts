@@ -83,6 +83,7 @@ export default defineConfig({
           items: [
             { text: 'Overview', link: '/framework-api/' },
             { text: 'runScript()', link: '/framework-api/run-script' },
+            { text: 'mountExperiment()', link: '/framework-api/mount-experiment' },
             { text: 'waitFor() & watchFor()', link: '/framework-api/wait-for' },
             { text: 'Tracking', link: '/framework-api/tracking' },
           ],

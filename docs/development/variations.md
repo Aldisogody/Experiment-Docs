@@ -18,7 +18,6 @@ The scaffolder generates `v1` and any additional variations you requested. To ad
    ```
 
 2. Open `src/js/v2/index.jsx` and update:
-   - The `uniqueBuild` call: `uniqueBuild('v1')` → `uniqueBuild('v2')`
    - The tracking label: `'my-experiment: v1 cta clicked'` → `'my-experiment: v2 cta clicked'`
    - Any selectors or component props specific to this variation
 
@@ -66,15 +65,23 @@ Biome runs before the build. The build aborts if linting fails.
 
 ## Dedup guard
 
-Every variation entry point checks for the `data-injected-experiment` attribute before doing anything:
+On Samsung's SPA pages, Adobe Target may re-execute custom code on route changes, causing the experiment to mount twice. `mountExperiment` does not include a built-in dedup guard — if your target page is an SPA, add a manual check before mounting:
 
 ```js
-const { uniqueId, injectedSelector } = uniqueBuild('v1');
-if (!target || document.querySelector(injectedSelector)) return;
+runScript(async () => {
+    if (document.querySelector('[data-injected-experiment]')) return;
+
+    const container = mountExperiment(targetSelector, fallbackSelector);
+    if (!container) return;
+
+    container.dataset.injectedExperiment = testName;
+    render(<MyComponent />, container);
+    setupTracking(container, { label: 'my-experiment: v1 cta clicked' });
+});
 ```
 
-The `uniqueId` is `{testName}-v1`. The guard prevents the experiment from injecting twice if Adobe Target fires the custom code more than once — which can happen on single-page applications during navigation or re-renders.
+Set `container.dataset.injectedExperiment` immediately after mounting so subsequent runs hit the guard.
 
 ::: warning SPA pages
-On Samsung's SPA pages, Adobe Target may re-execute custom code on route changes. The dedup guard is the primary defence. Do not remove it.
+If you omit the dedup guard on an SPA, the component will mount multiple times on navigation. Add it whenever the target page uses client-side routing.
 :::
