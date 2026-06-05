@@ -1,46 +1,6 @@
 ---
 layout: home
 
-hero:
-  name: Create Experiment
-  text: Adobe Target A/B experiments with Vite + Preact
-  tagline: Scaffold IIFE bundles, iterate with watch + clipboard, ship production-ready variations.
-  actions:
-    - theme: brand
-      text: Quick Start
-      link: /getting-started/quick-start
-    - theme: alt
-      text: GitHub
-      link: https://github.com/andi-sogody/experiment-framework-v2
-      target: _blank
-      rel: noreferrer
-
-features:
-  - icon: 🚀
-    title: Getting Started
-    details: From zero to a clipboard-ready bundle — install, prerequisites, and project layout.
-    link: /getting-started/
-    linkText: Browse
-  - icon: ⚡
-    title: Development
-    details: Watch mode, variations, config, and templates for the inner dev loop.
-    link: /development/
-    linkText: Browse
-  - icon: 🧩
-    title: Framework API
-    details: runScript, waitFor, watchFor, and tracking helpers for Target activities.
-    link: /framework-api/
-    linkText: Browse
-  - icon: 🛠️
-    title: Tooling
-    details: Biome, Stylelint, editor setup, and optional Playwright E2E.
-    link: /linting/
-    linkText: Browse
-  - icon: 📚
-    title: Reference
-    details: CLI prompts, generated commands, markets, migration, changelog, contributing.
-    link: /reference/
-    linkText: Browse
 ---
 
 ## Install
