@@ -1,5 +1,26 @@
 import { defineConfig } from 'vitepress';
 
+const learningSidebar = [
+  {
+    text: 'Learning Path',
+    items: [
+      { text: 'Start Here', link: '/start-here' },
+      { text: 'Build an Experiment', link: '/build-an-experiment' },
+      { text: 'Run and Ship', link: '/run-and-ship' },
+      { text: 'Testing', link: '/testing' },
+    ],
+  },
+  {
+    text: 'Reference',
+    items: [
+      { text: 'Framework API', link: '/framework-api/' },
+      { text: 'CLI Prompts', link: '/reference/cli-prompts' },
+      { text: 'Generated Commands', link: '/reference/generated-commands' },
+      { text: 'Markets', link: '/reference/markets' },
+    ],
+  },
+];
+
 export default defineConfig({
   title: 'Create Experiment',
   description: 'Scaffold Adobe Target A/B experiments with Vite + Preact',
@@ -27,25 +48,18 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
-      {
-        text: 'Guide',
-        items: [
-          { text: 'Getting Started', link: '/getting-started/' },
-          { text: 'Development', link: '/development/' },
-        ],
-      },
-      { text: 'Framework API', link: '/framework-api/' },
-      {
-        text: 'Tooling',
-        items: [
-          { text: 'Linting & Formatting', link: '/linting/' },
-          { text: 'E2E Testing (Optional)', link: '/e2e-testing/' },
-        ],
-      },
+      { text: 'Start Here', link: '/start-here' },
+      { text: 'Build', link: '/build-an-experiment' },
+      { text: 'Run & Ship', link: '/run-and-ship' },
+      { text: 'Testing', link: '/testing' },
       { text: 'Reference', link: '/reference/' },
     ],
 
     sidebar: {
+      '/start-here': learningSidebar,
+      '/build-an-experiment': learningSidebar,
+      '/run-and-ship': learningSidebar,
+      '/testing': learningSidebar,
       '/getting-started/': [
         {
           text: 'Getting Started',
@@ -96,7 +110,7 @@ export default defineConfig({
           items: [
             { text: 'Overview', link: '/linting/' },
             { text: 'Biome Rules', link: '/linting/biome-rules' },
-            { text: 'Stylelint (SCSS)', link: '/linting/stylelint' },
+            { text: 'Styling (SCSS Modules)', link: '/linting/stylelint' },
             { text: 'Editor Setup', link: '/linting/editor-setup' },
           ],
         },

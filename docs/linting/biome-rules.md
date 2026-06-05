@@ -8,7 +8,7 @@ The generated `biome.json`:
 
 ```json
 {
-    "$schema": "https://biomejs.dev/schemas/latest/schema.json",
+    "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
     "files": {
         "ignore": ["dist/**", "node_modules/**", "scripts/**", "lib/**"]
     },
@@ -33,12 +33,17 @@ The generated `biome.json`:
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": true,
+            "recommended": false,
             "correctness": {
+                "recommended": true,
                 "noUnusedVariables": "error"
             },
             "suspicious": {
+                "recommended": true,
                 "noConsole": "error"
+            },
+            "a11y": {
+                "recommended": true
             }
         }
     }
@@ -56,9 +61,15 @@ The generated `biome.json`:
 
 ## Linter rules
 
-### `recommended: true`
+### Recommended rule groups
 
-Enables all of Biome's recommended rules. These cover common correctness issues, accessibility, and style consistency. See [Biome recommended rules](https://biomejs.dev/linter/rules/) for the full list.
+The generated config keeps the top-level `recommended` setting off, then enables recommended rules in these groups:
+
+| Group | Why it is enabled |
+|---|---|
+| `correctness` | Catches likely runtime errors and unused variables. |
+| `suspicious` | Catches code that is usually accidental, including console logging. |
+| `a11y` | Catches common accessibility issues in JSX. |
 
 ### `noConsole: error`
 
@@ -76,11 +87,11 @@ trackAAEvent('eVar26', 'event26', 'my-experiment: v1 debug');
 
 ```js
 // WRONG — unused import fails the build
-import { waitFor, watchFor } from '@lib/framework';
+import { waitFor, watchFor } from 'create-experiment/framework';
 // watchFor is never used
 
 // CORRECT — only import what you use
-import { waitFor } from '@lib/framework';
+import { waitFor } from 'create-experiment/framework';
 ```
 
 Unused variables and imports increase bundle size unnecessarily. This rule enforces clean imports.

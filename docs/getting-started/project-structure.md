@@ -19,15 +19,8 @@ my-experiment/
 │   │       ├── index.jsx              # Variation 2 entry point
 │   │       └── styles.module.scss
 │   │
-│   ├── config.js                      # testName, targetSelector, fallbackSelector, translations, MODEL_CODE_MAP
+│   ├── config.js                      # selectors, translations, MODEL_CODE_MAP
 │   └── helpers.js                     # Samsung API fetch, price formatting (product-card only)
-│
-├── lib/
-│   └── framework.js                   # Runtime: runScript, mountExperiment, trackAAEvent, waitFor, watchFor, setupTracking
-│
-├── scripts/
-│   ├── build.js                       # Vite IIFE builds — one bundle per variation
-│   └── start.js                       # Watch wrapper: pnpm start 0 → -e0 flag
 │
 ├── e2e/                               # Only present when E2E is enabled
 │   ├── smoke.spec.js
@@ -38,8 +31,7 @@ my-experiment/
 ├── vite.config.js                     # IIFE lib mode, Preact plugin, CSS Modules, aliases
 ├── playwright.config.js               # Only present when E2E is enabled
 ├── biome.json                         # Biome linter + formatter
-├── .stylelintrc                       # SCSS linting rules
-├── tsconfig.json                      # JSX support for editors
+├── jsconfig.json                      # JSX support and aliases for editors
 ├── .nvmrc                             # Node 24
 ├── .editorconfig
 ├── .gitignore
@@ -55,7 +47,7 @@ Top-level runtime configuration. Keep this at the root — it's imported by the 
 ```js
 export default {
     globalObject: 'sgd',          // Window namespace for the IIFE bundle
-    includeEmergencyBrake: true,  // Adobe Target kill-switch — disable to remove it
+    includeEmergencyBrake: true,  // Adobe Target kill-switch
 };
 ```
 
@@ -66,8 +58,10 @@ See [Configuration](/development/config) for details.
 Experiment-specific values. Edit this file first when setting up a new experiment.
 
 ```js
-export const testName = 'my-experiment';
-export const targetSelector = '.target-selector';   // CSS selector for DOM injection
+export const selectors = {
+    primary: '.target-selector',
+    fallbacks: ['.alternate-selector', 'body'],
+};
 
 export const locale = window.location.pathname.split('/')[1];
 
@@ -90,11 +84,11 @@ Samsung-specific utilities included in the `product-card` boilerplate. The key e
 - `formatPrice(price)` — formats a price using `Intl.NumberFormat` for the current locale
 - `modelCode()` — resolves the model code from `MODEL_CODE_MAP` based on locale
 
-The `minimal` boilerplate generates an empty `helpers.js` — no Samsung API integration needed.
+The `minimal` boilerplate does not need Samsung API integration.
 
-### `lib/framework.js`
+### Runtime helpers
 
-The experiment runtime. Imported in every variation entry point. Provides:
+The experiment runtime is imported from `create-experiment/framework`. Every variation entry point can use:
 
 - `runScript(fn)` — ensures DOM is ready before executing
 - `mountExperiment(selector, fallback?, position?)` — creates and injects the container `div`
@@ -110,15 +104,15 @@ See the [Framework API](/framework-api/) for full documentation.
 The variation entry point. Every variation follows the same four-step pattern:
 
 ```jsx
-import { render, h } from 'preact';
-import { mountExperiment, runScript, setupTracking } from '@lib/framework';
+import { render } from 'preact';
+import { mountExperiment, runScript, setupTracking } from 'create-experiment/framework';
 import ExperimentCard from '@components/ExperimentCard';
 import { fetchProductCard } from '../../helpers';
-import { translationByMarket, targetSelector, fallbackSelector } from '../../config';
+import { selectors, translationByMarket } from '../../config';
 
 runScript(async () => {
-    // 1. Mount container — falls back to body if targetSelector misses
-    const container = mountExperiment(targetSelector, fallbackSelector);
+    // 1. Mount container
+    const container = mountExperiment(selectors.primary, selectors.fallbacks);
     if (!container) return;
 
     // 2. Fetch data
@@ -139,9 +133,8 @@ runScript(async () => {
 
 ### Import aliases
 
-Vite resolves two aliases in generated projects:
+Vite resolves this alias in generated projects:
 
 | Alias | Resolves to |
 |---|---|
-| `@lib/framework` | `lib/framework.js` |
 | `@components` | `src/components/` |

@@ -10,55 +10,50 @@ Scaffold a new project in one command:
 <div class="home-install-strip">
 
 ```bash
-pnpm create @sogody/experiment my-experiment
+npx create-experiment my-experiment
 ```
 
 </div>
 
 ## Documentation map
 
-<p class="home-doc-map-intro">Same sections as the top navigation — jump straight to a page.</p>
+<p class="home-doc-map-intro">Follow the learning path first. Use reference pages only when you need exact commands, API signatures, or market tables.</p>
 
 <div class="home-doc-map">
   <section class="home-doc-section" aria-labelledby="home-doc-getting-started">
-    <h3 id="home-doc-getting-started">Getting Started</h3>
+    <h3 id="home-doc-getting-started">Start Here</h3>
     <ul>
-      <li><a href="/getting-started/">Overview</a> — what the CLI generates and project layout</li>
-      <li><a href="/getting-started/quick-start">Quick Start</a> — zero to clipboard-ready bundle (~10 minutes)</li>
+      <li><a href="/start-here">Start Here</a> — setup, scaffold prompts, first watcher, first Adobe Target paste</li>
+      <li><a href="/getting-started/quick-start">Quick Start</a> — older step-by-step tutorial</li>
       <li><a href="/getting-started/prerequisites">Prerequisites</a> — Node, pnpm, optional Playwright</li>
-      <li><a href="/getting-started/installation">Installation</a> — global CLI and workspace usage</li>
-      <li><a href="/getting-started/project-structure">Project structure</a> — folders and entry points</li>
     </ul>
   </section>
   <section class="home-doc-section" aria-labelledby="home-doc-development">
-    <h3 id="home-doc-development">Development</h3>
+    <h3 id="home-doc-development">Build an Experiment</h3>
     <ul>
-      <li><a href="/development/">Dev loop overview</a></li>
-      <li><a href="/development/watch-mode">Watch mode & clipboard</a></li>
-      <li><a href="/development/variations">Variations</a></li>
-      <li><a href="/development/config">Configuration</a> — <code>experiment.config.js</code>, kill-switch</li>
-      <li><a href="/development/templates">Templates</a></li>
+      <li><a href="/build-an-experiment">Build an Experiment</a> — editable files, selectors, components, styling, tracking</li>
+      <li><a href="/development/config">Configuration</a> — <code>experiment.config.js</code> and <code>src/config.js</code></li>
+      <li><a href="/development/templates">Templates</a> — minimal vs product-card</li>
     </ul>
   </section>
-  <section class="home-doc-section" aria-labelledby="home-doc-framework-api">
-    <h3 id="home-doc-framework-api">Framework API</h3>
+  <section class="home-doc-section" aria-labelledby="home-doc-run-ship">
+    <h3 id="home-doc-run-ship">Run and Ship</h3>
     <ul>
-      <li><a href="/framework-api/">Overview</a></li>
-      <li><a href="/framework-api/run-script"><code>runScript()</code></a></li>
-      <li><a href="/framework-api/wait-for"><code>waitFor()</code> & <code>watchFor()</code></a></li>
-      <li><a href="/framework-api/tracking">Tracking</a></li>
+      <li><a href="/run-and-ship">Run and Ship</a> — watch mode, clipboard, live injection, builds, variations</li>
+      <li><a href="/reference/generated-commands">Generated commands</a> — terse command reference</li>
     </ul>
   </section>
   <section class="home-doc-section" aria-labelledby="home-doc-tooling">
-    <h3 id="home-doc-tooling">Tooling</h3>
+    <h3 id="home-doc-tooling">Testing</h3>
     <ul>
-      <li><a href="/linting/">Linting & formatting</a> — Biome, Stylelint, editor setup</li>
-      <li><a href="/e2e-testing/">E2E testing (optional)</a> — Playwright setup, writing tests, <a href="/e2e-testing/markets">markets</a></li>
+      <li><a href="/testing">Testing</a> — optional Playwright setup, generated files, smoke flow, markets</li>
+      <li><a href="/reference/markets">Markets</a> — complete market group reference</li>
     </ul>
   </section>
   <section class="home-doc-section" aria-labelledby="home-doc-reference">
     <h3 id="home-doc-reference">Reference</h3>
     <ul>
+      <li><a href="/framework-api/">Framework API</a> — runtime helper signatures and examples</li>
       <li><a href="/reference/">Reference hub</a> — CLI prompts, commands, markets, migration, changelog, contributing</li>
     </ul>
   </section>
@@ -73,7 +68,7 @@ The framework follows a three-step workflow from scaffold to production.
 **1. Scaffold** — Run the create command and answer a handful of prompts. The CLI generates a complete Vite + Preact project with your chosen boilerplate, variation count, and market configuration.
 
 ```bash
-pnpm create @sogody/experiment my-experiment
+npx create-experiment my-experiment
 ```
 
 **2. Develop** — Start the watcher for your active variation. On every save, Vite rebuilds the IIFE bundle and copies it to your clipboard automatically.
@@ -95,4 +90,4 @@ pnpm build
 
 :::
 
-Ready to set up your environment? Start with [Prerequisites](/getting-started/prerequisites).
+Ready to set up your environment? Start with [Start Here](/start-here).

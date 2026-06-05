@@ -1,11 +1,11 @@
 # CLI Prompts Reference
 
-Complete reference for every prompt shown when running `pnpm create @sogody/experiment`.
+Complete reference for every prompt shown when running `npx create-experiment`.
 
 ## Usage
 
 ```bash
-pnpm create @sogody/experiment my-experiment
+npx create-experiment my-experiment
 ```
 
 The project name is a required argument. The CLI exits if it is not provided.

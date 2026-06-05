@@ -8,30 +8,29 @@ Variations are numbered from 1. In a standard A/B test:
 - `v2` — treatment A
 - `v3` — treatment B (A/B/C test)
 
-## Adding a variation manually
+## Adding a variation
 
-The scaffolder generates `v1` and any additional variations you requested. To add another variation later:
+The scaffolder generates `v1` and any additional variations you requested. To add another variation later, use the generated command:
 
-1. Copy the existing variation directory:
-   ```bash
-   cp -r src/js/v1 src/js/v2
-   ```
+```bash
+pnpm new-variation 3
+```
 
-2. Open `src/js/v2/index.jsx` and update:
-   - The tracking label: `'my-experiment: v1 cta clicked'` → `'my-experiment: v2 cta clicked'`
-   - Any selectors or component props specific to this variation
+This creates `src/js/v3/index.jsx` from `v1`. Product-card projects also copy `src/js/v1/styles.module.scss` when it exists.
 
-3. Copy the variation styles if applicable:
-   ```bash
-   cp src/js/v1/styles.module.scss src/js/v2/styles.module.scss
-   ```
+After creation, open `src/js/v3/index.jsx` and update:
 
-4. Build to confirm the new variation compiles:
-   ```bash
-   pnpm build
-   # dist/v1/v1.js
-   # dist/v2/v2.js
-   ```
+- The tracking label, for example `my-experiment: v3 cta clicked`.
+- Any selectors, props, component logic, or styles specific to this variation.
+
+Build to confirm the new variation compiles:
+
+```bash
+pnpm build
+# dist/v1/v1.js
+# dist/v2/v2.js
+# dist/v3/v3.js
+```
 
 ## Developing a specific variation
 
@@ -71,7 +70,7 @@ On Samsung's SPA pages, Adobe Target may re-execute custom code on route changes
 runScript(async () => {
     if (document.querySelector('[data-injected-experiment]')) return;
 
-    const container = mountExperiment(targetSelector, fallbackSelector);
+    const container = mountExperiment(selectors.primary, selectors.fallbacks);
     if (!container) return;
 
     container.dataset.injectedExperiment = testName;

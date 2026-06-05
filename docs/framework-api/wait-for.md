@@ -22,7 +22,7 @@ waitFor(selectors: string[], callback: () => void): void
 ### Usage
 
 ```js
-import { waitFor } from '@lib/framework';
+import { waitFor } from 'create-experiment/framework';
 
 waitFor(['.product-card', '.price-wrapper'], () => {
     // All elements exist — safe to proceed
@@ -75,7 +75,7 @@ watchFor(
 ### Usage
 
 ```js
-import { watchFor } from '@lib/framework';
+import { watchFor } from 'create-experiment/framework';
 
 watchFor('.late-loading-element', (element) => {
     // element is the matched DOM node

@@ -25,9 +25,10 @@ Experiment-specific values. This is the first file you edit when setting up an e
 ### `product-card` boilerplate
 
 ```js
-export const testName = 'my-experiment';
-export const targetSelector = '.some-page-element';
-export const fallbackSelector = 'body';
+export const selectors = {
+    primary: '.some-page-element',
+    fallbacks: ['.alternate-selector', 'body'],
+};
 
 export const locale =
     (typeof window !== 'undefined' ? window.location.pathname : '').split('/').filter(Boolean)[0] || '';
@@ -48,31 +49,24 @@ export const translationByMarket = translations[locale] || translations.uk;
 ### `minimal` boilerplate
 
 ```js
-export const testName = 'my-experiment';
-export const targetSelector = '.some-page-element';
-export const fallbackSelector = 'body';
-
-export const locale =
-    (typeof window !== 'undefined' ? window.location.pathname : '').split('/').filter(Boolean)[0] || '';
-
-export const translations = {
-    uk: { buttonText: 'Click Me' },
-    de: { buttonText: 'Klick Mich' },
-    pl: { buttonText: 'Kliknij Mnie' },
+export const selectors = {
+    primary: '.some-page-element',
+    fallbacks: ['.alternate-selector', 'body'],
 };
-export const translationByMarket = translations[locale] || translations.uk;
+
+export const buttonText = 'Click Me';
 ```
 
 | Export | Type | Description |
 |---|---|---|
-| `testName` | `string` | Experiment identifier used in tracking labels. Match your Adobe Target activity name. |
-| `targetSelector` | `string` | CSS selector for the DOM element the experiment injects adjacent to. Must be unique and stable on the target page. |
-| `fallbackSelector` | `string` | Fallback selector used by `mountExperiment` if `targetSelector` yields no match. Defaults to `'body'`. |
+| `selectors.primary` | `string` | CSS selector for the DOM element the experiment injects adjacent to. Must be unique and stable on the target page. |
+| `selectors.fallbacks` | `string[]` | Fallback selectors used by `mountExperiment` if `selectors.primary` yields no match. Keep them ordered from most specific to broadest. |
 | `locale` | `string` | First path segment of the current URL (e.g. `uk`, `de`, `fr`). Resolved at runtime. |
 | `MODEL_CODE_MAP` | `object` | *(product-card only)* Maps locale codes to Samsung model codes. Used by `modelCode()` in helpers. Include a `default` fallback. |
 | `translations` | `object` | Locale-keyed copy strings. |
 | `translationByMarket` | `object` | `translations[locale]` with a `translations.uk` fallback. Import this directly in your component. |
+| `buttonText` | `string` | Minimal boilerplate button copy. |
 
-::: tip Finding the right targetSelector
+::: tip Finding the right primary selector
 Use your browser's DevTools to inspect the page and pick a stable, unique CSS class or attribute selector near where the experiment should inject. Avoid selectors that change across page loads.
 :::

@@ -1,45 +1,28 @@
 # Editor Setup
 
-Generated projects include VSCode configuration out of the box. Other editors require manual setup.
+Generated projects include `biome.json`. The active templates do not generate `.vscode/` workspace settings, so configure your editor manually if you want format-on-save.
 
 ## VSCode
 
 ### Extensions
 
-The generated `.vscode/extensions.json` recommends:
-
-```json
-{
-    "recommendations": [
-        "biomejs.biome",
-        "stylelint.vscode-stylelint"
-    ]
-}
-```
-
-Open VSCode and accept the prompt to install recommended extensions, or install them manually:
-
-- [Biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) — Biome LSP for real-time linting and formatting
-- [Stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) — SCSS linting in the editor
+Install [Biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) for real-time JavaScript, JSX, and JSON linting and formatting.
 
 ### Workspace settings
 
-The generated `.vscode/settings.json` configures format-on-save for all file types:
+Add workspace settings if you want VSCode to format source files on save:
 
 ```json
 {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "biomejs.biome",
-    "[scss]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "stylelint.validate": ["scss"]
+    "[javascript]": { "editor.defaultFormatter": "biomejs.biome" },
+    "[javascriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
+    "[json]": { "editor.defaultFormatter": "biomejs.biome" }
 }
 ```
 
-With these settings:
-- Saving a `.js` or `.jsx` file runs the Biome formatter automatically
-- Stylelint validates `.scss` files in real-time
+With these settings, saving a `.js`, `.jsx`, or `.json` file runs the Biome formatter automatically.
 
 ### Prettier conflict
 
@@ -63,5 +46,3 @@ After installation:
 1. Go to **Settings → Languages & Frameworks → Biome**
 2. Set the Biome executable path to `node_modules/.bin/biome`
 3. Enable **Run on Save**
-
-For SCSS, WebStorm has built-in Stylelint support. Go to **Settings → Languages & Frameworks → Style Sheets → Stylelint** and enable it.

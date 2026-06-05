@@ -9,9 +9,9 @@
   --home-font-mono:    'SF Mono', ui-monospace, 'Menlo', monospace;
 
   /* Accent — iOS/macOS system blue */
-  --home-accent:        #007aff;
-  --home-accent-muted:  rgba(0, 122, 255, 0.08);
-  --home-accent-ring:   rgba(0, 122, 255, 0.22);
+  --home-accent:        #3853bd;
+  --home-accent-muted:  rgba(56, 83, 189, 0.08);
+  --home-accent-ring:   rgba(56, 83, 189, 0.22);
 
   /* Surface */
   --home-surface:       rgba(255, 255, 255, 0.72);
@@ -25,8 +25,8 @@
   --home-install-border: #007aff;
 
   /* Radius */
-  --home-radius:    14px;
-  --home-radius-sm: 10px;
+  --home-radius:     8px;
+  --home-radius-sm:  8px;
   --home-radius-xs:  8px;
 
   /* Shadows — Apple layered depth */
@@ -41,9 +41,9 @@
 
 /* Dark mode — true-black Apple aesthetic */
 .dark .VPHome {
-  --home-accent:        #0a84ff;
-  --home-accent-muted:  rgba(10, 132, 255, 0.12);
-  --home-accent-ring:   rgba(10, 132, 255, 0.28);
+  --home-accent:        #6f8cff;
+  --home-accent-muted:  rgba(111, 140, 255, 0.12);
+  --home-accent-ring:   rgba(111, 140, 255, 0.28);
 
   --home-surface:       rgba(28, 28, 30, 0.72);
   --home-surface-hover: rgba(44, 44, 46, 0.88);
@@ -65,24 +65,12 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  /* Subtle, single-source gradient — not a mesh */
-  background: radial-gradient(
-    ellipse 120% 80% at 50% -20%,
-    var(--home-accent-muted),
-    transparent 60%
-  );
+  padding: 148px 24px 79px;
+  background: transparent;
 }
 
 .VPHome .VPHero::before {
-  /* Hairline noise grain — accessible, purely decorative */
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode: overlay;
+  content: none;
 }
 
 .dark .VPHome .VPHero::before {
@@ -93,20 +81,37 @@
 .VPHome .VPHero .container {
   position: relative;
   z-index: 1;
+  max-width: 1358px;
+  margin: 0 auto;
+  display: block;
+}
+
+.VPHome .VPHero .main {
+  max-width: 560px;
+}
+
+.VPHome .VPHero .heading {
+  max-width: 560px;
 }
 
 /* Hero typography */
 .VPHome .VPHero .heading .name {
   font-family: var(--home-font-display);
   font-weight: 700;
-  letter-spacing: -0.04em;
+  font-size: 3.5rem;
+  line-height: 1.05;
+  letter-spacing: 0;
   font-feature-settings: 'kern' 1, 'liga' 1;
+  color: var(--home-accent);
 }
 
 .VPHome .VPHero .heading .text {
   font-family: var(--home-font-display);
   font-weight: 600;
-  letter-spacing: -0.03em;
+  font-size: 3.375rem;
+  line-height: 1.18;
+  letter-spacing: 0;
+  max-width: 540px;
 }
 
 .VPHome .VPHero .tagline {
@@ -116,20 +121,63 @@
   line-height: 1.6;
   max-width: 40rem;
   opacity: 0.72;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
+  padding-top: 10px;
 }
 
 .VPHome .VPHero .actions {
-  margin-top: 1rem;
+  margin-top: 20px;
+}
+
+.VPHome .VPHero .action .VPButton {
+  min-width: 90px;
+  border-radius: 20px;
+}
+
+.VPHome .VPHero .action .VPButton.brand {
+  background-color: var(--home-accent);
+  border-color: var(--home-accent);
+}
+
+@media (max-width: 767px) {
+  .VPHome .VPHero {
+    padding: 56px 24px 60px;
+  }
+
+  .VPHome .VPHero .heading .name {
+    font-size: 2.75rem;
+  }
+
+  .VPHome .VPHero .heading .text {
+    font-size: 2.625rem;
+  }
 }
 
 
 /* ─── Feature grid ───────────────────────────────────────────────────────── */
 
+.VPHome .VPFeatures {
+  padding: 0 24px 56px;
+}
+
+.VPHome .VPFeatures .container {
+  max-width: 1358px;
+  margin: 0 auto;
+}
+
+.VPHome .VPFeatures .items {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  max-width: 1152px;
+  margin: 0;
+}
+
 /* Staggered entrance — spring physics feel */
 @media (prefers-reduced-motion: no-preference) {
   .VPHome .VPFeatures .item {
-    padding-top: 40px;
+    width: auto;
+    padding: 0;
     animation: home-feature-in 0.5s var(--home-ease-out) backwards;
   }
 
@@ -154,8 +202,14 @@
 
 @media (prefers-reduced-motion: reduce) {
   .VPHome .VPFeatures .item {
+    width: auto;
     animation: none;
   }
+}
+
+.VPHome .VPFeatures .item {
+  width: auto;
+  padding: 0;
 }
 
 /* Feature cards — frosted glass surface */
@@ -166,6 +220,8 @@
   backdrop-filter: blur(20px) saturate(1.6);
   -webkit-backdrop-filter: blur(20px) saturate(1.6);
   box-shadow: var(--home-shadow-xs);
+  min-height: 212px;
+  padding: 24px;
   transition:
     transform      0.22s var(--home-ease-out),
     border-color   0.18s var(--home-ease),
@@ -186,6 +242,14 @@
 }
 
 .VPHome .VPFeature .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 20px;
+  border-radius: var(--home-radius);
+  background: #eef0f5;
   font-size: 1.625rem;
   line-height: 1;
 }
@@ -194,7 +258,7 @@
   font-family: var(--home-font-display);
   font-weight: 600;
   font-size: 1.0625rem;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .VPHome .VPFeature .details {
@@ -202,6 +266,7 @@
   font-size: 0.9375rem;
   line-height: 1.5;
   opacity: 0.72;
+  max-width: 210px;
 }
 
 .VPHome .VPFeature .link-text-value {
@@ -211,11 +276,49 @@
   font-size: 0.875rem;
 }
 
+@media (max-width: 1199px) {
+  .VPHome .VPFeatures .items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 639px) {
+  .VPHome .VPFeatures .items {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 /* ─── Markdown region (VPHomeContent) ───────────────────────────────────── */
 
 .VPHome .VPHomeContent {
   font-family: var(--home-font-text);
+  padding: 0 24px 80px;
+}
+
+.VPHome .VPHomeContent .container {
+  max-width: 1358px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.VPHome > .vp-doc.container {
+  font-family: var(--home-font-text);
+  max-width: 1358px;
+  margin: 0 auto;
+  padding: 0 0 80px;
+}
+
+.VPHome .VPHomeContent .vp-doc > div,
+.VPHome > .vp-doc.container > div {
+  max-width: 1152px;
+}
+
+@media (max-width: 1357px) {
+  .VPHome > .vp-doc.container {
+    padding: 0 24px 80px;
+  }
 }
 
 .VPHome .VPHomeContent h2 {

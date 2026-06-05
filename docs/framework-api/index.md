@@ -1,9 +1,9 @@
 # Framework API
 
-`lib/framework.js` is the experiment runtime. It is copied verbatim into every generated project and imported via the `@lib/framework` alias.
+`create-experiment/framework` is the experiment runtime export used by generated variation entry points.
 
 ```js
-import { runScript, mountExperiment, trackAAEvent, waitFor, watchFor, setupTracking } from '@lib/framework';
+import { runScript, mountExperiment, trackAAEvent, waitFor, watchFor, setupTracking } from 'create-experiment/framework';
 ```
 
 ## Exports
@@ -17,17 +17,4 @@ import { runScript, mountExperiment, trackAAEvent, waitFor, watchFor, setupTrack
 | [`trackAAEvent(evar, event, data)`](/framework-api/tracking) | Fires an Adobe Analytics event via the global `s` object | `v2.0.0` |
 | [`setupTracking(container, options)`](/framework-api/tracking) | Attaches click tracking to a rendered element | `v2.0.0` |
 
-## Import alias
-
-The alias `@lib/framework` is configured in `vite.config.js`:
-
-```js
-resolve: {
-    alias: {
-        '@lib/framework': './lib/framework.js',
-        '@components': './src/components/',
-    },
-},
-```
-
-You can import any of the six exports directly without a relative path.
+The runtime lives in the installed `create-experiment` package, not in generated project source.

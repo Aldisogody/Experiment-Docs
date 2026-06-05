@@ -2,15 +2,15 @@
 
 ## v1 → v2
 
-v2 replaces ESLint with Biome, drops support for Node 16/18, and locks pnpm to an exact version. If you have an existing experiment project from v1, follow these steps.
+v2 replaces ESLint with Biome, drops support for Node 16, and expects pnpm 10 or newer. If you have an existing experiment project from v1, follow these steps.
 
 ### Breaking changes summary
 
 | Area | v1 | v2 |
 |---|---|---|
 | **Linter** | ESLint + Prettier | Biome (lint + format in one tool) |
-| **Node** | 16, 18, or 20 | 20 minimum, 24 recommended |
-| **pnpm** | any version | `10.30.1` (exact — enforced by `packageManager` field) |
+| **Node** | 16, 18, or 20 | 18 minimum, 24 recommended |
+| **pnpm** | any version | 10+ |
 | **Console logs** | Allowed | `noConsole: error` — build fails if `console.*` is present |
 | **`watchFor()`** | Not available | Added in v2.0.0 |
 
@@ -84,13 +84,7 @@ Replace ESLint commands with Biome equivalents:
 }
 ```
 
-Also add the `packageManager` field to lock pnpm:
-
-```json
-{
-    "packageManager": "pnpm@10.30.1"
-}
-```
+Also make sure the project uses pnpm 10 or newer.
 
 ### Step 4: Switch Node version and reinstall
 

@@ -4,7 +4,7 @@ This tutorial walks you through creating your first A/B experiment from scratch.
 
 **Time to complete:** ~10 minutes
 
-**Prerequisites:** Node 24 and pnpm 10.30.1 installed. If not, complete [Prerequisites](/getting-started/prerequisites) first.
+**Prerequisites:** Node 18+ and pnpm 10+ installed. Node 24 is recommended. If not, complete [Prerequisites](/getting-started/prerequisites) first.
 
 ---
 
@@ -13,7 +13,7 @@ This tutorial walks you through creating your first A/B experiment from scratch.
 Run the create command and follow the prompts:
 
 ```bash
-pnpm create @sogody/experiment my-first-experiment
+npx create-experiment my-first-experiment
 ```
 
 When prompted, answer:
@@ -36,7 +36,7 @@ nvm use   # reads .nvmrc — switches to Node 24
 ```
 
 ::: warning Always run nvm use first
-The `package.json` `packageManager` field locks pnpm to `10.30.1`. Running `pnpm` commands on a different Node version can cause lockfile errors.
+The generated project includes `.nvmrc`. Running `nvm use` keeps Node aligned before you run `pnpm` commands.
 :::
 
 ## Step 3: Start watch mode for variation 1
@@ -68,8 +68,10 @@ The experiment renders on the page. No manual bundle copying needed — the clip
 Open `src/config.js` and set the selector for your target page:
 
 ```js
-export const testName = 'my-first-experiment';
-export const targetSelector = '.your-page-selector';  // ← update this
+export const selectors = {
+    primary: '.your-page-selector',
+    fallbacks: ['.alternate-selector', 'body'],
+};
 ```
 
 Save the file. Vite rebuilds instantly and copies the new bundle to your clipboard. Paste into Adobe Target and refresh.

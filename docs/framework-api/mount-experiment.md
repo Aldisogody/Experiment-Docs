@@ -29,11 +29,11 @@ mountExperiment(
 ## Usage
 
 ```js
-import { mountExperiment, runScript, setupTracking } from '@lib/framework';
-import { targetSelector, fallbackSelector } from '../../config';
+import { mountExperiment, runScript, setupTracking } from 'create-experiment/framework';
+import { selectors } from '../../config';
 
 runScript(async () => {
-    const container = mountExperiment(targetSelector, fallbackSelector);
+    const container = mountExperiment(selectors.primary, selectors.fallbacks);
     if (!container) return;
 
     render(<MyComponent />, container);

@@ -5,7 +5,7 @@
 Run the create command with your project name:
 
 ```bash
-pnpm create @sogody/experiment my-experiment
+npx create-experiment my-experiment
 ```
 
 The CLI guides you through a series of prompts, then generates a complete project, installs dependencies, and optionally runs Playwright setup and a smoke test.

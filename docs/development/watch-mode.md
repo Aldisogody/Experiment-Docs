@@ -10,10 +10,10 @@ pnpm start 2   # watches v3
 
 The numeric argument is zero-indexed: `0` targets `src/js/v1/index.jsx`, `1` targets `src/js/v2/index.jsx`, and so on.
 
-Internally, `pnpm start 0` runs:
+Internally, `pnpm start 0` delegates to the package-owned `exp-start` binary, which runs the build watcher with:
 
 ```bash
-node scripts/build.js --watch -e0
+exp-build --watch -e0
 ```
 
 The `-e0` flag tells the build script to focus on variation 1 and enable clipboard copy on each successful rebuild.

@@ -16,6 +16,8 @@ All commands available in a generated experiment project. Run them from the proj
 | Command | What it does |
 |---|---|
 | `pnpm build` | Production build. Runs Biome lint first. Builds all variations to `dist/`. Aborts on lint errors. |
+| `pnpm live` | Opens `targetUrl`, watches the selected bundle, and injects it into the page. |
+| `pnpm new-variation N` | Creates `src/js/vN/index.jsx` from `v1`. |
 
 Build output:
 ```
@@ -42,4 +44,4 @@ dist/
 
 - `pnpm build` is the only command that enforces a clean lint gate (build aborts on lint errors).
 - `pnpm lint` in watch mode reports errors but does not abort the watcher.
-- All commands require Node 20+ and pnpm 10.30.1. Run `nvm use 24` first if you're on an older Node.
+- All commands require Node 18+ and pnpm 10+. Run `nvm use` first so the generated `.nvmrc` selects the project Node version.

@@ -4,7 +4,7 @@ Before creating your first experiment, make sure your environment meets the foll
 
 ## Node version {#node-version}
 
-::: warning Node 20 is the minimum. Node 24 is recommended.
+::: warning Node 18 is the minimum. Node 24 is recommended.
 The generated project's `.nvmrc` is set to `24`. Running an older Node version will cause compatibility issues with pnpm 10.
 :::
 
@@ -23,7 +23,7 @@ Use [nvm-windows](https://github.com/coreybutler/nvm-windows) instead of nvm.
 :::
 
 ::: danger Node 16 is incompatible
-The system default Node on some machines is 16. pnpm 10.x requires Node 18 at minimum. Always run `nvm use 24` before any `pnpm` or `node` commands.
+The system default Node on some machines is 16. pnpm 10.x requires Node 18 at minimum. Always run `nvm use` before any `pnpm` or `node` commands in a generated project.
 :::
 
 ## pnpm {#pnpm}
@@ -73,7 +73,7 @@ The generated `playwright.config.js` uses `Desktop Chrome` only. You do not need
 Run these commands to confirm your environment is ready:
 
 ```bash
-node --version   # v20.x.x or v24.x.x
+node --version   # v18.x.x or newer
 pnpm --version   # 10.x.x
 ```
 
