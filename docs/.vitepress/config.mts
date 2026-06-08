@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress';
 
 /** Replace with real URLs when available */
 const ECOSYSTEM_LINKS = {
-  samlinksV2: '#',
+  samlinksV2: 'https://samlinks2.vercel.app/',
   uiComponents: '#',
 } as const;
 
