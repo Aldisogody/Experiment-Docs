@@ -2,17 +2,29 @@
 
 .VPSidebar {
   background-color: transparent !important;
+  padding-top: 80px !important;
 }
 
 .VPSidebar .curtain {
   background-color: transparent;
 }
 
+#VPSidebarNav > .group {
+  padding-top: 0;
+}
+
+#VPSidebarNav > .group + .group {
+  border-top: 0;
+  padding-top: 0;
+}
+
 .VPSidebar .VPSidebarItem.level-0 {
   padding-bottom: 24px;
 }
 
-.VPSidebar .VPSidebarItem.level-0:last-child {
+#VPSidebarNav
+  > .group:last-child
+  > .VPSidebarItem.level-0 {
   padding-bottom: 0;
 }
 
@@ -24,15 +36,28 @@
   padding: 0;
   font-size: 13px;
   font-weight: 700;
-  line-height: 22px;
+  line-height: 20px;
   color: var(--vp-c-text-1);
 }
 
+.VPSidebar .VPSidebarItem.level-1 > .item > .link {
+  min-height: 44px;
+  margin: 0 -8px;
+  padding: 0 8px;
+  border-radius: 6px;
+}
+
+.VPSidebar
+  .VPSidebarItem.level-1
+  + .VPSidebarItem.level-1 {
+  margin-top: 4px;
+}
+
 .VPSidebar .VPSidebarItem.level-1 > .item > .link > .text {
-  padding: 2px 0;
+  padding: 0;
   font-size: 14px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 22px;
   color: var(--vp-c-text-2);
 }
 
@@ -49,6 +74,54 @@
   color: var(--vp-c-brand-1);
 }
 
+.VPSidebar
+  .VPSidebarItem.level-1.is-link
+  > .item
+  > .link:hover {
+  background-color: var(--vp-c-default-soft);
+}
+
+.VPSidebar
+  .VPSidebarItem.level-1.is-active
+  > .item
+  > .link {
+  background-color: var(--vp-c-brand-soft);
+}
+
+.VPSidebar
+  .VPSidebarItem.level-1.is-active
+  > .item
+  > .link
+  > .text {
+  font-weight: 600;
+}
+
+.VPSidebar .VPSidebarItem.level-0 > .item:focus-visible,
+.VPSidebar .VPSidebarItem.level-1 > .item > .link:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+}
+
 .VPSidebar .VPSidebarItem .indicator {
   display: none;
+}
+
+@media (min-width: 960px) {
+  .VPSidebar .VPSidebarItem.level-0 {
+    padding-bottom: 18px;
+  }
+
+  .VPSidebar .VPSidebarItem.level-1 > .item > .link {
+    min-height: 28px;
+  }
+
+  .VPSidebar
+    .VPSidebarItem.level-1
+    + .VPSidebarItem.level-1 {
+    margin-top: 2px;
+  }
+
+  .VPSidebar .VPSidebarItem.level-1 > .item > .link > .text {
+    line-height: 20px;
+  }
 }
