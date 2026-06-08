@@ -1,4 +1,4 @@
-# Getting Started
+# Introduction
 
 `create-experiment` is a CLI scaffolder that generates self-contained Vite + Preact A/B experiment projects for Adobe Target. Each variation compiles to an IIFE bundle that you paste directly into Adobe Target's custom code editor.
 

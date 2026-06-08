@@ -151,18 +151,8 @@ export default defineConfig({
         {
           text: 'Getting Started',
           items: [
-            { text: 'Overview', link: '/getting-started/' },
-            {
-              text: 'Quick Start',
-              link: '/getting-started/quick-start',
-              // badge: { type: 'tip', text: 'Start here' },
-            },
-            { text: 'Prerequisites', link: '/getting-started/prerequisites' },
-            { text: 'Installation', link: '/getting-started/installation' },
-            {
-              text: 'Project Structure',
-              link: '/getting-started/project-structure',
-            },
+            { text: 'Introduction', link: '/getting-started/' },
+            { text: 'Quick Start', link: '/getting-started/quick-start' },
           ],
         },
       ],
