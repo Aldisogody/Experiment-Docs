@@ -16,6 +16,22 @@
   gap: 12px;
 }
 
+@media (min-width: 960px) {
+  .VPNavBar.has-sidebar .divider {
+    padding-left: 0 !important;
+  }
+
+  .VPNavBarTitle.has-sidebar .title {
+    border-bottom: none;
+  }
+}
+
+@media (min-width: 1440px) {
+  .VPNavBar.has-sidebar .divider {
+    padding-left: 0 !important;
+  }
+}
+
 /* ─── Top-level menu triggers ────────────────────────────────────────────── */
 
 .VPNavBarMenuGroup.VPFlyout:hover {

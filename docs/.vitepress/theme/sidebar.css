@@ -108,7 +108,18 @@
 
 @media (min-width: 960px) {
   .VPSidebar {
+    top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px)) !important;
+    z-index: 1 !important;
+    padding-top: 0 !important;
     border-right: 1px solid var(--vp-c-divider);
+  }
+
+  #VPSidebarNav {
+    padding-top: 24px;
+  }
+
+  .dark .VPSidebar {
+    border-right-color: rgba(255, 255, 255, 0.08);
   }
 
   .VPSidebar .VPSidebarItem.level-0 {
@@ -116,7 +127,7 @@
   }
 
   .VPSidebar .VPSidebarItem.level-1 > .item > .link {
-    min-height: 23px;
+    min-height: 24px;
   }
 
   .VPSidebar
@@ -128,8 +139,4 @@
   .VPSidebar .VPSidebarItem.level-1 > .item > .link > .text {
     line-height: 20px;
   }
-}
-
-.dark .VPSidebar {
-  border-right-color: rgba(255, 255, 255, 0.08);
 }
