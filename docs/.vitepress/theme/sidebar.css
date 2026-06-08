@@ -107,6 +107,10 @@
 }
 
 @media (min-width: 960px) {
+  .VPSidebar {
+    border-right: 1px solid var(--vp-c-divider);
+  }
+
   .VPSidebar .VPSidebarItem.level-0 {
     padding-bottom: 18px;
   }
@@ -124,4 +128,8 @@
   .VPSidebar .VPSidebarItem.level-1 > .item > .link > .text {
     line-height: 20px;
   }
+}
+
+.dark .VPSidebar {
+  border-right-color: rgba(255, 255, 255, 0.08);
 }
