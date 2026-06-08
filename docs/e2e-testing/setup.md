@@ -23,7 +23,7 @@ pnpm playwright install chromium
 pnpm test:e2e
 ```
 
-Runs all tests in `e2e/` against the configured base URL and markets.
+Runs `pnpm build` first, then all tests in `e2e/` against the configured base URL and markets.
 
 ### Headed mode (for debugging)
 
@@ -38,6 +38,8 @@ Opens a real browser window so you can see the test executing. Useful when a tes
 ```bash
 pnpm playwright test e2e/smoke.spec.js
 ```
+
+Direct Playwright commands do not build first. Run `pnpm build` when the bundle may be stale or missing.
 
 ## playwright.config.js
 
@@ -78,4 +80,4 @@ Set the `CI` environment variable to enable CI-specific behaviour (retries, `for
 CI=true pnpm test:e2e
 ```
 
-Test reports and screenshots are written to `playwright-report/`. Archive this directory as a CI artifact for debugging failed runs.
+The HTML report is written to `playwright-report/`. Generated screenshot helpers attach images to that report.

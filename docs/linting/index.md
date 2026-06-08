@@ -17,8 +17,11 @@ pnpm format    # Biome check --write on src/ (auto-fixes formatting)
 
 The production build runs Biome automatically. If linting fails, the build aborts.
 
+Focused and all-variation watchers also run a lint gate on rebuild. They keep running after an error so the next save can retry.
+
 ## Sections
 
 - [Biome Rules](/linting/biome-rules) — full config, key rules, common errors
 - [Styling (SCSS Modules)](/linting/stylelint) — Sass CSS Modules conventions
 - [Editor Setup](/linting/editor-setup) — Biome editor setup
+- [Logging & Debugging](/framework-api/logging) — diagnostics without direct `console` calls

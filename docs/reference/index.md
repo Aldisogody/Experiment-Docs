@@ -13,5 +13,6 @@ Technical reference for the Create Experiment scaffolder and generated projects.
 - [Migration guide](/reference/migration) — upgrading from the legacy framework
 - [Changelog](/reference/changelog) — release history
 - [Contributing](/reference/contributing) — issues, PRs, and docs for this repo
+- [Releases](/releases) — published versions and unreleased source status
 
 For day-to-day experiment work, use [Development](/development/) and [Framework API](/framework-api/).

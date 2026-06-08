@@ -7,7 +7,7 @@ Creates a container `div` and injects it adjacent to a target element. Returns t
 ```ts
 mountExperiment(
     selector: string,
-    fallback?: string,
+    fallback?: string | string[],
     position?: InsertPosition
 ): HTMLElement | null
 ```
@@ -17,7 +17,7 @@ mountExperiment(
 | Parameter | Type | Default | Description |
 |---|---|---|---|
 | `selector` | `string` | — | CSS selector for the DOM element to inject adjacent to. |
-| `fallback` | `string` | `'body'` | Fallback selector if `selector` yields no match. |
+| `fallback` | `string \| string[]` | `undefined` | One fallback selector or an ordered list. No implicit `body` fallback is added. |
 | `position` | `InsertPosition` | `'afterbegin'` | Where to insert the container relative to the target. See [InsertPosition values](#insertposition-values) below. |
 
 ## Returns
@@ -52,13 +52,28 @@ Always guard on `null` — if the target page changes structure or the selector 
 | `'beforebegin'` | Before the target element itself |
 | `'afterend'` | After the target element itself |
 
-The `minimal` boilerplate uses `'beforeend'` (appending inside the target). The `product-card` boilerplate uses the default `'afterbegin'` (prepending inside the target).
+Both current boilerplates pass `'afterbegin'`.
+
+When you do not need a fallback, the second argument can be a position:
+
+```js
+const container = mountExperiment('.target', 'afterend');
+```
 
 ## How it works
 
 ```js
-export const mountExperiment = (selector, fallback = 'body', position = 'afterbegin') => {
-    const target = document.querySelector(selector) ?? document.querySelector(fallback);
+export const mountExperiment = (selector, fallback, position = 'afterbegin') => {
+    let target = document.querySelector(selector);
+
+    if (!target && fallback !== undefined) {
+        const fallbackSelectors = Array.isArray(fallback) ? fallback : [fallback];
+        for (const fallbackSelector of fallbackSelectors) {
+            target = document.querySelector(fallbackSelector);
+            if (target) break;
+        }
+    }
+
     if (!target) return null;
     const container = document.createElement('div');
     target.insertAdjacentElement(position, container);
@@ -66,11 +81,11 @@ export const mountExperiment = (selector, fallback = 'body', position = 'afterbe
 };
 ```
 
-The function resolves the target with `??` — it tries `selector` first, then falls back to `fallback` only if `selector` returns `null`. If both fail, it returns `null`.
+The function checks the primary selector, then each supplied fallback in order. If none match, it returns `null`.
 
 ## Since
 
-`v2.1.0`
+`v2.0.0`. Ordered fallbacks and position shorthand are available on the current `main` branch.
 
 ## See Also
 

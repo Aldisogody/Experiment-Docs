@@ -10,9 +10,9 @@ The scaffolder offers two boilerplate types. You choose at scaffold time — it 
 | Price formatting (`formatPrice`) | Yes | No |
 | `ExperimentCard` Preact component | Yes | No |
 | `ExperimentButton` Preact component | No | Yes |
-| Per-variation `styles.module.scss` | Yes | No |
+| Generated per-variation `styles.module.scss` | No | No |
 | `MODEL_CODE_MAP` in config | Yes | No |
-| Full `src/helpers.js` | Yes | No (trimmed) |
+| Full `src/helpers.js` | Yes | No |
 
 ## `product-card`
 
@@ -24,18 +24,18 @@ The generated project includes:
 - `fetchProductCard()` — fetches product data from `searchapi.samsung.com` for the current market
 - `formatPrice(price)` — formats a price with the correct currency and locale using `Intl.NumberFormat`
 - `MODEL_CODE_MAP` — maps locale codes to Samsung model codes
-- Per-variation SCSS files (`src/js/vN/styles.module.scss`) for variation-specific overrides
+- `MULTI_MODEL_CODES_MAP` and `fetchProductCards()` for parallel product lookups
 
 **Best for:** Upsell experiments, product promotion banners, cross-sell modules.
 
 ## `minimal`
 
-Use this for experiments that don't need product data. It generates a simple, locale-aware button component with a stripped-down config.
+Use this for experiments that don't need product data. It generates a simple button component with a stripped-down config.
 
 The generated project includes:
 
 - `src/components/ExperimentButton/` — a Preact button component
-- `src/helpers.js` — empty (no Samsung API integration needed)
+- No `src/helpers.js`
 - No per-variation SCSS files
 
 **Best for:** CTA copy tests, layout experiments, button style tests, anything that doesn't pull live product data.

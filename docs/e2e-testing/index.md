@@ -27,7 +27,7 @@ my-experiment/
 ├── e2e/
 │   ├── smoke.spec.js      # Playwright test — verifies experiment renders
 │   ├── config.js          # Market URLs and base URL configuration
-│   └── helpers.js         # setupPage, takeScreenshot, experimentContainer
+│   └── helpers.js         # setup, target injection, bundle loading, screenshots
 ├── playwright.config.js   # Playwright configuration
 └── package.json           # pnpm test:e2e script added
 ```
@@ -37,3 +37,5 @@ my-experiment/
 - [Setup](/e2e-testing/setup) — installing browsers, running tests, debugging
 - [Writing Tests](/e2e-testing/writing-tests) — smoke spec walkthrough, helpers, multi-market patterns
 - [Markets](/e2e-testing/markets) — URL path mapping, multi-country group behaviour
+
+The product-card and minimal boilerplates generate different smoke assertions. Product-card tests also mock the Samsung product API before bundle injection.

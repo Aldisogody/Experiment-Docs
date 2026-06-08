@@ -34,6 +34,17 @@ dist/
 | `pnpm lint` | Runs `biome check src/`. Reports violations. Exits non-zero if any errors are found. |
 | `pnpm format` | Runs `biome check --write src/`. Auto-fixes formatting violations in place. |
 
+## Live injection options
+
+```bash
+pnpm live -- --variation v2
+pnpm live -- --url https://www.samsung.com/de/
+pnpm live -- --overlay hidden
+pnpm live -- --profile shared
+```
+
+CLI flags override the matching values in `experiment.config.js`.
+
 ## Testing
 
 | Command | What it does | Available |
@@ -42,6 +53,6 @@ dist/
 
 ## Notes
 
-- `pnpm build` is the only command that enforces a clean lint gate (build aborts on lint errors).
-- `pnpm lint` in watch mode reports errors but does not abort the watcher.
+- `pnpm build` aborts on lint errors.
+- Watch commands block an invalid bundle but keep the watcher running for the next save.
 - All commands require Node 18+ and pnpm 10+. Run `nvm use` first so the generated `.nvmrc` selects the project Node version.

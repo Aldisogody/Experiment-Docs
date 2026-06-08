@@ -24,7 +24,7 @@ npx create-experiment my-experiment
     <h3 id="home-doc-getting-started">Start Here</h3>
     <ul>
       <li><a href="/start-here">Start Here</a> — setup, scaffold prompts, first watcher, first Adobe Target paste</li>
-      <li><a href="/getting-started/quick-start">Quick Start</a> — older step-by-step tutorial</li>
+      <li><a href="/getting-started/quick-start">Quick Start</a> — minimal scaffold in about ten minutes</li>
       <li><a href="/getting-started/prerequisites">Prerequisites</a> — Node, pnpm, optional Playwright</li>
     </ul>
   </section>
@@ -63,7 +63,7 @@ npx create-experiment my-experiment
 
 ::: details How it works — scaffold → develop → ship
 
-The framework follows a three-step workflow from scaffold to production.
+The tooling follows a three-step workflow from scaffold to production.
 
 **1. Scaffold** — Run the create command and answer a handful of prompts. The CLI generates a complete Vite + Preact project with your chosen boilerplate, variation count, and market configuration.
 

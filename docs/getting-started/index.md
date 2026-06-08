@@ -66,7 +66,7 @@ runScript(async () => {
     const container = mountExperiment(
         selectors.primary,
         selectors.fallbacks,
-        'beforeend',
+        'afterbegin',
     );
     if (!container) return;
 

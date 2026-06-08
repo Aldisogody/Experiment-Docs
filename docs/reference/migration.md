@@ -1,130 +1,142 @@
 # Migration Guide
 
-## v1 → v2
+Use this guide to align a legacy generated experiment with the current package-owned runtime and commands. Commit or back up the project before changing build files.
 
-v2 replaces ESLint with Biome, drops support for Node 16, and expects pnpm 10 or newer. If you have an existing experiment project from v1, follow these steps.
+## 1. Align Node and pnpm
 
-### Breaking changes summary
+Add or update `.nvmrc`:
 
-| Area | v1 | v2 |
-|---|---|---|
-| **Linter** | ESLint + Prettier | Biome (lint + format in one tool) |
-| **Node** | 16, 18, or 20 | 18 minimum, 24 recommended |
-| **pnpm** | any version | 10+ |
-| **Console logs** | Allowed | `noConsole: error` — build fails if `console.*` is present |
-| **`watchFor()`** | Not available | Added in v2.0.0 |
+```text
+24
+```
 
----
-
-### Step 1: Remove old tooling
-
-Delete `node_modules` and any ESLint config files:
+Then run:
 
 ```bash
-rm -rf node_modules
-rm -f .eslintrc .eslintrc.js .eslintrc.cjs .eslintrc.json .eslintignore
-rm -f .prettierrc .prettierrc.js .prettierignore
+nvm use
+corepack prepare pnpm@10.30.1 --activate
 ```
 
-### Step 2: Add Biome
+## 2. Install package-owned tooling
 
-Copy `biome.json` from a freshly scaffolded v2 project into your project root. A minimal starting config:
+Current generated projects keep Preact as a runtime dependency and `create-experiment` as a development dependency:
 
 ```json
 {
-    "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-    "organizeImports": { "enabled": true },
-    "linter": {
-        "enabled": true,
-        "rules": {
-            "recommended": true,
-            "suspicious": {
-                "noConsole": "error"
-            }
-        }
+    "dependencies": {
+        "preact": "^10.28.3"
     },
-    "formatter": {
-        "enabled": true,
-        "indentStyle": "space",
-        "indentWidth": 4,
-        "lineWidth": 120
-    },
-    "javascript": {
-        "formatter": {
-            "quoteStyle": "single"
-        },
-        "globals": ["s", "window", "document"]
+    "devDependencies": {
+        "@biomejs/biome": "^1.9.4",
+        "@preact/preset-vite": "^2.10.5",
+        "create-experiment": "^2.0.2",
+        "sass": "^1.99.0",
+        "vite": "^6.4.1"
     }
 }
 ```
 
-### Step 3: Update package.json scripts
+Remove legacy framework packages only after imports and scripts have been migrated.
 
-Replace ESLint commands with Biome equivalents:
-
-**Before (v1):**
+## 3. Replace generated command scripts
 
 ```json
 {
     "scripts": {
-        "lint": "eslint src --fix",
-        "format": "prettier --write src"
-    }
-}
-```
-
-**After (v2):**
-
-```json
-{
-    "scripts": {
+        "start": "exp-start",
+        "dev": "exp-build --watch",
+        "build": "exp-build",
+        "new-variation": "exp-new-variation",
         "lint": "biome check src",
-        "lint:fix": "biome check --write src"
+        "format": "biome check --write src",
+        "live": "exp-live"
     }
 }
 ```
 
-Also make sure the project uses pnpm 10 or newer.
+Replace older command names:
 
-### Step 4: Switch Node version and reinstall
+| Old | Current |
+|---|---|
+| `sogody-start` | `exp-start` |
+| `sogody-build` | `exp-build` |
+| `sogody-new-variation` | `exp-new-variation` |
 
-```bash
-nvm install 24
-nvm use 24
-node --version   # v24.x.x
-pnpm install
+## 4. Import the package runtime
+
+Replace local or scoped framework imports:
+
+```js
+import {
+    mountExperiment,
+    runScript,
+    setupTracking,
+} from 'create-experiment/framework';
 ```
 
-### Step 5: Fix Biome violations
+The generated project no longer needs a copied `lib/framework.js`.
 
-Run the linter and address any errors:
+## 5. Use structured selectors
+
+```js
+export const selectors = {
+    primary: '.target-selector',
+    fallbacks: ['.alternate-selector', 'body'],
+};
+```
+
+Mount with:
+
+```js
+const container = mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin');
+if (!container) return;
+```
+
+## 6. Update experiment config
+
+```js
+export default {
+    targetUrl: 'https://www.samsung.com/uk/smartphones/all-smartphones/',
+    globalObject: 'sgd',
+    includeEmergencyBrake: true,
+    live: {
+        variation: 0,
+        overlay: 'visible',
+        profile: 'ephemeral',
+    },
+};
+```
+
+`includeEmergencyBrake` is retained as a scaffold setting, but the current package build/runtime does not consume it.
+
+## 7. Move to Biome
+
+Remove ESLint, Prettier, and Stylelint scripts or packages that are no longer used. Copy `biome.json` from a newly generated project so globals and rule groups match the current scaffold.
 
 ```bash
+pnpm format
 pnpm lint
 ```
 
-Common v1 → v2 violations:
+Direct `console` calls fail the generated Biome rules. Use framework `log()` or `debug()` for diagnostics.
 
-| Violation | Fix |
-|---|---|
-| `noConsole` error | Remove or replace `console.log` with a comment or tracking call |
-| Double quotes flagged | Biome enforces single quotes — run `pnpm lint:fix` to auto-fix |
-| `var` declarations | Replace with `const` or `let` |
+## 8. Verify Vite compatibility
 
-::: tip Auto-fix most issues
-Run `pnpm lint:fix` first. Biome can auto-fix the majority of formatting and many linting issues.
-:::
+Use the generated Vite configuration as the baseline. Important current settings include:
 
-### Step 6: Verify the build
+- Preact bundled into each IIFE.
+- `@components` mapped to `src/components`.
+- CSS Module names formatted as `<project-prefix>-[local]`.
+- Runtime Sass helpers loaded from `create-experiment/runtime/scss`.
+- Template literals lowered for Adobe Target.
+
+## 9. Reinstall and validate
 
 ```bash
+pnpm install
+pnpm lint
 pnpm build
+pnpm start 0
 ```
 
-All variations should compile to `dist/`. If the build fails due to a `noConsole` violation, the error output shows the exact file and line number.
-
----
-
-## Changelog
-
-See the full [Changelog](/reference/changelog) for a complete list of new features added in v2.
+Preview the bundle in Adobe Target or with `pnpm live`. For E2E-enabled projects, also run `pnpm test:e2e`.

@@ -46,3 +46,7 @@ After installation:
 1. Go to **Settings → Languages & Frameworks → Biome**
 2. Set the Biome executable path to `node_modules/.bin/biome`
 3. Enable **Run on Save**
+
+## SCSS
+
+Biome does not format or lint SCSS. Use your editor's Sass support for syntax highlighting, but keep formatting changes aligned with the generated 4-space style and the [SCSS Modules guide](/linting/stylelint).

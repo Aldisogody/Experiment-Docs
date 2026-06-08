@@ -17,12 +17,12 @@ The project name is a required argument. The CLI exits if it is not provided.
 | | |
 |---|---|
 | **Type** | Select |
-| **Default** | `product-card` |
-| **Options** | `product-card`, `minimal` |
+| **Default** | `minimal` |
+| **Options** | `minimal`, `product-card` |
 
 Controls which template is used for the generated project.
 
-- `product-card` — Generates a Samsung product card UI with Samsung API integration, `ExperimentCard` Preact component, and per-variation SCSS. Use for upsell, cross-sell, and product promotion experiments.
+- `product-card` — Generates a Samsung product card UI with Samsung API helpers and an `ExperimentCard` Preact component. Use for upsell, cross-sell, and product promotion experiments.
 - `minimal` — Generates a simple button component with no API integration. Use for CTA copy tests, layout experiments, and anything that doesn't need product data.
 
 ---
@@ -64,9 +64,7 @@ Keep the default `sgd` unless it conflicts with another experiment running on th
 | **Type** | Confirm |
 | **Default** | `true` |
 
-Sets `includeEmergencyBrake` in `experiment.config.js`. When `true`, the generated experiment wraps its logic in an Adobe Target kill-switch that can be toggled off without a code deployment.
-
-Always leave enabled for experiments going to production.
+Sets `includeEmergencyBrake` in `experiment.config.js`. The current package records but does not consume this value, so verify any deployment-layer kill-switch integration.
 
 ---
 
@@ -103,7 +101,7 @@ The root URL for Playwright tests. Written to `e2e/config.js` as `urlsConfig.bas
 | **Default** | — |
 | **Condition** | Only shown when E2E is enabled |
 
-Selects which Samsung market(s) to run E2E tests against. Multi-country groups (SEBN, SENA, SEIB) generate one test per country. See the [Markets Reference](/reference/markets) for all available options.
+Selects which Samsung market(s) to run E2E tests against. Multi-country groups (`SEBN`, `SENA`, `SEIB`) generate one test per configured country. See the [Markets Reference](/reference/markets) for all available options.
 
 ---
 

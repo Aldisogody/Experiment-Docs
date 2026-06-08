@@ -13,11 +13,9 @@ my-experiment/
 │   │
 │   ├── js/
 │   │   ├── v1/
-│   │   │   ├── index.jsx              # Variation 1 entry point
-│   │   │   └── styles.module.scss     # Per-variation style overrides
+│   │   │   └── index.jsx              # Variation 1 entry point
 │   │   └── v2/
-│   │       ├── index.jsx              # Variation 2 entry point
-│   │       └── styles.module.scss
+│   │       └── index.jsx              # Variation 2 entry point
 │   │
 │   ├── config.js                      # selectors, translations, MODEL_CODE_MAP
 │   └── helpers.js                     # Samsung API fetch, price formatting (product-card only)
@@ -27,7 +25,7 @@ my-experiment/
 │   ├── config.js                      # Market URLs
 │   └── helpers.js
 │
-├── experiment.config.js               # globalObject, includeEmergencyBrake
+├── experiment.config.js               # targetUrl, globalObject, live options
 ├── vite.config.js                     # IIFE lib mode, Preact plugin, CSS Modules, aliases
 ├── playwright.config.js               # Only present when E2E is enabled
 ├── biome.json                         # Biome linter + formatter
@@ -46,8 +44,14 @@ Top-level runtime configuration. Keep this at the root — it's imported by the 
 
 ```js
 export default {
-    globalObject: 'sgd',          // Window namespace for the IIFE bundle
-    includeEmergencyBrake: true,  // Adobe Target kill-switch
+    targetUrl: 'https://www.samsung.com/uk/smartphones/all-smartphones/',
+    globalObject: 'sgd',
+    includeEmergencyBrake: true,
+    live: {
+        variation: 0,
+        overlay: 'visible',
+        profile: 'ephemeral',
+    },
 };
 ```
 
@@ -70,10 +74,11 @@ export const MODEL_CODE_MAP = {
     uk: 'SM-XXXXXXX',
 };
 
-export const translationByMarket = {
+const translations = {
     uk: { title: 'Upgrade today', from: 'From', ctaText: 'Shop now' },
-    // Add more locales as needed
 };
+
+export const translationByMarket = translations[locale] || translations.uk;
 ```
 
 ### `src/helpers.js`
@@ -96,6 +101,8 @@ The experiment runtime is imported from `create-experiment/framework`. Every var
 - `waitFor(selectors, callback)` — polls until elements are present
 - `watchFor(selector, callback, options?)` — waits via MutationObserver
 - `setupTracking(container, options)` — attaches click tracking to a rendered element
+- `getPath()`, `getPathSegments()`, `getMarket()` — resolve browser path and market context
+- `log()`, `debug()` — development and opt-in diagnostic logging
 
 See the [Framework API](/framework-api/) for full documentation.
 
@@ -120,7 +127,7 @@ runScript(async () => {
     if (!data) return;
 
     // 3. Render component
-    render(<ExperimentCard ... />, container);
+    render(<ExperimentCard title={translationByMarket.title} />, container);
 
     // 4. Set up tracking — MUST come after render
     setupTracking(container, { label: 'my-experiment: v1 cta clicked' });
@@ -138,3 +145,5 @@ Vite resolves this alias in generated projects:
 | Alias | Resolves to |
 |---|---|
 | `@components` | `src/components/` |
+
+The project does not generate per-variation SCSS. Add a co-located CSS Module only when a variation genuinely needs separate styles.

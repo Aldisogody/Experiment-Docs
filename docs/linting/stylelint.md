@@ -77,6 +77,40 @@ That means component SCSS can use the framework media-query and fluid-property h
 
 The `minimal` boilerplate keeps styling inside the shared button component.
 
-The `product-card` boilerplate includes product-card component styles and can copy per-variation `src/js/vN/styles.module.scss` files when you add new variations.
+The `product-card` boilerplate includes product-card component styles. Neither boilerplate currently generates per-variation SCSS.
 
 Keep shared component styles in `src/components/*/styles.module.scss`. Use per-variation styles only when the variation needs layout or presentation changes that should not affect other variations.
+
+## Shared mixins
+
+### Media queries
+
+```scss
+.card {
+    @include mq($from: md) {
+        display: grid;
+    }
+
+    @include mq($from: sm, $until: lg) {
+        gap: 16px;
+    }
+}
+```
+
+| Name | Value |
+|---|---|
+| `xs` | `360px` |
+| `sm` | `425px` |
+| `md` | `768px` |
+| `lg` | `1200px` |
+| `xl` | `1440px` |
+
+### Fluid properties
+
+```scss
+.button {
+    @include fluid-property(sm, 'padding', 12px, 24px);
+}
+```
+
+The mixin emits pixel fallback values followed by viewport-width values based on the supplied breakpoint.

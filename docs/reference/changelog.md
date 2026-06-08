@@ -1,30 +1,38 @@
 # Changelog
 
-## v2.0.0
+This page summarizes user-facing scaffold changes. The package repository `CHANGELOG.md` remains the release source of truth.
 
-### Breaking changes
+## Unreleased on `main`
 
-- **ESLint removed** — generated projects now use [Biome](https://biomejs.dev) for both linting and formatting. Do not add `.eslintrc` files to generated projects.
-- **Node 18 minimum** — Node 24 is recommended.
-- **pnpm 10 required** — generated projects expect pnpm 10 or newer.
+- Added `pnpm live` / `exp-live` with variation, URL, overlay, and browser-profile options.
+- Added `getPath()`, `getPathSegments()`, `getMarket()`, `log()`, and `debug()` runtime helpers.
+- Added ordered selector fallbacks and the no-fallback position shorthand to `mountExperiment()`.
+- Added shared `mq()` and `fluid-property()` Sass helpers.
+- Added Adobe Target template-literal lowering and emitted `${` bundle protection.
+- Added `targetUrl` and `live` settings to `experiment.config.js`.
+- Refactored generator behavior around a file-oriented scaffold plan.
 
-### New features
+## 2.0.2 - April 23, 2026
 
-- Biome replaces ESLint: faster, zero-config, single tool for lint and format
-- `noConsole: error` enforced at build time — prevents accidental `console.log` in production bundles
-- `watchFor()` added to the framework runtime — MutationObserver-based alternative to `waitFor` with auto-disconnect timeout
-- 30+ Samsung markets available for E2E test configuration
-- Multi-country market groups (SEBN, SENA, SEIB) for multi-locale E2E parametrisation
-- Local search in documentation (`search.provider: 'local'`)
+- Removed Stylelint packages and the generated `.stylelintrc`.
+- Kept Biome for JavaScript, JSX, and JSON.
+- Kept Sass compilation as the SCSS validation step.
 
-### Migration from v1
+## 2.0.1 - April 23, 2026
 
-For step-by-step instructions including before/after code examples, see the [Migration Guide](/reference/migration).
+- Changed the interactive boilerplate default to `minimal`.
+- Moved generated runtime and command tooling into the `create-experiment` package.
+- Added `exp-build`, `exp-start`, and `exp-new-variation`.
+- Derived CSS Module prefixes from the project name.
+- Fixed the minimal scaffold so it does not receive product-card variation styles.
 
-**Summary:**
+## 2.0.0 - March 13, 2026
 
-1. Remove `node_modules/` and any `.eslintrc*` files
-2. Add `biome.json` (copy from a freshly scaffolded project)
-3. Update `package.json` scripts: replace `eslint` commands with `biome check src`
-4. Run `nvm use 24` and reinstall: `pnpm install`
-5. Run `pnpm lint` and fix any Biome violations
+- Added the minimal boilerplate.
+- Added multi-variation generation.
+- Added optional Playwright smoke tests.
+- Migrated generated projects from ESLint to Biome.
+- Added clipboard copy during focused watch mode.
+- Set Node 18 as the minimum and Node 24 in generated `.nvmrc`.
+
+See [Migration](/reference/migration) for an upgrade checklist.

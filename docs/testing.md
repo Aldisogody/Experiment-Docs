@@ -62,7 +62,7 @@ The generated smoke test does this for each configured market:
 3. Navigate to the page.
 4. Inject or find the target element.
 5. Add the IIFE bundle to the page.
-6. Wait for the experiment container.
+6. Wait for the selector-derived experiment container.
 7. Attach screenshots or page metadata to the Playwright report.
 
 ## Markets
@@ -88,7 +88,8 @@ Start from the smoke test. Add assertions after setup finishes:
 ```js
 test(`cta renders - ${market.name}`, async ({ page }, testInfo) => {
     await setupPage(page, market, testInfo);
-    await expect(page.getByRole('link', { name: /shop/i })).toBeVisible();
+    const container = page.locator(experimentContainer);
+    await expect(container.getByRole('link', { name: /shop/i })).toBeVisible();
 });
 ```
 

@@ -2,105 +2,118 @@
 
 ## The smoke spec
 
-The generated `e2e/smoke.spec.js` verifies that the experiment bundle loads and renders correctly on each configured market. It follows a straightforward structure: navigate to the page with the bundle injected, then assert the experiment is visible.
+Generated smoke tests loop over `urlsConfig.markets`, call `setupPage()`, assert boilerplate-specific content, and attach a screenshot.
+
+Minimal example:
 
 ```js
-import { test, expect } from '@playwright/test';
-import { urlsConfig } from './config';
-import { setupPage, takeScreenshot } from './helpers';
+import { expect, test } from '@playwright/test';
+import { buttonText } from '../src/config.js';
+import { urlsConfig } from './config.js';
+import { experimentContainer, setupPage, takeScreenshot } from './helpers.js';
 
 for (const market of urlsConfig.markets) {
-    test(`smoke test — ${market.name}`, async ({ page }, testInfo) => {
-        // 1. Navigate and inject the experiment bundle
-        await setupPage(page, market, testInfo);
+    test.describe(`ExperimentButton [${market.code}]`, () => {
+        test('renders the experiment button with correct text', async ({ page }, testInfo) => {
+            await setupPage(page, market, testInfo);
+            const container = page.locator(experimentContainer);
 
-        // 2. Assert the experiment container is visible
-        const container = page.locator('[data-injected-experiment]');
-        await expect(container).toBeVisible();
-
-        // 3. Take a screenshot for visual review
-        await takeScreenshot(page, market.code, 'visible', testInfo);
+            await expect(container.locator('button')).toBeVisible();
+            await expect(container.locator('button')).toContainText(buttonText);
+            await takeScreenshot(page, market.code, 'experiment-button', testInfo);
+        });
     });
 }
 ```
+
+The product-card version also verifies title, CTA, price, image attributes, and link output.
 
 ## Helpers
 
 ### `setupPage(page, market, testInfo)`
 
-Navigates to the market's URL and injects the IIFE bundle from `dist/v1/v1.js`.
+The helper:
 
-```js
-// e2e/helpers.js
-export async function setupPage(page, market, testInfo) {
-    const url = urlsConfig.getUrl(market.code, '/');
-    await page.goto(url);
-    await page.addScriptTag({ path: urlsConfig.bundlePath });
-}
-```
+1. Registers the product API mock for product-card projects.
+2. Opens the market URL.
+3. Creates the primary target when it is a missing simple class selector.
+4. Injects the loaded `dist/v1/v1.js` code.
+5. Waits for `experimentContainer`.
+6. Attaches the test URL to the report.
 
-Call this at the start of every test. It handles navigation and script injection.
-
-### `takeScreenshot(page, marketCode, label, testInfo)`
-
-Saves a screenshot with a descriptive filename. Screenshots are always saved (not just on failure), making them useful for visual review across markets.
-
-```js
-await takeScreenshot(page, market.code, 'after-render', testInfo);
-// Saves: e2e/screenshots/UK-after-render.png
-```
+Generated target creation supports selectors such as `.target-selector`. Customize `injectTargetElement()` when the primary selector is an attribute, descendant, or other complex selector.
 
 ### `experimentContainer`
 
-The experiment container selector — any element with `data-injected-experiment`. Use this in assertions:
+The current boilerplates mount as the first child of `selectors.primary`:
 
 ```js
-const container = page.locator('[data-injected-experiment]');
+export const experimentContainer = `${primarySelector} > div:first-child`;
+```
+
+Use the exported selector instead of assuming the runtime adds a data attribute:
+
+```js
+const container = page.locator(experimentContainer);
 await expect(container).toBeVisible();
+```
+
+### `takeScreenshot(page, marketCode, name, testInfo)`
+
+Captures the experiment container and attaches the image to the Playwright HTML report:
+
+```js
+await takeScreenshot(page, market.code, 'after-render', testInfo);
+```
+
+### `mockProductApi(page, overrides?)`
+
+Product-card helpers route `**/product/card/detail/**` and return a stable model. Override fields for focused cases:
+
+```js
+await setupPage(page, market, testInfo, {
+    mockFn: (currentPage) =>
+        mockProductApi(currentPage, {
+            promotionPrice: 999.99,
+            displayName: 'Test device',
+        }),
+});
 ```
 
 ## Multi-market parametrisation
 
-The `for...of` loop over `urlsConfig.markets` generates one test per market. For a project with `SEBN` (Benelux), this creates three tests:
+The `for...of` loop creates one independent test per market. `SEBN`, for example, creates tests for Belgium Dutch, Belgium French, and Netherlands.
 
-```
-smoke test — Belgium (NL)
-smoke test — Belgium (FR)
-smoke test — Netherlands
-```
-
-Each test runs independently and in parallel (per `fullyParallel: true` in the config).
-
-## e2e/config.js
-
-Generated from your scaffold answers. Contains the market list and URL resolution:
+## URL configuration
 
 ```js
 export const urlsConfig = {
     baseUrl: 'https://samsung.com',
     bundlePath: 'dist/v1/v1.js',
-    markets: [
-        { code: 'UK', urlPath: 'uk', name: 'United Kingdom' },
-    ],
+    markets: [{ code: 'UK', urlPath: 'uk', name: 'United Kingdom' }],
+
     getUrl(marketCode, pagePath) {
-        const market = this.markets.find(m => m.code === marketCode);
-        return `${this.baseUrl}/${market.urlPath}${pagePath}`;
+        const market = this.markets.find((item) => item.code === marketCode);
+        if (!market) throw new Error(`Unknown market: ${marketCode}`);
+        const base = this.baseUrl.replace(/\/$/, '');
+        return `${base}/${market.urlPath}${pagePath}`;
     },
 };
 ```
 
-To test against a different page path, change the `pagePath` argument passed to `getUrl`.
+Change the page path in `setupPage()` when the experiment belongs to a route other than `/`.
 
-## Adding assertions
-
-Extend the smoke spec with additional assertions for your specific experiment. For example, to verify a price element renders:
+## Add assertions
 
 ```js
-test(`price renders — ${market.name}`, async ({ page }, testInfo) => {
+test(`price renders - ${market.name}`, async ({ page }, testInfo) => {
     await setupPage(page, market, testInfo);
 
-    const priceEl = page.locator('[data-injected-experiment] .price');
-    await expect(priceEl).toBeVisible();
-    await expect(priceEl).not.toBeEmpty();
+    const container = page.locator(experimentContainer);
+    const price = container.locator('[class*="price"]');
+    await expect(price).toBeVisible();
+    await expect(price).not.toBeEmpty();
 });
 ```
+
+Keep assertions scoped to the injected container so unrelated host-page changes do not make the test noisy.

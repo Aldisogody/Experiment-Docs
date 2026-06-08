@@ -44,7 +44,7 @@ For a first project, use these prompt choices:
 | Boilerplate | `minimal` | Smallest generated project and easiest to understand. |
 | Variations | `1` | Keeps the first build focused on `v1`. |
 | Window namespace | `sgd` | Default global namespace. |
-| Emergency brake | `Yes` | Keeps the Adobe Target kill switch available. |
+| Emergency brake | `Yes` | Preserves the scaffolded setting. Confirm your deployment integration consumes it. |
 | E2E testing | `No` | Add Playwright after the core loop is working. |
 
 Use `product-card` when the experiment needs Samsung product data, product images, prices, or CTA URLs.
@@ -88,6 +88,8 @@ pnpm build
 ```
 
 The production build runs the Biome lint gate first. If lint passes, every variation builds to `dist/vN/vN.js`.
+
+The build also lowers JavaScript template literals and rejects emitted `${` sequences that Adobe Target could interpret as offer placeholders.
 
 ## Next
 

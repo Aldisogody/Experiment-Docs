@@ -60,3 +60,9 @@ pnpm dev
 ```
 
 Use `pnpm dev` when you want to verify that all variations build cleanly. Use `pnpm start N` when actively iterating on a single variation.
+
+## Lint behavior
+
+Watch mode runs Biome on every rebuild. A lint error blocks that bundle but keeps the watcher alive so saving a fix retries automatically.
+
+Production `pnpm build` exits immediately when the lint gate fails.

@@ -2,6 +2,8 @@
 
 All Samsung markets available when selecting E2E test targets during scaffolding.
 
+The group codes in this page are CLI choices. The generated `markets` array uses country identifiers such as `BE` and `BE_FR`; canonical team references may call those `BENL` and `BEFR`.
+
 ## Multi-country groups
 
 These groups run one E2E test per country — selecting SEBN generates three test iterations.
@@ -68,4 +70,4 @@ https://samsung.com/be_fr/
 
 ## Adding a custom market
 
-If your market is not listed, you can enter a custom market code at the CLI prompt. The scaffolder will use it as-is for the URL path. Alternatively, edit `e2e/config.js` directly after scaffolding.
+The interactive CLI currently offers only the listed choices. The resolver supports custom codes programmatically, and you can always edit `e2e/config.js` after scaffolding.

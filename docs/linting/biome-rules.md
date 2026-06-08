@@ -77,8 +77,8 @@ The generated config keeps the top-level `recommended` setting off, then enables
 // WRONG — will fail the build
 console.log('debug value:', data);
 
-// CORRECT — use tracking instead, or remove the log
-trackAAEvent('eVar26', 'event26', 'my-experiment: v1 debug');
+// CORRECT — use the runtime's opt-in diagnostic helper
+debug('product data', data);
 ```
 
 `console.log` statements in IIFE bundles appear in all users' browser consoles. This rule prevents accidental logging in production bundles.
@@ -135,6 +135,6 @@ pnpm format
 
 | Error | Cause | Fix |
 |---|---|---|
-| `noConsole` | `console.log` in `src/` | Remove the log, or replace with `trackAAEvent` |
+| `noConsole` | `console.log` in `src/` | Remove it or use framework `log()` / `debug()` |
 | `noUnusedVariables` | Unused import or declared variable | Remove the unused declaration |
 | Formatting | Tabs instead of spaces, wrong quote style | Run `pnpm format` to auto-fix |

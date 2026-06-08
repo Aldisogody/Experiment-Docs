@@ -114,7 +114,7 @@ The observer disconnects automatically after `timeout` ms. This prevents orphane
 
 | | `waitFor` | `watchFor` |
 |---|---|---|
-| Mechanism | Polling (setInterval 50ms) | MutationObserver |
+| Mechanism | Recursive `setTimeout` (50 ms) | MutationObserver |
 | Multiple selectors | Yes | No (single selector) |
 | Callback receives element | No | Yes |
 | Timeout support | No | Yes (default 6000ms) |

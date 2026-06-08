@@ -16,7 +16,7 @@ The scaffolder generates `v1` and any additional variations you requested. To ad
 pnpm new-variation 3
 ```
 
-This creates `src/js/v3/index.jsx` from `v1`. Product-card projects also copy `src/js/v1/styles.module.scss` when it exists.
+This creates `src/js/v3/index.jsx` from `v1`. If you manually added `src/js/v1/styles.module.scss`, the command copies it too.
 
 After creation, open `src/js/v3/index.jsx` and update:
 
@@ -68,18 +68,19 @@ On Samsung's SPA pages, Adobe Target may re-execute custom code on route changes
 
 ```js
 runScript(async () => {
-    if (document.querySelector('[data-injected-experiment]')) return;
+    const marker = 'my-experiment-v1';
+    if (document.querySelector(`[data-experiment="${marker}"]`)) return;
 
     const container = mountExperiment(selectors.primary, selectors.fallbacks);
     if (!container) return;
 
-    container.dataset.injectedExperiment = testName;
+    container.dataset.experiment = marker;
     render(<MyComponent />, container);
     setupTracking(container, { label: 'my-experiment: v1 cta clicked' });
 });
 ```
 
-Set `container.dataset.injectedExperiment` immediately after mounting so subsequent runs hit the guard.
+Set the marker immediately after mounting so subsequent runs hit the guard.
 
 ::: warning SPA pages
 If you omit the dedup guard on an SPA, the component will mount multiple times on navigation. Add it whenever the target page uses client-side routing.

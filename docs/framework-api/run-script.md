@@ -66,6 +66,8 @@ runScript(async () => {
 
 `void`
 
+`runScript()` does not await or return the callback result. Handle rejected promises inside async experiment logic when failure needs explicit reporting.
+
 ## Since
 
 `v2.0.0`

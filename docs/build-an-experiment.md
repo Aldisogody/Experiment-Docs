@@ -11,7 +11,6 @@ Use this page when you have a generated project and need to know which files to 
 | `src/helpers.js` | Product-card API fetch and formatting helpers. Present in product-card projects. |
 | `src/js/v1/index.jsx` | Variation entry point: mount, fetch, render, track. |
 | `src/components/*` | Preact components and local styles. |
-| `src/js/vN/styles.module.scss` | Product-card per-variation style overrides when present. |
 
 Start with `src/config.js` and `src/js/v1/index.jsx`. Most experiments only need those files plus the component styles.
 
@@ -68,7 +67,7 @@ Use `minimal` for copy, CTA, layout, or simple UI experiments. It generates:
 - One variation entry point.
 - No product API helper.
 
-The tracking selector defaults to `button` in the minimal entry point.
+The runtime tracking selector defaults to `'a'`. The minimal entry point explicitly sets `selector: 'button'`.
 
 ### Product-card
 
@@ -78,7 +77,6 @@ Use `product-card` when the experiment needs Samsung product data. It generates:
 - `MODEL_CODE_MAP`, `MULTI_MODEL_CODES_MAP`, locale, and translations in `src/config.js`.
 - `fetchProductCard()` and `formatPrice()` in `src/helpers.js`.
 - Product image, price, CTA, and title props in the entry point.
-- Optional per-variation SCSS copied when new product-card variations are created.
 
 ## Styling
 
@@ -94,7 +92,19 @@ export default function ExperimentButton({ text }) {
 
 Vite config sets CSS Modules to camelCase class names and prefixes generated classes with a project-derived prefix. Keep styles local to the component or variation that uses them.
 
-Shared Sass helpers are loaded from `create-experiment/runtime/scss`, so component SCSS can use the framework mixins without local imports.
+Shared Sass helpers are loaded from `create-experiment/runtime/scss`, so component SCSS can use `mq()` and `fluid-property()` without local imports.
+
+```scss
+.button {
+    @include fluid-property(sm, 'padding', 12px, 24px);
+
+    @include mq($from: md) {
+        font-size: 16px;
+    }
+}
+```
+
+Available named breakpoints are `xs`, `sm`, `md`, `lg`, and `xl`.
 
 ## Runtime helpers
 
@@ -106,6 +116,8 @@ import {
     runScript,
     setupTracking,
     trackAAEvent,
+    getMarket,
+    debug,
     waitFor,
     watchFor,
 } from 'create-experiment/framework';
@@ -117,6 +129,8 @@ Use the API reference when you need exact parameters:
 - [`runScript()`](/framework-api/run-script)
 - [`waitFor()` and `watchFor()`](/framework-api/wait-for)
 - [Tracking helpers](/framework-api/tracking)
+- [Path and market helpers](/framework-api/path-and-market)
+- [Logging and debugging](/framework-api/logging)
 
 ## Next
 

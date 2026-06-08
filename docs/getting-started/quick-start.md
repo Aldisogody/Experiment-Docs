@@ -1,6 +1,6 @@
 # Quick Start
 
-This tutorial walks you through creating your first A/B experiment from scratch. By the end you will have a running Vite + Preact project with a clipboard-ready IIFE bundle ready to paste into Adobe Target.
+This tutorial walks you through creating a minimal experiment. By the end you will have a Vite + Preact project and a clipboard-ready IIFE bundle for Adobe Target.
 
 **Time to complete:** ~10 minutes
 
@@ -20,8 +20,8 @@ When prompted, answer:
 
 | Prompt | Recommended answer |
 |---|---|
-| Select boilerplate | `product-card` |
-| Number of variations | `2` (creates v1 and v2) |
+| Select boilerplate | `minimal` (default) |
+| Number of variations | `1` (default) |
 | Window namespace | `sgd` (default) |
 | Include emergency brake | `Yes` (default) |
 | Enable E2E testing | `No` (default — add later if needed) |
@@ -47,9 +47,9 @@ pnpm start 0
 
 You will see Vite build output followed by:
 
-```
-✓ built in 312ms
-📋 v1 bundle copied to clipboard
+```text
+built in 312ms
+v1.js copied to clipboard
 ```
 
 Every time you save a source file, Vite rebuilds and copies the latest bundle to your clipboard automatically.
@@ -86,12 +86,10 @@ pnpm build
 
 Output:
 
-```
+```text
 dist/
-├── v1/
-│   └── v1.js
-└── v2/
-    └── v2.js
+└── v1/
+    └── v1.js
 ```
 
 Each file is a self-contained IIFE bundle. Upload or paste these into Adobe Target for your production activity.
@@ -101,6 +99,6 @@ Each file is a self-contained IIFE bundle. Upload or paste these into Adobe Targ
 ## What's next
 
 - [Project Structure](/getting-started/project-structure) — understand every generated file
-- [Variations](/development/variations) — add a third variation or rename existing ones
+- [Variations](/development/variations) — add another variation
 - [Framework API](/framework-api/) — `runScript`, `waitFor`, `watchFor`, and tracking helpers
 - [Configuration](/development/config) — `experiment.config.js` and `src/config.js` field reference

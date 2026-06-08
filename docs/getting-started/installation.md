@@ -14,10 +14,10 @@ The CLI guides you through a series of prompts, then generates a complete projec
 
 | Prompt | Default | What it controls |
 |---|---|---|
-| **Select boilerplate** | `product-card` | Which template to use. `product-card` includes Samsung product API, Preact card component, and SCSS. `minimal` generates a simple button with no API integration. |
+| **Select boilerplate** | `minimal` | Which template to use. `minimal` generates a button with no API integration. `product-card` includes Samsung product API helpers and a Preact card. |
 | **Number of variations** | `1` | Generates `src/js/v1/` through `src/js/vN/`. Pick 2 for A/B, 3 for A/B/C. |
 | **Window namespace** | `sgd` | The IIFE output name on `window` (e.g. `window.sgd`). Must be a valid JS identifier. Keep the default unless it conflicts with another experiment on the same page. |
-| **Include emergency brake** | `true` | Wraps the experiment in an Adobe Target kill-switch. Leave enabled for all production experiments. |
+| **Include emergency brake** | `true` | Records `includeEmergencyBrake` in `experiment.config.js`. The current build/runtime does not consume this field, so verify the deployment integration before relying on it. |
 | **Enable E2E testing** | `false` | Generates `e2e/`, `playwright.config.js`, and wires up `pnpm test:e2e`. Enable if you have a stable preview URL to test against. |
 | **Base URL** _(E2E only)_ | `https://samsung.com` | The root URL for Playwright tests. |
 | **Market** _(E2E only)_ | — | Selects which Samsung market(s) to parametrise tests against. See the [Markets reference](/reference/markets). |
@@ -38,4 +38,8 @@ Open Adobe Target, navigate to your experiment's custom code editor, and paste. 
 
 ::: tip Choosing a boilerplate
 Use `product-card` when your experiment displays Samsung product data (image, price, CTA). Use `minimal` for layout tests, copy changes, or anything that doesn't need the Samsung product API.
+:::
+
+::: info Existing directories
+If the destination directory already exists and is not empty, the CLI asks before continuing. It does not remove unrelated files from that directory.
 :::

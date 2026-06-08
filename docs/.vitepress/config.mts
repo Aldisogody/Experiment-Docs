@@ -1,9 +1,7 @@
 import { defineConfig } from 'vitepress';
 
-/** Replace with real URLs when available */
 const ECOSYSTEM_LINKS = {
   samlinksV2: 'https://samlinks2.vercel.app/',
-  uiComponents: '#',
 } as const;
 
 const docsSidebar = [
@@ -28,6 +26,7 @@ const docsSidebar = [
       { text: 'Guide', link: '/guide' },
       { text: 'Tutorial', link: '/tutorial' },
       { text: 'Examples', link: '/examples' },
+      { text: 'Playground', link: '/playground' },
     ],
   },
   {
@@ -49,6 +48,8 @@ const docsSidebar = [
       { text: 'mountExperiment()', link: '/framework-api/mount-experiment' },
       { text: 'waitFor() & watchFor()', link: '/framework-api/wait-for' },
       { text: 'Tracking', link: '/framework-api/tracking' },
+      { text: 'Path & Market', link: '/framework-api/path-and-market' },
+      { text: 'Logging & Debugging', link: '/framework-api/logging' },
     ],
   },
   {
@@ -79,7 +80,6 @@ const docsSidebar = [
       },
       { text: 'Changelog', link: '/reference/changelog' },
       { text: 'Contributing', link: '/reference/contributing' },
-      { text: 'Playground', link: '/playground' },
     ],
   },
   {
@@ -121,19 +121,15 @@ export default defineConfig({
       {
         text: 'Docs',
         activeMatch:
-          '^/(guide|tutorial|examples|error-reference|playground|getting-started|framework-api|reference/migration)',
+          '^/(start-here|build-an-experiment|run-and-ship|testing|guide|tutorial|examples|error-reference|playground|getting-started|development|framework-api|linting|e2e-testing|reference)',
         items: [
-          { text: 'Quick Start', link: '/getting-started/quick-start' },
-          { text: 'Guide', link: '/guide' },
-          { text: 'Tutorial', link: '/tutorial' },
-          { text: 'Examples', link: '/examples' },
-          { text: 'API', link: '/framework-api/' },
+          { text: 'Start Here', link: '/start-here' },
+          { text: 'Build an Experiment', link: '/build-an-experiment' },
+          { text: 'Run and Ship', link: '/run-and-ship' },
+          { text: 'Testing', link: '/testing' },
+          { text: 'Framework API', link: '/framework-api/' },
+          { text: 'Reference', link: '/reference/' },
           { text: 'Error Reference', link: '/error-reference' },
-          {
-            text: 'Migration from experiment v1',
-            link: '/reference/migration',
-          },
-          { text: 'Playground', link: '/playground' },
         ],
       },
       {
@@ -145,12 +141,6 @@ export default defineConfig({
               {
                 text: 'Samlinks v2',
                 link: ECOSYSTEM_LINKS.samlinksV2,
-                target: '_blank',
-                rel: 'noopener noreferrer',
-              },
-              {
-                text: 'UI components',
-                link: ECOSYSTEM_LINKS.uiComponents,
                 target: '_blank',
                 rel: 'noopener noreferrer',
               },
@@ -173,14 +163,14 @@ export default defineConfig({
 
     editLink: {
       pattern:
-        'https://github.com/andi-sogody/experiment-framework-v2/edit/main/v2-framework/docs/:path',
+        'https://github.com/Aldisogody/v2-docs-for-devs/edit/main/docs/:path',
       text: 'Edit this page on GitHub',
     },
 
     socialLinks: [
       {
         icon: 'github',
-        link: 'https://github.com/andi-sogody/experiment-framework-v2',
+        link: 'https://github.com/Aldisogody/v2-docs-for-devs',
       },
     ],
 

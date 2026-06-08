@@ -36,8 +36,8 @@ The generated project's `pnpm-lock.yaml` uses lockfile format v9, which is only 
 
 ```bash
 corepack enable
-corepack prepare pnpm@latest --activate
-pnpm --version   # 10.x.x
+corepack prepare pnpm@10.30.1 --activate
+pnpm --version   # 10.30.1
 ```
 
 **Install via npm (alternative):**
@@ -62,7 +62,11 @@ cd my-experiment
 pnpm playwright install
 ```
 
-This downloads Chromium, Firefox, and WebKit to `~/.cache/ms-playwright`. Plan for approximately 300 MB of disk space.
+This downloads Chromium, Firefox, and WebKit. Install only Chromium when you want the browser used by the generated config:
+
+```bash
+pnpm playwright install chromium
+```
 
 ::: tip Default browser
 The generated `playwright.config.js` uses `Desktop Chrome` only. You do not need all three browsers for smoke testing.

@@ -25,6 +25,8 @@ smoke test — Netherlands     → https://samsung.com/nl/
 
 This happens automatically because `urlsConfig.markets` is populated with all countries in the group, and the smoke spec loops over `urlsConfig.markets`.
 
+The E2E config uses scaffold identifiers such as `BE` and `BE_FR`. Team targeting and reporting references may use canonical labels such as `BENL` and `BEFR`; do not substitute them without also updating `e2e/config.js`.
+
 ## Changing the market after scaffolding
 
 Edit `e2e/config.js` directly:

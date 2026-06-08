@@ -10,7 +10,7 @@ Use this page for the daily Adobe Target workflow: watch, paste, preview, build,
 | `pnpm start 0` | Watch `v1` and copy its bundle to the clipboard. |
 | `pnpm start 1` | Watch `v2` and copy its bundle to the clipboard. |
 | `pnpm dev` | Run package watch mode for all variations. |
-| `pnpm live` | Open the configured target URL and inject the watched bundle. |
+| `pnpm live` | Open `targetUrl`, watch a variation, and inject its bundle. |
 | `pnpm build` | Run the production lint gate and build all bundles. |
 | `pnpm new-variation 3` | Create `src/js/v3` from `v1`. |
 | `pnpm lint` | Run `biome check src`. |
@@ -53,6 +53,17 @@ pnpm live -- --profile shared
 
 Use the shared profile when login, consent, or cached market state would otherwise slow down repeated checks.
 
+You can override every live option without editing config:
+
+```bash
+pnpm live -- --variation v2
+pnpm live -- --url https://www.samsung.com/de/
+pnpm live -- --overlay hidden
+pnpm live -- --profile shared
+```
+
+`variation` accepts a zero-based index (`1` means `v2`) or a folder name (`v2`).
+
 ## Production build
 
 Run:
@@ -79,7 +90,7 @@ pnpm new-variation 3
 pnpm start 2
 ```
 
-`pnpm new-variation 3` creates `src/js/v3/index.jsx`. Product-card projects also copy `src/js/v1/styles.module.scss` when it exists.
+`pnpm new-variation 3` creates `src/js/v3/index.jsx` from `v1`. If you manually added `src/js/v1/styles.module.scss`, the command copies it too; the current scaffold does not generate that file.
 
 After creation:
 
@@ -100,6 +111,10 @@ pnpm format
 `pnpm lint` is read-only. `pnpm format` writes Biome fixes to `src`.
 
 The active generated templates use Biome for JavaScript, JSX, and JSON. They do not generate a `.stylelintrc` file.
+
+## Adobe Target bundle guard
+
+The build forces template literals to older string concatenation and fails if an emitted chunk still contains `${`. This prevents Adobe Target from misreading JavaScript as offer placeholder syntax.
 
 ## Next
 
