@@ -1,0 +1,71 @@
+/* Global nav — minimalist dark dropdown panels */
+
+.VPNavBarMenuGroup .VPMenu {
+  min-width: 10rem;
+  padding: 6px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background-color: var(--vp-c-bg-soft);
+  box-shadow: none;
+}
+
+.VPNavBarMenuGroup .VPMenu .items {
+  padding: 0;
+}
+
+.VPNavBarMenuGroup .VPMenuLink {
+  padding: 8px 12px;
+  border-radius: 6px;
+  line-height: 1.4;
+  color: var(--vp-c-text-2);
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.VPNavBarMenuGroup .VPMenuLink:hover {
+  color: var(--vp-c-text-1);
+  background-color: var(--vp-c-default-soft);
+}
+
+.VPNavBarMenuGroup .VPMenuGroup + .VPMenuGroup {
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: none;
+}
+
+.VPNavBarMenuGroup .VPMenuGroup .title {
+  padding: 10px 12px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-3);
+  pointer-events: none;
+}
+
+.VPNavBarMenuGroup .VPMenuGroup .VPMenuLink {
+  padding-left: 12px;
+}
+
+/* Top-level nav trigger */
+.VPNavBarMenuGroup .button[aria-expanded='true'],
+.VPNavBarMenuGroup:hover .button {
+  color: var(--vp-c-text-1);
+}
+
+.dark .VPNavBarMenuGroup .VPMenu {
+  border-color: rgba(255, 255, 255, 0.08);
+  background-color: rgba(28, 28, 30, 0.96);
+}
+
+.dark .VPNavBarMenuGroup .VPMenuLink {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.dark .VPNavBarMenuGroup .VPMenuLink:hover {
+  color: rgba(255, 255, 255, 0.92);
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.dark .VPNavBarMenuGroup .VPMenuGroup .title {
+  color: rgba(255, 255, 255, 0.38);
+}

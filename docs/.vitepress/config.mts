@@ -1,5 +1,41 @@
 import { defineConfig } from 'vitepress';
 
+/** Replace with real URLs when available */
+const ECOSYSTEM_LINKS = {
+  samlinksV2: '#',
+  uiComponents: '#',
+} as const;
+
+const docsNavSidebar = [
+  {
+    text: 'Docs',
+    items: [
+      { text: 'Quick Start', link: '/getting-started/quick-start' },
+      { text: 'Guide', link: '/guide' },
+      { text: 'Tutorial', link: '/tutorial' },
+      { text: 'Examples', link: '/examples' },
+      { text: 'API', link: '/framework-api/' },
+      { text: 'Error Reference', link: '/error-reference' },
+      {
+        text: 'Migration from experiment v1',
+        link: '/reference/migration',
+      },
+      { text: 'Playground', link: '/playground' },
+    ],
+  },
+];
+
+const aboutSidebar = [
+  {
+    text: 'About',
+    items: [
+      { text: 'FAQ', link: '/faq' },
+      { text: 'Team', link: '/team' },
+      { text: 'Releases', link: '/releases' },
+    ],
+  },
+];
+
 const learningSidebar = [
   {
     text: 'Learning Path',
@@ -47,15 +83,66 @@ export default defineConfig({
 
   themeConfig: {
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Start Here', link: '/start-here' },
-      { text: 'Build', link: '/build-an-experiment' },
-      { text: 'Run & Ship', link: '/run-and-ship' },
-      { text: 'Testing', link: '/testing' },
-      { text: 'Reference', link: '/reference/' },
+      {
+        text: 'Docs',
+        activeMatch:
+          '^/(guide|tutorial|examples|error-reference|playground|getting-started|framework-api|reference/migration)',
+        items: [
+          { text: 'Quick Start', link: '/getting-started/quick-start' },
+          { text: 'Guide', link: '/guide' },
+          { text: 'Tutorial', link: '/tutorial' },
+          { text: 'Examples', link: '/examples' },
+          { text: 'API', link: '/framework-api/' },
+          { text: 'Error Reference', link: '/error-reference' },
+          {
+            text: 'Migration from experiment v1',
+            link: '/reference/migration',
+          },
+          { text: 'Playground', link: '/playground' },
+        ],
+      },
+      {
+        text: 'Ecosystem',
+        items: [
+          {
+            text: 'Resources',
+            items: [
+              {
+                text: 'Samlinks v2',
+                link: ECOSYSTEM_LINKS.samlinksV2,
+                target: '_blank',
+                rel: 'noopener noreferrer',
+              },
+              {
+                text: 'UI components',
+                link: ECOSYSTEM_LINKS.uiComponents,
+                target: '_blank',
+                rel: 'noopener noreferrer',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        text: 'About',
+        activeMatch: '^/(faq|team|releases)',
+        items: [
+          { text: 'FAQ', link: '/faq' },
+          { text: 'Team', link: '/team' },
+          { text: 'Releases', link: '/releases' },
+        ],
+      },
     ],
 
     sidebar: {
+      '/guide': docsNavSidebar,
+      '/tutorial': docsNavSidebar,
+      '/examples': docsNavSidebar,
+      '/error-reference': docsNavSidebar,
+      '/playground': docsNavSidebar,
+      '/faq': aboutSidebar,
+      '/team': aboutSidebar,
+      '/releases': aboutSidebar,
       '/start-here': learningSidebar,
       '/build-an-experiment': learningSidebar,
       '/run-and-ship': learningSidebar,
