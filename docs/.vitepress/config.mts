@@ -6,53 +6,88 @@ const ECOSYSTEM_LINKS = {
   uiComponents: '#',
 } as const;
 
-const docsNavSidebar = [
+const docsSidebar = [
   {
-    text: 'Docs',
+    text: 'Getting Started',
     items: [
+      { text: 'Introduction', link: '/getting-started/' },
       { text: 'Quick Start', link: '/getting-started/quick-start' },
+      { text: 'Prerequisites', link: '/getting-started/prerequisites' },
+      { text: 'Installation', link: '/getting-started/installation' },
+      {
+        text: 'Project Structure',
+        link: '/getting-started/project-structure',
+      },
+    ],
+  },
+  {
+    text: 'Essentials',
+    items: [
+      { text: 'Start Here', link: '/start-here' },
+      { text: 'Build an Experiment', link: '/build-an-experiment' },
       { text: 'Guide', link: '/guide' },
       { text: 'Tutorial', link: '/tutorial' },
       { text: 'Examples', link: '/examples' },
-      { text: 'API', link: '/framework-api/' },
+    ],
+  },
+  {
+    text: 'Development',
+    items: [
+      { text: 'Dev Loop Overview', link: '/development/' },
+      { text: 'Watch Mode & Clipboard', link: '/development/watch-mode' },
+      { text: 'Variations', link: '/development/variations' },
+      { text: 'Configuration', link: '/development/config' },
+      { text: 'Templates', link: '/development/templates' },
+      { text: 'Run and Ship', link: '/run-and-ship' },
+    ],
+  },
+  {
+    text: 'Framework API',
+    items: [
+      { text: 'Overview', link: '/framework-api/' },
+      { text: 'runScript()', link: '/framework-api/run-script' },
+      { text: 'mountExperiment()', link: '/framework-api/mount-experiment' },
+      { text: 'waitFor() & watchFor()', link: '/framework-api/wait-for' },
+      { text: 'Tracking', link: '/framework-api/tracking' },
+    ],
+  },
+  {
+    text: 'Testing & Quality',
+    items: [
+      { text: 'Testing Overview', link: '/testing' },
+      { text: 'Linting & Formatting', link: '/linting/' },
+      { text: 'Biome Rules', link: '/linting/biome-rules' },
+      { text: 'Styling (SCSS Modules)', link: '/linting/stylelint' },
+      { text: 'Editor Setup', link: '/linting/editor-setup' },
+      { text: 'E2E Testing', link: '/e2e-testing/' },
+      { text: 'E2E Setup', link: '/e2e-testing/setup' },
+      { text: 'Writing Tests', link: '/e2e-testing/writing-tests' },
+      { text: 'E2E Markets', link: '/e2e-testing/markets' },
+    ],
+  },
+  {
+    text: 'Reference',
+    items: [
+      { text: 'Reference Overview', link: '/reference/' },
+      { text: 'CLI Prompts', link: '/reference/cli-prompts' },
+      { text: 'Generated Commands', link: '/reference/generated-commands' },
+      { text: 'Markets', link: '/reference/markets' },
       { text: 'Error Reference', link: '/error-reference' },
       {
-        text: 'Migration from experiment v1',
+        text: 'Migration Guide',
         link: '/reference/migration',
       },
+      { text: 'Changelog', link: '/reference/changelog' },
+      { text: 'Contributing', link: '/reference/contributing' },
       { text: 'Playground', link: '/playground' },
     ],
   },
-];
-
-const aboutSidebar = [
   {
     text: 'About',
     items: [
       { text: 'FAQ', link: '/faq' },
       { text: 'Team', link: '/team' },
       { text: 'Releases', link: '/releases' },
-    ],
-  },
-];
-
-const learningSidebar = [
-  {
-    text: 'Learning Path',
-    items: [
-      { text: 'Start Here', link: '/start-here' },
-      { text: 'Build an Experiment', link: '/build-an-experiment' },
-      { text: 'Run and Ship', link: '/run-and-ship' },
-      { text: 'Testing', link: '/testing' },
-    ],
-  },
-  {
-    text: 'Reference',
-    items: [
-      { text: 'Framework API', link: '/framework-api/' },
-      { text: 'CLI Prompts', link: '/reference/cli-prompts' },
-      { text: 'Generated Commands', link: '/reference/generated-commands' },
-      { text: 'Markets', link: '/reference/markets' },
     ],
   },
 ];
@@ -134,103 +169,7 @@ export default defineConfig({
       },
     ],
 
-    sidebar: {
-      '/guide': docsNavSidebar,
-      '/tutorial': docsNavSidebar,
-      '/examples': docsNavSidebar,
-      '/error-reference': docsNavSidebar,
-      '/playground': docsNavSidebar,
-      '/faq': aboutSidebar,
-      '/team': aboutSidebar,
-      '/releases': aboutSidebar,
-      '/start-here': learningSidebar,
-      '/build-an-experiment': learningSidebar,
-      '/run-and-ship': learningSidebar,
-      '/testing': learningSidebar,
-      '/getting-started/': [
-        {
-          text: 'Getting Started',
-          items: [
-            { text: 'Introduction', link: '/getting-started/' },
-            { text: 'Quick Start', link: '/getting-started/quick-start' },
-          ],
-        },
-      ],
-      '/development/': [
-        {
-          text: 'Development',
-          items: [
-            { text: 'Dev Loop Overview', link: '/development/' },
-            { text: 'Watch Mode & Clipboard', link: '/development/watch-mode' },
-            { text: 'Variations', link: '/development/variations' },
-            { text: 'Configuration', link: '/development/config' },
-            { text: 'Templates', link: '/development/templates' },
-          ],
-        },
-      ],
-      '/framework-api/': [
-        {
-          text: 'Framework API',
-          items: [
-            { text: 'Overview', link: '/framework-api/' },
-            { text: 'runScript()', link: '/framework-api/run-script' },
-            { text: 'mountExperiment()', link: '/framework-api/mount-experiment' },
-            { text: 'waitFor() & watchFor()', link: '/framework-api/wait-for' },
-            { text: 'Tracking', link: '/framework-api/tracking' },
-          ],
-        },
-      ],
-      '/linting/': [
-        {
-          text: 'Linting & Formatting',
-          collapsed: true,
-          items: [
-            { text: 'Overview', link: '/linting/' },
-            { text: 'Biome Rules', link: '/linting/biome-rules' },
-            { text: 'Styling (SCSS Modules)', link: '/linting/stylelint' },
-            { text: 'Editor Setup', link: '/linting/editor-setup' },
-          ],
-        },
-      ],
-      '/e2e-testing/': [
-        {
-          text: 'E2E Testing',
-          collapsed: true,
-          items: [
-            {
-              text: 'Overview',
-              link: '/e2e-testing/',
-              // badge: { type: 'info', text: 'Optional' },
-            },
-            { text: 'Setup', link: '/e2e-testing/setup' },
-            { text: 'Writing Tests', link: '/e2e-testing/writing-tests' },
-            { text: 'Markets', link: '/e2e-testing/markets' },
-          ],
-        },
-      ],
-      '/reference/': [
-        {
-          text: 'Reference',
-          items: [
-            { text: 'Overview', link: '/reference/' },
-            { text: 'CLI Prompts', link: '/reference/cli-prompts' },
-            {
-              text: 'Generated Commands',
-              link: '/reference/generated-commands',
-            },
-            { text: 'Markets', link: '/reference/markets' },
-          ],
-        },
-        {
-          text: 'Project',
-          items: [
-            { text: 'Migration Guide', link: '/reference/migration' },
-            { text: 'Changelog', link: '/reference/changelog' },
-            { text: 'Contributing', link: '/reference/contributing' },
-          ],
-        },
-      ],
-    },
+    sidebar: docsSidebar,
 
     editLink: {
       pattern:

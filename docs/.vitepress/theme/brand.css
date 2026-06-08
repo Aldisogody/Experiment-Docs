@@ -1,0 +1,38 @@
+/* Global Vue-green accent tokens for the VitePress theme. */
+
+:root {
+  --vp-c-brand-1: #18794e;
+  --vp-c-brand-2: #299764;
+  --vp-c-brand-3: #42b883;
+  --vp-c-brand-soft: rgba(66, 184, 131, 0.14);
+
+  --docs-brand-fill: #42b883;
+  --docs-brand-fill-hover: #3aad7c;
+  --docs-brand-fill-active: #34a574;
+  --docs-brand-fill-text: #0b2e22;
+  --docs-brand-border: rgba(24, 121, 78, 0.38);
+  --docs-brand-ring: rgba(24, 121, 78, 0.24);
+
+  --vp-code-bg: var(--vp-c-brand-soft);
+  --vp-code-line-highlight-color: var(--vp-c-brand-soft);
+
+  --vp-button-brand-text: var(--docs-brand-fill-text);
+  --vp-button-brand-bg: var(--docs-brand-fill);
+  --vp-button-brand-hover-text: var(--docs-brand-fill-text);
+  --vp-button-brand-hover-bg: var(--docs-brand-fill-hover);
+  --vp-button-brand-active-text: var(--docs-brand-fill-text);
+  --vp-button-brand-active-bg: var(--docs-brand-fill-active);
+}
+
+.dark {
+  --vp-c-brand-1: #42d392;
+  --vp-c-brand-2: #42b883;
+  --vp-c-brand-3: #299764;
+  --vp-c-brand-soft: rgba(66, 211, 146, 0.16);
+
+  --docs-brand-fill: #42b883;
+  --docs-brand-fill-hover: #42d392;
+  --docs-brand-fill-active: #35b97d;
+  --docs-brand-border: rgba(66, 211, 146, 0.42);
+  --docs-brand-ring: rgba(66, 211, 146, 0.3);
+}

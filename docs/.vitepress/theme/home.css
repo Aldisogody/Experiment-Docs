@@ -8,10 +8,10 @@
   --home-font-text:    -apple-system, 'SF Pro Text',    'Helvetica Neue', sans-serif;
   --home-font-mono:    'SF Mono', ui-monospace, 'Menlo', monospace;
 
-  /* Accent — iOS/macOS system blue */
-  --home-accent:        #3853bd;
-  --home-accent-muted:  rgba(56, 83, 189, 0.08);
-  --home-accent-ring:   rgba(56, 83, 189, 0.22);
+  /* Accent */
+  --home-accent:        var(--vp-c-brand-1);
+  --home-accent-muted:  var(--vp-c-brand-soft);
+  --home-accent-ring:   var(--docs-brand-ring);
 
   /* Surface */
   --home-surface:       rgba(255, 255, 255, 0.72);
@@ -19,10 +19,10 @@
 
   /* Border */
   --home-border:        rgba(0, 0, 0, 0.08);
-  --home-border-hover:  rgba(0, 122, 255, 0.38);
+  --home-border-hover:  var(--docs-brand-border);
 
   /* Install strip */
-  --home-install-border: #007aff;
+  --home-install-border: var(--docs-brand-fill);
 
   /* Radius */
   --home-radius:     8px;
@@ -41,17 +41,10 @@
 
 /* Dark mode — true-black Apple aesthetic */
 .dark .VPHome {
-  --home-accent:        #6f8cff;
-  --home-accent-muted:  rgba(111, 140, 255, 0.12);
-  --home-accent-ring:   rgba(111, 140, 255, 0.28);
-
   --home-surface:       rgba(28, 28, 30, 0.72);
   --home-surface-hover: rgba(44, 44, 46, 0.88);
 
   --home-border:        rgba(255, 255, 255, 0.08);
-  --home-border-hover:  rgba(10, 132, 255, 0.42);
-
-  --home-install-border: #0a84ff;
 
   --home-shadow-xs:   0 1px 2px rgba(0, 0, 0, 0.3);
   --home-shadow-sm:   0 2px 8px rgba(0, 0, 0, 0.4),  0 1px 2px rgba(0, 0, 0, 0.3);
@@ -135,8 +128,18 @@
 }
 
 .VPHome .VPHero .action .VPButton.brand {
-  background-color: var(--home-accent);
-  border-color: var(--home-accent);
+  background-color: var(--docs-brand-fill);
+  border-color: var(--docs-brand-fill);
+}
+
+.VPHome .VPHero .action .VPButton.brand:hover {
+  background-color: var(--docs-brand-fill-hover);
+  border-color: var(--docs-brand-fill-hover);
+}
+
+.VPHome .VPHero .action .VPButton.brand:active {
+  background-color: var(--docs-brand-fill-active);
+  border-color: var(--docs-brand-fill-active);
 }
 
 @media (max-width: 767px) {

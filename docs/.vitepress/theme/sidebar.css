@@ -1,0 +1,54 @@
+/* Unified docs sidebar inspired by the Vue documentation hierarchy. */
+
+.VPSidebar {
+  background-color: transparent !important;
+}
+
+.VPSidebar .curtain {
+  background-color: transparent;
+}
+
+.VPSidebar .VPSidebarItem.level-0 {
+  padding-bottom: 24px;
+}
+
+.VPSidebar .VPSidebarItem.level-0:last-child {
+  padding-bottom: 0;
+}
+
+.VPSidebar .VPSidebarItem.level-0 > .item {
+  margin-bottom: 4px;
+}
+
+.VPSidebar .VPSidebarItem.level-0 > .item > .text {
+  padding: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 22px;
+  color: var(--vp-c-text-1);
+}
+
+.VPSidebar .VPSidebarItem.level-1 > .item > .link > .text {
+  padding: 2px 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--vp-c-text-2);
+}
+
+.VPSidebar
+  .VPSidebarItem.level-1.is-link
+  > .item
+  > .link:hover
+  > .text,
+.VPSidebar
+  .VPSidebarItem.level-1.is-active
+  > .item
+  > .link
+  > .text {
+  color: var(--vp-c-brand-1);
+}
+
+.VPSidebar .VPSidebarItem .indicator {
+  display: none;
+}

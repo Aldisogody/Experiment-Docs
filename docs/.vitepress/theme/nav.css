@@ -34,9 +34,12 @@
 }
 
 .VPNavBarMenuGroup:hover .button .text,
-.VPNavBarMenuGroup .button[aria-expanded='true'] .text,
-.VPNavBarMenuGroup.active .button .text {
+.VPNavBarMenuGroup .button[aria-expanded='true'] .text {
   color: var(--vp-c-text-1);
+}
+
+.VPNavBarMenuGroup.active .button .text {
+  color: var(--vp-c-brand-1);
 }
 
 .VPNavBarMenuGroup .button .text-icon {
@@ -79,10 +82,14 @@
   transition: color 0.15s ease, background-color 0.15s ease;
 }
 
-.VPNavBarMenuGroup .VPMenuLink .link:hover,
-.VPNavBarMenuGroup .VPMenuLink .link.active {
+.VPNavBarMenuGroup .VPMenuLink .link:hover {
   color: var(--vp-c-text-1);
   background-color: transparent;
+}
+
+.VPNavBarMenuGroup .VPMenuLink .link.active {
+  color: var(--vp-c-brand-1);
+  background-color: var(--vp-c-brand-soft);
 }
 
 /* ─── Nested group titles ────────────────────────────────────────────────── */
@@ -152,10 +159,14 @@
   color: rgba(255, 255, 255, 0.72);
 }
 
-.dark .VPNavBarMenuGroup .VPMenuLink .link:hover,
-.dark .VPNavBarMenuGroup .VPMenuLink .link.active {
+.dark .VPNavBarMenuGroup .VPMenuLink .link:hover {
   color: rgba(255, 255, 255, 0.92);
   background-color: rgba(255, 255, 255, 0.04);
+}
+
+.dark .VPNavBarMenuGroup .VPMenuLink .link.active {
+  color: var(--vp-c-brand-1);
+  background-color: var(--vp-c-brand-soft);
 }
 
 .dark .VPNavBarMenuGroup .VPMenuGroup .title {
@@ -175,7 +186,7 @@
 }
 
 .VPNavScreenMenuGroup.open .button {
-  color: var(--vp-c-text-1);
+  color: var(--vp-c-brand-1);
 }
 
 .VPNavScreenMenuGroupLink {
