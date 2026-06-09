@@ -93,7 +93,7 @@ const docsSidebar = [
 ];
 
 export default defineConfig({
-  title: 'Create Experiment',
+  title: 'Experiment Docs',
   description: 'Scaffold Adobe Target A/B experiments with Vite + Preact',
   lastUpdated: true,
 
