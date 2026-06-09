@@ -123,13 +123,12 @@ export default defineConfig({
         activeMatch:
           '^/(start-here|build-an-experiment|run-and-ship|testing|guide|tutorial|examples|error-reference|playground|getting-started|development|framework-api|linting|e2e-testing|reference)',
         items: [
-          { text: 'Start Here', link: '/start-here' },
-          { text: 'Build an Experiment', link: '/build-an-experiment' },
-          { text: 'Run and Ship', link: '/run-and-ship' },
-          { text: 'Testing', link: '/testing' },
+          { text: 'Getting Started', link: '/getting-started/' },
+          { text: 'Essentials', link: '/start-here' },
+          { text: 'Development', link: '/development/' },
           { text: 'Framework API', link: '/framework-api/' },
+          { text: 'Testing & Quality', link: '/testing' },
           { text: 'Reference', link: '/reference/' },
-          { text: 'Error Reference', link: '/error-reference' },
         ],
       },
       {
