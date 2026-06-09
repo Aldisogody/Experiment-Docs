@@ -178,7 +178,7 @@ export default defineConfig({
     },
 
     footer: {
-      message: 'Internal tool — Samsung / Sogody experimentation team',
+      message: 'Internal tool - Samsung / Sogody experimentation team',
     },
   },
 });

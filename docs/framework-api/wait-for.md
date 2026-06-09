@@ -25,7 +25,7 @@ waitFor(selectors: string[], callback: () => void): void
 import { waitFor } from 'create-experiment/framework';
 
 waitFor(['.product-card', '.price-wrapper'], () => {
-    // All elements exist — safe to proceed
+    // All elements exist - safe to proceed
     const card = document.querySelector('.product-card');
 });
 ```
@@ -40,18 +40,18 @@ waitFor(['.product-card', '.price-wrapper'], () => {
 
 ### See Also
 
-- [`watchFor()`](#watchfor) — event-driven alternative with timeout support
-- [`runScript()`](/framework-api/run-script) — wraps the experiment entry point and ensures DOM readiness
+- [`watchFor()`](#watchfor) - event-driven alternative with timeout support
+- [`runScript()`](/framework-api/run-script) - wraps the experiment entry point and ensures DOM readiness
 
 ### Polling interval
 
-Checks every 50 ms. There is no timeout — if a selector never matches, the callback never fires. Use `watchFor` if you need a timeout.
+Checks every 50 ms. There is no timeout - if a selector never matches, the callback never fires. Use `watchFor` if you need a timeout.
 
 ---
 
 ## watchFor()
 
-Waits for a single CSS selector to appear using a MutationObserver. Event-driven — no polling.
+Waits for a single CSS selector to appear using a MutationObserver. Event-driven - no polling.
 
 ### Signature
 
@@ -67,9 +67,9 @@ watchFor(
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `selector` | `string` | — | CSS selector to watch for. |
-| `callback` | `Function` | — | Called with the matched element once it appears. |
-| `options.subtree` | `boolean` | `false` | Observe all descendants of `document.body`, not just direct children. Expensive — opt in only when necessary. |
+| `selector` | `string` | - | CSS selector to watch for. |
+| `callback` | `Function` | - | Called with the matched element once it appears. |
+| `options.subtree` | `boolean` | `false` | Observe all descendants of `document.body`, not just direct children. Expensive - opt in only when necessary. |
 | `options.timeout` | `number` | `6000` | Auto-disconnects the observer after this many milliseconds to prevent memory leaks. |
 
 ### Usage
@@ -101,8 +101,8 @@ watchFor('.deep-nested-element', (element) => {
 
 ### See Also
 
-- [`waitFor()`](#waitfor) — polling-based alternative that supports multiple selectors
-- [`runScript()`](/framework-api/run-script) — wraps the experiment entry point and ensures DOM readiness
+- [`waitFor()`](#waitfor) - polling-based alternative that supports multiple selectors
+- [`runScript()`](/framework-api/run-script) - wraps the experiment entry point and ensures DOM readiness
 
 ### Memory safety
 
@@ -121,5 +121,5 @@ The observer disconnects automatically after `timeout` ms. This prevents orphane
 | Best for | Simple cases, stable pages | SPA navigations, deep DOM trees |
 
 ::: tip When to use which
-Use `waitFor` for simple cases where you're confident the element will appear shortly after page load. Use `watchFor` for elements that appear after user interaction, route changes, or lazy loading — it's more efficient than polling and gives you a reference to the element directly.
+Use `waitFor` for simple cases where you're confident the element will appear shortly after page load. Use `watchFor` for elements that appear after user interaction, route changes, or lazy loading - it's more efficient than polling and gives you a reference to the element directly.
 :::

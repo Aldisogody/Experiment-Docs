@@ -16,15 +16,15 @@ mountExperiment(
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `selector` | `string` | — | CSS selector for the DOM element to inject adjacent to. |
+| `selector` | `string` | - | CSS selector for the DOM element to inject adjacent to. |
 | `fallback` | `string \| string[]` | `undefined` | One fallback selector or an ordered list. No implicit `body` fallback is added. |
 | `position` | `InsertPosition` | `'afterbegin'` | Where to insert the container relative to the target. See [InsertPosition values](#insertposition-values) below. |
 
 ## Returns
 
-`HTMLElement` — the created container `div`, ready to render into.
+`HTMLElement` - the created container `div`, ready to render into.
 
-`null` — if neither `selector` nor `fallback` match any element.
+`null` - if neither `selector` nor `fallback` match any element.
 
 ## Usage
 
@@ -41,7 +41,7 @@ runScript(async () => {
 });
 ```
 
-Always guard on `null` — if the target page changes structure or the selector is wrong, `mountExperiment` returns `null` and the guard prevents a runtime error.
+Always guard on `null` - if the target page changes structure or the selector is wrong, `mountExperiment` returns `null` and the guard prevents a runtime error.
 
 ## InsertPosition values
 
@@ -89,5 +89,5 @@ The function checks the primary selector, then each supplied fallback in order. 
 
 ## See Also
 
-- [`runScript()`](/framework-api/run-script) — always wrap `mountExperiment` inside `runScript`
-- [`setupTracking()`](/framework-api/tracking#setuptracking) — attach click tracking after rendering into the container
+- [`runScript()`](/framework-api/run-script) - always wrap `mountExperiment` inside `runScript`
+- [`setupTracking()`](/framework-api/tracking#setuptracking) - attach click tracking after rendering into the container

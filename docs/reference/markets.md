@@ -6,7 +6,7 @@ The group codes in this page are CLI choices. The generated `markets` array uses
 
 ## Multi-country groups
 
-These groups run one E2E test per country — selecting SEBN generates three test iterations.
+These groups run one E2E test per country - selecting SEBN generates three test iterations.
 
 | Group code | Name | Countries | URL paths |
 |---|---|---|---|

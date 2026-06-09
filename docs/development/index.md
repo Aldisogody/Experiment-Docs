@@ -14,8 +14,8 @@ For browser-first iteration, `pnpm live` starts the same focused watcher, opens 
 
 ## Sections
 
-- [Watch Mode & Clipboard](/development/watch-mode) — `pnpm start 0`, clipboard mechanics, Adobe Target paste workflow
-- [Variations](/development/variations) — adding v2/v3, the `-eN` flag, dedup guard
-- [Configuration](/development/config) — `experiment.config.js` and `src/config.js` fields
-- [Templates](/development/templates) — product-card vs minimal, when to use each
-- [Run and Ship](/run-and-ship) — live injection, production builds, and handoff
+- [Watch Mode & Clipboard](/development/watch-mode) - `pnpm start 0`, clipboard mechanics, Adobe Target paste workflow
+- [Variations](/development/variations) - adding v2/v3, the `-eN` flag, dedup guard
+- [Configuration](/development/config) - `experiment.config.js` and `src/config.js` fields
+- [Templates](/development/templates) - product-card vs minimal, when to use each
+- [Run and Ship](/run-and-ship) - live injection, production builds, and handoff

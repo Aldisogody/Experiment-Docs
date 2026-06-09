@@ -28,7 +28,7 @@ On every save, the IIFE bundle is automatically copied to your clipboard:
 | Linux | `xclip -selection clipboard` |
 | Windows | `clip` (built-in) |
 
-If the clipboard tool is unavailable, the build continues silently — you'll just need to copy the bundle manually from `dist/v1/v1.js`.
+If the clipboard tool is unavailable, the build continues silently - you'll just need to copy the bundle manually from `dist/v1/v1.js`.
 
 ::: tip Linux: install xclip
 ```bash
@@ -43,12 +43,12 @@ sudo pacman -S xclip
 ## Pasting into Adobe Target
 
 1. Open your Adobe Target activity and navigate to the custom code editor for the variation you're developing.
-2. Switch to your terminal — the clipboard already contains the latest bundle.
+2. Switch to your terminal - the clipboard already contains the latest bundle.
 3. Select all existing content in the code editor and paste.
 4. Click **Save** in Adobe Target and refresh your preview page.
 
 ::: info How the bundle works
-The IIFE bundle registers itself under `window.sgd` (or your chosen namespace). Adobe Target's custom code editor accepts raw JavaScript — no module loader is required.
+The IIFE bundle registers itself under `window.sgd` (or your chosen namespace). Adobe Target's custom code editor accepts raw JavaScript - no module loader is required.
 :::
 
 ## Watching all variations

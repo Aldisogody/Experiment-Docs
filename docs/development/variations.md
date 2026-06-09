@@ -4,9 +4,9 @@
 
 Variations are numbered from 1. In a standard A/B test:
 
-- `v1` — control (no change, or baseline treatment)
-- `v2` — treatment A
-- `v3` — treatment B (A/B/C test)
+- `v1` - control (no change, or baseline treatment)
+- `v2` - treatment A
+- `v3` - treatment B (A/B/C test)
 
 ## Adding a variation
 
@@ -40,7 +40,7 @@ pnpm start 1   # variation 2 (src/js/v2/)
 pnpm start 2   # variation 3 (src/js/v3/)
 ```
 
-The index is always zero-based. Only one variation is watched at a time — switch by restarting with a different number.
+The index is always zero-based. Only one variation is watched at a time - switch by restarting with a different number.
 
 ## Production build
 
@@ -64,7 +64,7 @@ Biome runs before the build. The build aborts if linting fails.
 
 ## Dedup guard
 
-On Samsung's SPA pages, Adobe Target may re-execute custom code on route changes, causing the experiment to mount twice. `mountExperiment` does not include a built-in dedup guard — if your target page is an SPA, add a manual check before mounting:
+On Samsung's SPA pages, Adobe Target may re-execute custom code on route changes, causing the experiment to mount twice. `mountExperiment` does not include a built-in dedup guard - if your target page is an SPA, add a manual check before mounting:
 
 ```js
 runScript(async () => {

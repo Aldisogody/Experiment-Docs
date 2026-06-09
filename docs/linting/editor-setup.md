@@ -29,7 +29,7 @@ With these settings, saving a `.js`, `.jsx`, or `.json` file runs the Biome form
 If you have the Prettier extension installed globally, it may compete with Biome for JS/JSX formatting. Disable Prettier for this workspace:
 
 ```json
-// .vscode/settings.json — add this line
+// .vscode/settings.json - add this line
 {
     "[javascript]": { "editor.defaultFormatter": "biomejs.biome" },
     "[javascriptreact]": { "editor.defaultFormatter": "biomejs.biome" }

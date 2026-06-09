@@ -24,7 +24,7 @@ When prompted, answer:
 | Number of variations | `1` (default) |
 | Window namespace | `sgd` (default) |
 | Include emergency brake | `Yes` (default) |
-| Enable E2E testing | `No` (default — add later if needed) |
+| Enable E2E testing | `No` (default - add later if needed) |
 
 The CLI generates the project, installs dependencies, and prints next steps.
 
@@ -32,7 +32,7 @@ The CLI generates the project, installs dependencies, and prints next steps.
 
 ```bash
 cd my-first-experiment
-nvm use   # reads .nvmrc — switches to Node 24
+nvm use   # reads .nvmrc - switches to Node 24
 ```
 
 ::: warning Always run nvm use first
@@ -61,7 +61,7 @@ Every time you save a source file, Vite rebuilds and copies the latest bundle to
 3. Select all existing content in the editor and paste (`Cmd+V` / `Ctrl+V`).
 4. Click **Save** and refresh your preview page.
 
-The experiment renders on the page. No manual bundle copying needed — the clipboard is always up to date on save.
+The experiment renders on the page. No manual bundle copying needed - the clipboard is always up to date on save.
 
 ## Step 5: Edit the experiment
 
@@ -98,7 +98,7 @@ Each file is a self-contained IIFE bundle. Upload or paste these into Adobe Targ
 
 ## What's next
 
-- [Project Structure](/getting-started/project-structure) — understand every generated file
-- [Variations](/development/variations) — add another variation
-- [Framework API](/framework-api/) — `runScript`, `waitFor`, `watchFor`, and tracking helpers
-- [Configuration](/development/config) — `experiment.config.js` and `src/config.js` field reference
+- [Project Structure](/getting-started/project-structure) - understand every generated file
+- [Variations](/development/variations) - add another variation
+- [Framework API](/framework-api/) - `runScript`, `waitFor`, `watchFor`, and tracking helpers
+- [Configuration](/development/config) - `experiment.config.js` and `src/config.js` field reference

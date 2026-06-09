@@ -67,7 +67,7 @@ The `s` object is a browser global provided by Adobe Analytics. It is declared i
 
 ### See Also
 
-- [`setupTracking()`](#setuptracking) — attaches a click listener that calls `trackAAEvent` automatically
+- [`setupTracking()`](#setuptracking) - attaches a click listener that calls `trackAAEvent` automatically
 
 ---
 
@@ -97,8 +97,8 @@ setupTracking(
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `container` | `HTMLElement` | — | The container returned by `mountExperiment()`. |
-| `options.label` | `string` | — | Tracking label. Required. Follow the `{name}: {variation} {action}` convention. |
+| `container` | `HTMLElement` | - | The container returned by `mountExperiment()`. |
+| `options.label` | `string` | - | Tracking label. Required. Follow the `{name}: {variation} {action}` convention. |
 | `options.selector` | `string` | `'a'` | CSS selector relative to `container` for the element to track. |
 | `options.evar` | `string` | `'eVar26'` | eVar variable name. |
 | `options.event` | `string` | `'event26'` | Event variable name. |
@@ -131,7 +131,7 @@ runScript(async () => {
     // 4. Render first
     render(<ExperimentCard ... />, container);
 
-    // 5. Track after — element guaranteed to exist now
+    // 5. Track after - element guaranteed to exist now
     setupTracking(container, { label: 'my-experiment: v1 cta clicked' });
 });
 ```
@@ -146,5 +146,5 @@ runScript(async () => {
 
 ### See Also
 
-- [`trackAAEvent()`](#trackaaevent) — fire a raw Adobe Analytics event directly
-- [`runScript()`](/framework-api/run-script) — entry point wrapper; `setupTracking` must be called inside it, after `render()`
+- [`trackAAEvent()`](#trackaaevent) - fire a raw Adobe Analytics event directly
+- [`runScript()`](/framework-api/run-script) - entry point wrapper; `setupTracking` must be called inside it, after `render()`

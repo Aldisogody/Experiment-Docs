@@ -20,7 +20,7 @@ The CLI guides you through a series of prompts, then generates a complete projec
 | **Include emergency brake** | `true` | Records `includeEmergencyBrake` in `experiment.config.js`. The current build/runtime does not consume this field, so verify the deployment integration before relying on it. |
 | **Enable E2E testing** | `false` | Generates `e2e/`, `playwright.config.js`, and wires up `pnpm test:e2e`. Enable if you have a stable preview URL to test against. |
 | **Base URL** _(E2E only)_ | `https://samsung.com` | The root URL for Playwright tests. |
-| **Market** _(E2E only)_ | — | Selects which Samsung market(s) to parametrise tests against. See the [Markets reference](/reference/markets). |
+| **Market** _(E2E only)_ | - | Selects which Samsung market(s) to parametrise tests against. See the [Markets reference](/reference/markets). |
 | **Run smoke test** _(E2E only)_ | `false` | Runs `pnpm build` and `pnpm test:e2e` immediately after setup. |
 
 ## After scaffolding
@@ -30,7 +30,7 @@ The CLI prints the next steps. Start developing immediately:
 ```bash
 cd my-experiment
 
-# Watch variation 1 — rebuilds on save and copies IIFE to clipboard
+# Watch variation 1 - rebuilds on save and copies IIFE to clipboard
 pnpm start 0
 ```
 

@@ -74,5 +74,5 @@ runScript(async () => {
 
 ## See Also
 
-- [`waitFor()`](/framework-api/wait-for#waitfor) — poll until DOM selectors are present before proceeding
-- [`watchFor()`](/framework-api/wait-for#watchfor) — MutationObserver-based alternative to `waitFor`
+- [`waitFor()`](/framework-api/wait-for#waitfor) - poll until DOM selectors are present before proceeding
+- [`watchFor()`](/framework-api/wait-for#watchfor) - MutationObserver-based alternative to `waitFor`

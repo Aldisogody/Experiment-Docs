@@ -1,6 +1,6 @@
 # Templates
 
-The scaffolder offers two boilerplate types. You choose at scaffold time — it cannot be changed afterwards without regenerating the project.
+The scaffolder offers two boilerplate types. You choose at scaffold time - it cannot be changed afterwards without regenerating the project.
 
 ## Comparison
 
@@ -16,14 +16,14 @@ The scaffolder offers two boilerplate types. You choose at scaffold time — it 
 
 ## `product-card`
 
-Use this for experiments that display Samsung product information — image, price, title, and a CTA button pulling live data from the Samsung search API.
+Use this for experiments that display Samsung product information - image, price, title, and a CTA button pulling live data from the Samsung search API.
 
 The generated project includes:
 
-- `src/components/ExperimentCard/` — a Preact component that renders the product card
-- `fetchProductCard()` — fetches product data from `searchapi.samsung.com` for the current market
-- `formatPrice(price)` — formats a price with the correct currency and locale using `Intl.NumberFormat`
-- `MODEL_CODE_MAP` — maps locale codes to Samsung model codes
+- `src/components/ExperimentCard/` - a Preact component that renders the product card
+- `fetchProductCard()` - fetches product data from `searchapi.samsung.com` for the current market
+- `formatPrice(price)` - formats a price with the correct currency and locale using `Intl.NumberFormat`
+- `MODEL_CODE_MAP` - maps locale codes to Samsung model codes
 - `MULTI_MODEL_CODES_MAP` and `fetchProductCards()` for parallel product lookups
 
 **Best for:** Upsell experiments, product promotion banners, cross-sell modules.
@@ -34,7 +34,7 @@ Use this for experiments that don't need product data. It generates a simple but
 
 The generated project includes:
 
-- `src/components/ExperimentButton/` — a Preact button component
+- `src/components/ExperimentButton/` - a Preact button component
 - No `src/helpers.js`
 - No per-variation SCSS files
 

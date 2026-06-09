@@ -22,8 +22,8 @@ The project name is a required argument. The CLI exits if it is not provided.
 
 Controls which template is used for the generated project.
 
-- `product-card` — Generates a Samsung product card UI with Samsung API helpers and an `ExperimentCard` Preact component. Use for upsell, cross-sell, and product promotion experiments.
-- `minimal` — Generates a simple button component with no API integration. Use for CTA copy tests, layout experiments, and anything that doesn't need product data.
+- `product-card` - Generates a Samsung product card UI with Samsung API helpers and an `ExperimentCard` Preact component. Use for upsell, cross-sell, and product promotion experiments.
+- `minimal` - Generates a simple button component with no API integration. Use for CTA copy tests, layout experiments, and anything that doesn't need product data.
 
 ---
 
@@ -37,9 +37,9 @@ Controls which template is used for the generated project.
 
 Controls how many variation directories are generated under `src/js/`.
 
-- `1` — generates `src/js/v1/` only (control)
-- `2` — generates `src/js/v1/` and `src/js/v2/` (A/B)
-- `custom` — prompts for a number between 1 and 10
+- `1` - generates `src/js/v1/` only (control)
+- `2` - generates `src/js/v1/` and `src/js/v2/` (A/B)
+- `custom` - prompts for a number between 1 and 10
 
 ---
 
@@ -51,7 +51,7 @@ Controls how many variation directories are generated under `src/js/`.
 | **Default** | `sgd` |
 | **Validation** | Must be a valid JavaScript identifier |
 
-Sets the `globalObject` field in `experiment.config.js`. The IIFE bundle registers itself as `window[globalObject]` — for example, `window.sgd`.
+Sets the `globalObject` field in `experiment.config.js`. The IIFE bundle registers itself as `window[globalObject]` - for example, `window.sgd`.
 
 Keep the default `sgd` unless it conflicts with another experiment running on the same Adobe Target page.
 
@@ -98,7 +98,7 @@ The root URL for Playwright tests. Written to `e2e/config.js` as `urlsConfig.bas
 | | |
 |---|---|
 | **Type** | Select |
-| **Default** | — |
+| **Default** | - |
 | **Condition** | Only shown when E2E is enabled |
 
 Selects which Samsung market(s) to run E2E tests against. Multi-country groups (`SEBN`, `SENA`, `SEIB`) generate one test per configured country. See the [Markets Reference](/reference/markets) for all available options.

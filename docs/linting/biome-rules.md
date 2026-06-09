@@ -74,10 +74,10 @@ The generated config keeps the top-level `recommended` setting off, then enables
 ### `noConsole: error`
 
 ```js
-// WRONG — will fail the build
+// WRONG - will fail the build
 console.log('debug value:', data);
 
-// CORRECT — use the runtime's opt-in diagnostic helper
+// CORRECT - use the runtime's opt-in diagnostic helper
 debug('product data', data);
 ```
 
@@ -86,11 +86,11 @@ debug('product data', data);
 ### `noUnusedVariables: error`
 
 ```js
-// WRONG — unused import fails the build
+// WRONG - unused import fails the build
 import { waitFor, watchFor } from 'create-experiment/framework';
 // watchFor is never used
 
-// CORRECT — only import what you use
+// CORRECT - only import what you use
 import { waitFor } from 'create-experiment/framework';
 ```
 
@@ -116,15 +116,15 @@ The `s` global is specific to the Samsung/Adobe Analytics setup. Biome will not 
 
 | Path | Reason |
 |---|---|
-| `dist/**` | Build output — not source |
+| `dist/**` | Build output - not source |
 | `node_modules/**` | Dependencies |
 | `scripts/**` | Build scripts run outside the experiment context |
-| `lib/**` | Framework runtime — not linted per project |
+| `lib/**` | Framework runtime - not linted per project |
 
 ## Commands
 
 ```bash
-# Check for violations (read-only — used in CI and build gate)
+# Check for violations (read-only - used in CI and build gate)
 pnpm lint
 
 # Auto-fix formatting violations

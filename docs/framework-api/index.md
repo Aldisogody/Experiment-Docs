@@ -22,7 +22,7 @@ import {
 
 | Function | Purpose | Since |
 |---|---|---|
-| [`runScript(fn)`](/framework-api/run-script) | Wraps experiment entry point — ensures DOM is ready | `v2.0.0` |
+| [`runScript(fn)`](/framework-api/run-script) | Wraps experiment entry point - ensures DOM is ready | `v2.0.0` |
 | [`mountExperiment(selector, fallback?, position?)`](/framework-api/mount-experiment) | Creates and injects the experiment container into the DOM | `v2.0.0` |
 | [`waitFor(selectors, callback)`](/framework-api/wait-for) | Polls until CSS selectors match, then fires callback | `v2.0.0` |
 | [`watchFor(selector, callback, options?)`](/framework-api/wait-for) | MutationObserver-based alternative to `waitFor` | `v2.0.0` |

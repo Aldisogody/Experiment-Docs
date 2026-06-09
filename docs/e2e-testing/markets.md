@@ -18,9 +18,9 @@ Each market has a `urlPath` that maps to a URL path segment on samsung.com:
 When you select a multi-country group at scaffold time, the E2E tests run against all countries in the group. For example, selecting **SEBN (Benelux)** generates three test iterations:
 
 ```
-smoke test — Belgium (NL)    → https://samsung.com/be/
-smoke test — Belgium (FR)    → https://samsung.com/be_fr/
-smoke test — Netherlands     → https://samsung.com/nl/
+smoke test - Belgium (NL)    → https://samsung.com/be/
+smoke test - Belgium (FR)    → https://samsung.com/be_fr/
+smoke test - Netherlands     → https://samsung.com/nl/
 ```
 
 This happens automatically because `urlsConfig.markets` is populated with all countries in the group, and the smoke spec loops over `urlsConfig.markets`.

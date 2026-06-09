@@ -1,7 +1,7 @@
 # E2E Testing
 
 ::: tip Optional feature
-E2E testing is opt-in. You choose whether to include it when scaffolding. Skip this section entirely if you didn't enable it — you can always add it later by revisiting [Setup](/e2e-testing/setup).
+E2E testing is opt-in. You choose whether to include it when scaffolding. Skip this section entirely if you didn't enable it - you can always add it later by revisiting [Setup](/e2e-testing/setup).
 :::
 
 E2E testing is optional and configured at scaffold time. When enabled, the scaffolder generates a Playwright setup with per-market smoke tests.
@@ -25,7 +25,7 @@ When E2E is enabled, the scaffolder adds:
 ```
 my-experiment/
 ├── e2e/
-│   ├── smoke.spec.js      # Playwright test — verifies experiment renders
+│   ├── smoke.spec.js      # Playwright test - verifies experiment renders
 │   ├── config.js          # Market URLs and base URL configuration
 │   └── helpers.js         # setup, target injection, bundle loading, screenshots
 ├── playwright.config.js   # Playwright configuration
@@ -34,8 +34,8 @@ my-experiment/
 
 ## Sections
 
-- [Setup](/e2e-testing/setup) — installing browsers, running tests, debugging
-- [Writing Tests](/e2e-testing/writing-tests) — smoke spec walkthrough, helpers, multi-market patterns
-- [Markets](/e2e-testing/markets) — URL path mapping, multi-country group behaviour
+- [Setup](/e2e-testing/setup) - installing browsers, running tests, debugging
+- [Writing Tests](/e2e-testing/writing-tests) - smoke spec walkthrough, helpers, multi-market patterns
+- [Markets](/e2e-testing/markets) - URL path mapping, multi-country group behaviour
 
 The product-card and minimal boilerplates generate different smoke assertions. Product-card tests also mock the Samsung product API before bundle injection.

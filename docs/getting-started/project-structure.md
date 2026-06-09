@@ -8,7 +8,7 @@ my-experiment/
 ├── src/
 │   ├── components/
 │   │   └── ExperimentCard/
-│   │       ├── index.jsx              # Preact component — image, title, price, CTA
+│   │       ├── index.jsx              # Preact component - image, title, price, CTA
 │   │       └── styles.module.scss     # Scoped component styles
 │   │
 │   ├── js/
@@ -40,7 +40,7 @@ my-experiment/
 
 ### `experiment.config.js`
 
-Top-level runtime configuration. Keep this at the root — it's imported by the build script.
+Top-level runtime configuration. Keep this at the root - it's imported by the build script.
 
 ```js
 export default {
@@ -85,9 +85,9 @@ export const translationByMarket = translations[locale] || translations.uk;
 
 Samsung-specific utilities included in the `product-card` boilerplate. The key exports are:
 
-- `fetchProductCard()` — fetches Samsung product data from the search API
-- `formatPrice(price)` — formats a price using `Intl.NumberFormat` for the current locale
-- `modelCode()` — resolves the model code from `MODEL_CODE_MAP` based on locale
+- `fetchProductCard()` - fetches Samsung product data from the search API
+- `formatPrice(price)` - formats a price using `Intl.NumberFormat` for the current locale
+- `modelCode()` - resolves the model code from `MODEL_CODE_MAP` based on locale
 
 The `minimal` boilerplate does not need Samsung API integration.
 
@@ -95,14 +95,14 @@ The `minimal` boilerplate does not need Samsung API integration.
 
 The experiment runtime is imported from `create-experiment/framework`. Every variation entry point can use:
 
-- `runScript(fn)` — ensures DOM is ready before executing
-- `mountExperiment(selector, fallback?, position?)` — creates and injects the container `div`
-- `trackAAEvent(evar, event, data)` — fires Adobe Analytics events
-- `waitFor(selectors, callback)` — polls until elements are present
-- `watchFor(selector, callback, options?)` — waits via MutationObserver
-- `setupTracking(container, options)` — attaches click tracking to a rendered element
-- `getPath()`, `getPathSegments()`, `getMarket()` — resolve browser path and market context
-- `log()`, `debug()` — development and opt-in diagnostic logging
+- `runScript(fn)` - ensures DOM is ready before executing
+- `mountExperiment(selector, fallback?, position?)` - creates and injects the container `div`
+- `trackAAEvent(evar, event, data)` - fires Adobe Analytics events
+- `waitFor(selectors, callback)` - polls until elements are present
+- `watchFor(selector, callback, options?)` - waits via MutationObserver
+- `setupTracking(container, options)` - attaches click tracking to a rendered element
+- `getPath()`, `getPathSegments()`, `getMarket()` - resolve browser path and market context
+- `log()`, `debug()` - development and opt-in diagnostic logging
 
 See the [Framework API](/framework-api/) for full documentation.
 
@@ -129,7 +129,7 @@ runScript(async () => {
     // 3. Render component
     render(<ExperimentCard title={translationByMarket.title} />, container);
 
-    // 4. Set up tracking — MUST come after render
+    // 4. Set up tracking - MUST come after render
     setupTracking(container, { label: 'my-experiment: v1 cta clicked' });
 });
 ```

@@ -3,7 +3,7 @@
 /* ─── Design tokens ──────────────────────────────────────────────────────── */
 
 .VPHome {
-  /* Typography — Apple system stack */
+  /* Typography - Apple system stack */
   --home-font-display: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
   --home-font-text:    -apple-system, 'SF Pro Text',    'Helvetica Neue', sans-serif;
   --home-font-mono:    'SF Mono', ui-monospace, 'Menlo', monospace;
@@ -29,17 +29,17 @@
   --home-radius-sm:  8px;
   --home-radius-xs:  8px;
 
-  /* Shadows — Apple layered depth */
+  /* Shadows - Apple layered depth */
   --home-shadow-xs:   0 1px 2px rgba(0, 0, 0, 0.04);
   --home-shadow-sm:   0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
   --home-shadow-card: 0 4px 24px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.05);
 
-  /* Easing — spring-like */
+  /* Easing - spring-like */
   --home-ease:      cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --home-ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Dark mode — true-black Apple aesthetic */
+/* Dark mode - true-black Apple aesthetic */
 .dark .VPHome {
   --home-surface:       rgba(28, 28, 30, 0.72);
   --home-surface-hover: rgba(44, 44, 46, 0.88);
@@ -176,7 +176,7 @@
   margin: 0;
 }
 
-/* Staggered entrance — spring physics feel */
+/* Staggered entrance - spring physics feel */
 @media (prefers-reduced-motion: no-preference) {
   .VPHome .VPFeatures .item {
     width: auto;
@@ -215,7 +215,7 @@
   padding: 0;
 }
 
-/* Feature cards — frosted glass surface */
+/* Feature cards - frosted glass surface */
 .VPHome a.VPFeature {
   border-radius: var(--home-radius);
   border-color: var(--home-border);
@@ -364,7 +364,7 @@
   }
 }
 
-/* Doc section cards — same frosted glass treatment as feature cards */
+/* Doc section cards - same frosted glass treatment as feature cards */
 .VPHome .VPHomeContent .home-doc-section {
   padding: 1.125rem 1.25rem;
   border-radius: var(--home-radius-sm);
@@ -417,7 +417,7 @@
   color: var(--home-accent);
 }
 
-/* Install strip — left-rule callout */
+/* Install strip - left-rule callout */
 .VPHome .VPHomeContent .home-install-strip {
   margin: 1rem 0 1.5rem;
   padding: 1rem 1.25rem;
