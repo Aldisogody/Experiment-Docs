@@ -62,6 +62,17 @@ Replace older command names:
 | `sogody-build` | `exp-build` |
 | `sogody-new-variation` | `exp-new-variation` |
 
+### Optional AI documentation
+
+Current projects expose `init-claude` and `init-agents` scripts, but AI instruction files remain opt-in. Upgrade the `create-experiment` dependency first. If the older project's `package.json` does not contain those scripts, invoke the package-owned binaries directly from the project root:
+
+```bash
+pnpm exec exp-init-claude
+pnpm exec exp-init-agents
+```
+
+They create `CLAUDE.md` or `AGENTS.md` after inferring the experiment name, boilerplate type, and E2E setup from the existing project.
+
 ## 4. Import the package runtime
 
 Replace local or scoped framework imports:

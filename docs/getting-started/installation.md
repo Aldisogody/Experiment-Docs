@@ -36,6 +36,17 @@ pnpm start 0
 
 Open Adobe Target, navigate to your experiment's custom code editor, and paste. That's the full inner loop.
 
+### Optional: create AI documentation
+
+Generated projects do not include AI instruction files automatically. From the project root, create the file used by your tooling:
+
+```bash
+pnpm init-claude
+pnpm init-agents
+```
+
+These commands create `CLAUDE.md` and `AGENTS.md`, respectively. They infer the experiment name, boilerplate type, and E2E setup from the scaffolded project.
+
 ::: tip Choosing a boilerplate
 Use `product-card` when your experiment displays Samsung product data (image, price, CTA). Use `minimal` for layout tests, copy changes, or anything that doesn't need the Samsung product API.
 :::

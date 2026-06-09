@@ -39,6 +39,17 @@ nvm use   # reads .nvmrc - switches to Node 24
 The generated project includes `.nvmrc`. Running `nvm use` keeps Node aligned before you run `pnpm` commands.
 :::
 
+## Optional: create AI documentation
+
+AI instruction files are not generated automatically. If you use Claude or agent-compatible project instructions, create the relevant local file from the project root:
+
+```bash
+pnpm init-claude
+pnpm init-agents
+```
+
+The commands infer the experiment name, boilerplate type, and E2E setup from existing project files.
+
 ## Step 3: Start watch mode for variation 1
 
 ```bash

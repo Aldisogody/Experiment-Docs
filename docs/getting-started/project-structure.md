@@ -33,8 +33,12 @@ my-experiment/
 ├── .nvmrc                             # Node 24
 ├── .editorconfig
 ├── .gitignore
+├── CLAUDE.md                           # Optional local AI instructions; created by pnpm init-claude
+├── AGENTS.md                           # Optional local AI instructions; created by pnpm init-agents
 └── package.json
 ```
+
+`CLAUDE.md` and `AGENTS.md` are opt-in files and are not present immediately after scaffolding. The generated `.gitignore` excludes both files so project-specific AI instructions remain local by default.
 
 ## Key files explained
 

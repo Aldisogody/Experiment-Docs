@@ -65,6 +65,22 @@ Generated E2E helpers can create only a simple class target such as `.target-sel
 
 Live injection tried `selectors.primary` and every fallback without finding an element. Verify the target URL, page state, and selector chain.
 
+## `AGENTS.md already exists.`
+
+`pnpm init-agents` found an existing `AGENTS.md` and left it unchanged. To intentionally replace the file, run:
+
+```bash
+pnpm init-agents -- --force
+```
+
+## `CLAUDE.md already exists.`
+
+`pnpm init-claude` found an existing `CLAUDE.md` and left it unchanged. To intentionally replace the file, run:
+
+```bash
+pnpm init-claude -- --force
+```
+
 ## Chromium executable is missing
 
 Install the browser used by live injection and E2E:
