@@ -1,28 +1,28 @@
 ---
 title: Team
+description: Samsung Experimentation team structure, contacts, and operational responsibilities.
+aside: false
+pageClass: team-doc-page
 ---
 
-# Team
+# Meet the team
 
-Create Experiment is maintained for the Samsung/Sogody experimentation workflow.
+<p class="team-hero-lead">The development of CRO COE and its ecosystem is guided by the internal team.</p>
 
-## Ownership areas
+<div class="team-layout">
+  <section class="team-intro" aria-labelledby="core-team-heading">
+    <h2 id="core-team-heading">Core Team Members</h2>
+    <p>The core team maintains and supports the CRO COE framework, helping teams build and deliver reliable experiments.</p>
+  </section>
 
-| Area | Repository location | Review focus |
-|---|---|---|
-| CLI prompts and answer normalization | `experiment-framework-v2/cli.js`, `lib/` | Defaults, validation, market resolution |
-| Generated project shape | `template/`, `template-minimal/` | Output files, Preact patterns, config |
-| Scaffold orchestration | `lib/scaffold-plan.js`, `generator/` | Template coverage and conditional files |
-| Runtime helpers | `runtime/framework.js`, `runtime/scss/` | Browser behavior and compatibility |
-| Package commands | `bin/` | Build, watch, live injection, variations |
-| Documentation | `v2-framework/docs/` | Accuracy against current source |
-
-## Review expectations
-
-- Template changes include generator tests.
-- Runtime changes include focused unit tests.
-- Market content is checked against the team market reference.
-- Documentation examples match generated files, not legacy experiments.
-- Package command changes update both generated README content and this site.
-
-See [Contributing](/reference/contributing) for the local workflow and pull request checklist.
+  <ul class="team-list" aria-label="Core team contacts">
+    <li class="team-card">
+      <h3>Rron</h3>
+      <CopyEmail email="rron@sogody.com" />
+    </li>
+    <li class="team-card">
+      <h3>Aldi</h3>
+      <CopyEmail email="aldi.krasniqi@sogody.com" />
+    </li>
+  </ul>
+</div>
