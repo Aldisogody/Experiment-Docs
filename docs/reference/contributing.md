@@ -65,9 +65,9 @@ developer runs `init-skills`.
 
 When changing `init-skills`:
 
-- Keep `template/skills/scripts/new-variation-check.sh.hbs` executable after installation.
-- Keep the checker read-only and validate its strict `vN` input behavior.
 - Preserve identical output across the Codex, Claude Code, and Cursor destinations.
+- Keep generated skills limited to `SKILL.md` and the applicable files under
+  `references/`; do not reintroduce generated `assets/` or `scripts/` directories.
 - Test minimal and product-card rendering, conditional E2E resources,
   duplicate preflight, `--force` stale-file removal, parent conflicts, rollback,
   metadata validation, and skill-name normalization.

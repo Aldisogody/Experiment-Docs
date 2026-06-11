@@ -10,6 +10,8 @@ This page summarizes user-facing scaffold changes. The package repository `CHANG
   boilerplate-aware project skills for Codex, Claude Code, and Cursor with
   transactional `--force` replacement. See
   [AI Project Support](/development/ai-project-support).
+- Removed generated skill `assets/` and `scripts/` directories; skills now
+  contain `SKILL.md` and applicable reference documents only.
 - Added `pnpm live` / `exp-live` with variation, URL, overlay, and browser-profile options.
 - Added `getPath()`, `getPathSegments()`, `getMarket()`, `log()`, and `debug()` runtime helpers.
 - Added ordered selector fallbacks and the no-fallback position shorthand to `mountExperiment()`.

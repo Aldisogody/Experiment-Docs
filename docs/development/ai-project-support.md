@@ -60,16 +60,11 @@ included only when the project has a `test:e2e` package script or
 ```text
 <tool-root>/skills/<skill-name>/
 ├── SKILL.md
-├── references/
-│   ├── runtime-pattern.md
-│   ├── selectors-and-targeting.md
-│   ├── adobe-analytics.md
-│   └── e2e-testing.md                 # E2E projects only
-├── scripts/
-│   └── new-variation-check.sh
-└── assets/
-    └── stubs/
-        └── variation-entry.jsx
+└── references/
+    ├── runtime-pattern.md
+    ├── selectors-and-targeting.md
+    ├── adobe-analytics.md
+    └── e2e-testing.md                 # E2E projects only
 ```
 
 | Resource | Purpose |
@@ -79,30 +74,11 @@ included only when the project has a `test:e2e` package script or
 | `references/selectors-and-targeting.md` | Selector fallback chains, duplicate guards, Adobe Target placeholders, market targeting, and Samsung API guidance |
 | `references/adobe-analytics.md` | Click and impression tracking with `eVar26` and `event26`, plus Adobe Web SDK cautions |
 | `references/e2e-testing.md` | Bundle injection, host setup, API stubs, and Playwright assertions when E2E is configured |
-| `scripts/new-variation-check.sh` | Executable, read-only check for required variation files |
-| `assets/stubs/variation-entry.jsx` | Reference entry-point stub; it is not copied into `src/` automatically |
 
 Product-card skills describe `ExperimentCard`, model maps, translations,
 Samsung product helpers, API stubbing, and anchor tracking. Minimal skills
 describe `ExperimentButton`, `buttonText`, no product API dependency, and
 explicit button tracking.
-
-## Variation sanity check
-
-Run the script from the experiment root and pass a variation directory name:
-
-```bash
-./.agents/skills/<skill-name>/scripts/new-variation-check.sh v2
-```
-
-The checker only reads the project. It verifies the variation entry,
-`src/config.js`, the expected component, product helpers when applicable, and
-Playwright files when E2E is configured. It never creates a missing variation.
-
-The argument must be `vN`, where `N` is a positive integer without leading
-zeros, such as `v1` or `v12`. Values such as `v0`, `v01`, `v1foo`, path
-fragments, or an extra argument exit with usage status `2`. Omitting the
-argument checks `v1`.
 
 ## Existing skills and `--force`
 
@@ -120,7 +96,8 @@ pnpm init-skills -- --force
 ```
 
 Forced installation replaces each complete skill directory. This removes stale
-files, including an old E2E reference after E2E support is removed. It also
+files, including an old E2E reference after E2E support is removed and legacy
+`assets/` or `scripts/` directories from earlier skill versions. It also
 overwrites local edits.
 
 Installation is transactional. The command renders all files in a temporary

@@ -90,8 +90,7 @@ pnpm exec exp-init-skills
 ```
 
 See [AI Project Support](/development/ai-project-support) for skill naming,
-generated resources, local `.gitignore` behavior, and the read-only variation
-checker.
+generated resources, local `.gitignore` behavior, and replacement behavior.
 
 ## Notes
 
