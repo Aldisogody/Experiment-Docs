@@ -51,23 +51,33 @@ CLI flags override the matching values in `experiment.config.js`.
 |---|---|---|
 | `pnpm test:e2e` | Runs Playwright tests in `e2e/`. | Only when E2E was enabled at scaffold time |
 
-## AI documentation
+## AI project support
 
-AI instruction files are not generated automatically. Create either optional, project-local file from the generated project root:
+AI instruction files and project skills are not generated automatically. Run
+the optional commands from the generated project root:
 
-| Command | Created file |
+| Command | Output |
 |---|---|
 | `pnpm init-claude` | `CLAUDE.md` |
 | `pnpm init-agents` | `AGENTS.md` |
+| `pnpm init-skills` | Identical skills in `.agents/skills/<skill-name>/`, `.claude/skills/<skill-name>/`, and `.cursor/skills/<skill-name>/` |
 
-The commands infer the experiment name, boilerplate type, and E2E setup from the existing project files. Review the generated instructions and adjust them for the experiment.
+The commands infer the experiment name, boilerplate type, and E2E setup from
+the existing project files. Review the generated instructions and skill
+frontmatter for the experiment.
 
-If the destination file already exists, the command leaves it unchanged. Replace it intentionally with:
+If a destination exists, the command stops without replacing it. Replace it
+intentionally with:
 
 ```bash
 pnpm init-claude -- --force
 pnpm init-agents -- --force
+pnpm init-skills -- --force
 ```
+
+For skills, `--force` transactionally replaces all three complete directories
+and removes stale files. Without `--force`, one existing destination prevents
+changes to every destination.
 
 Run these commands from the project root, where `package.json` and either `experiment.config.js` or `src/config.js` are present.
 
@@ -76,7 +86,12 @@ Older generated projects may not have the package scripts. After upgrading `crea
 ```bash
 pnpm exec exp-init-claude
 pnpm exec exp-init-agents
+pnpm exec exp-init-skills
 ```
+
+See [AI Project Support](/development/ai-project-support) for skill naming,
+generated resources, local `.gitignore` behavior, and the read-only variation
+checker.
 
 ## Notes
 

@@ -7,6 +7,7 @@ Technical reference for the Create Experiment scaffolder and generated projects.
 - [CLI prompts](/reference/cli-prompts) - questions the generator asks at scaffold time
 - [Generated commands](/reference/generated-commands) - `pnpm` scripts in a new project
 - [Markets](/reference/markets) - Samsung market codes and configuration
+- [AI Project Support](/development/ai-project-support) - opt-in instruction files and reusable skills
 
 ## Project & team
 

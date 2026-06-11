@@ -39,16 +39,21 @@ nvm use   # reads .nvmrc - switches to Node 24
 The generated project includes `.nvmrc`. Running `nvm use` keeps Node aligned before you run `pnpm` commands.
 :::
 
-## Optional: create AI documentation
+## Optional: add AI project support
 
-AI instruction files are not generated automatically. If you use Claude or agent-compatible project instructions, create the relevant local file from the project root:
+AI instructions and project skills are not generated automatically. Create the
+relevant local support from the project root:
 
 ```bash
 pnpm init-claude
 pnpm init-agents
+pnpm init-skills
 ```
 
-The commands infer the experiment name, boilerplate type, and E2E setup from existing project files.
+The commands infer the experiment name, boilerplate type, and E2E setup from
+existing project files. See
+[AI Project Support](/development/ai-project-support) for tool destinations,
+generated resources, and safe replacement.
 
 ## Step 3: Start watch mode for variation 1
 
@@ -111,5 +116,6 @@ Each file is a self-contained IIFE bundle. Upload or paste these into Adobe Targ
 
 - [Project Structure](/getting-started/project-structure) - understand every generated file
 - [Variations](/development/variations) - add another variation
+- [AI Project Support](/development/ai-project-support) - install local instructions and reusable skills
 - [Framework API](/framework-api/) - `runScript`, `waitFor`, `watchFor`, and tracking helpers
 - [Configuration](/development/config) - `experiment.config.js` and `src/config.js` field reference

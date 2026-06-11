@@ -18,4 +18,5 @@ For browser-first iteration, `pnpm live` starts the same focused watcher, opens 
 - [Variations](/development/variations) - adding v2/v3, the `-eN` flag, dedup guard
 - [Configuration](/development/config) - `experiment.config.js` and `src/config.js` fields
 - [Templates](/development/templates) - product-card vs minimal, when to use each
+- [AI Project Support](/development/ai-project-support) - opt-in instruction files and reusable project skills
 - [Run and Ship](/run-and-ship) - live injection, production builds, and handoff

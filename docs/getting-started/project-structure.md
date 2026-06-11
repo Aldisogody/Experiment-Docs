@@ -35,10 +35,18 @@ my-experiment/
 ├── .gitignore
 ├── CLAUDE.md                           # Optional local AI instructions; created by pnpm init-claude
 ├── AGENTS.md                           # Optional local AI instructions; created by pnpm init-agents
+├── .agents/skills/<skill-name>/        # Optional Codex project skill; created by pnpm init-skills
+├── .claude/skills/<skill-name>/        # Optional Claude Code project skill; same generated content
+├── .cursor/skills/<skill-name>/        # Optional Cursor project skill; same generated content
 └── package.json
 ```
 
-`CLAUDE.md` and `AGENTS.md` are opt-in files and are not present immediately after scaffolding. The generated `.gitignore` excludes both files so project-specific AI instructions remain local by default.
+The instruction files and skill directories are opt-in and are not present
+immediately after scaffolding. The generated `.gitignore` excludes
+`CLAUDE.md`, `AGENTS.md`, `.agents`, `.claude`, and `.cursor`, so
+project-specific AI support remains local by default. See
+[AI Project Support](/development/ai-project-support) for the complete skill
+tree.
 
 ## Key files explained
 

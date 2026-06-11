@@ -37,6 +37,10 @@ const docsSidebar = [
       { text: 'Variations', link: '/development/variations' },
       { text: 'Configuration', link: '/development/config' },
       { text: 'Templates', link: '/development/templates' },
+      {
+        text: 'AI Project Support',
+        link: '/development/ai-project-support',
+      },
       { text: 'Run and Ship', link: '/run-and-ship' },
     ],
   },

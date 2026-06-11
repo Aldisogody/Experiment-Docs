@@ -81,6 +81,59 @@ pnpm init-agents -- --force
 pnpm init-claude -- --force
 ```
 
+## `Skill directory already exists: <paths>`
+
+`pnpm init-skills` found the normalized skill directory in at least one of
+`.agents/skills/`, `.claude/skills/`, or `.cursor/skills/`. It preflights all
+three destinations and writes nothing when any copy exists.
+
+Review the listed directories. To replace every copy and remove stale files:
+
+```bash
+pnpm init-skills -- --force
+```
+
+## Invalid project metadata for AI initialization
+
+Run AI initialization commands from a generated experiment project root. They
+can report:
+
+- `package.json not found. Run this command from a generated experiment project root.`
+- `package.json is not valid JSON.`
+- `package.json must contain a string "name" field.`
+- `No experiment.config.js or src/config.js found. Run this command from a generated experiment project root.`
+- `Unable to determine boilerplate type from src/components or src/config.js.`
+
+Restore valid package metadata and experiment configuration. Boilerplate
+inference expects `ExperimentButton`, `ExperimentCard`, or the corresponding
+`buttonText`, `MODEL_CODE_MAP`, or `translationByMarket` config markers.
+
+## `Unknown option "<option>". Supported option: --force`
+
+The `init-claude`, `init-agents`, and `init-skills` commands accept only
+`--force`. Through a generated package script, include the separator:
+
+```bash
+pnpm init-skills -- --force
+```
+
+## `Destination parent is not a directory: <path>`
+
+A parent such as `.cursor/skills` exists as a file or another non-directory
+entry. `init-skills` stops before installing any copy. Move or rename the
+conflicting entry, then rerun the command.
+
+## `Unable to install skills without partial changes: <reason>`
+
+The transactional install failed while committing the three staged skill
+directories. The command removes newly installed copies, restores existing
+copies, and cleans its temporary staging directory before reporting this error.
+
+Check directory permissions and parent conflicts, confirm the original skill
+directories are intact, and rerun the command. See
+[AI Project Support](/development/ai-project-support#existing-skills-and-force)
+for the replacement process.
+
 ## Chromium executable is missing
 
 Install the browser used by live injection and E2E:
