@@ -16,7 +16,7 @@ The repository package metadata reports `2.0.2`, released on April 23, 2026.
 | `2.0.1` | Added package-owned runtime commands, minimal scaffold fixes, and CSS class-prefix generation. |
 | `2.0.0` | Introduced the v2 Vite, Preact, Biome, multi-variation, and optional Playwright scaffold. |
 
-The `main` branch also contains unreleased work such as live injection, URL and debug helpers, SCSS runtime helpers, structured selector fallbacks, and Adobe Target bundle guards. Treat repository source as newer than the last published changelog entry until a release is tagged.
+The `main` branch also contains unreleased work such as live injection, URL and debug helpers, SCSS runtime helpers, and structured selector fallbacks. Treat repository source as newer than the last published changelog entry until a release is tagged.
 
 ## Upgrade a generated project
 

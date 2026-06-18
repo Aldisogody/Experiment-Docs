@@ -16,7 +16,7 @@ This page summarizes user-facing scaffold changes. The package repository `CHANG
 - Added `getPath()`, `getPathSegments()`, `getMarket()`, `log()`, and `debug()` runtime helpers.
 - Added ordered selector fallbacks and the no-fallback position shorthand to `mountExperiment()`.
 - Added shared `mq()` and `fluid-property()` Sass helpers.
-- Added Adobe Target template-literal lowering and emitted `${` bundle protection.
+- Removed experimental Adobe Target template-literal lowering and emitted `${` bundle protection.
 - Added `targetUrl` and `live` settings to `experiment.config.js`.
 - Refactored generator behavior around a file-oriented scaffold plan.
 

@@ -150,7 +150,6 @@ Use the generated Vite configuration as the baseline. Important current settings
 - `@components` mapped to `src/components`.
 - CSS Module names formatted as `<project-prefix>-[local]`.
 - Runtime Sass helpers loaded from `create-experiment/runtime/scss`.
-- Template literals lowered for Adobe Target.
 
 ## 9. Reinstall and validate
 

@@ -106,4 +106,4 @@ pnpm lint
 pnpm build
 ```
 
-The final bundle is `dist/v1/v1.js`. Review [Adobe Target safety](/error-reference#adobe-target-unsafe-placeholder-syntax) before using literal `${...}` placeholder text.
+The final bundle is `dist/v1/v1.js`.

@@ -46,7 +46,7 @@ Common causes are a missing Chromium install, an invalid `targetUrl`, no matchin
 
 ## Can I use JavaScript template literals?
 
-The build lowers template literals for Adobe Target compatibility. It also fails if emitted JavaScript still contains `${`, because Adobe Target can interpret that sequence as offer placeholder syntax.
+Yes. The generated Vite build follows normal JavaScript handling for template literals.
 
 ## Where is Stylelint?
 

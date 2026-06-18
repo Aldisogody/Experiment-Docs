@@ -112,10 +112,6 @@ pnpm format
 
 The active generated templates use Biome for JavaScript, JSX, and JSON. They do not generate a `.stylelintrc` file.
 
-## Adobe Target bundle guard
-
-The build forces template literals to older string concatenation and fails if an emitted chunk still contains `${`. This prevents Adobe Target from misreading JavaScript as offer placeholder syntax.
-
 ## Next
 
 - [Testing](/testing) explains optional Playwright smoke tests.

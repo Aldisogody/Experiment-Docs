@@ -89,8 +89,6 @@ pnpm build
 
 The production build runs the Biome lint gate first. If lint passes, every variation builds to `dist/vN/vN.js`.
 
-The build also lowers JavaScript template literals and rejects emitted `${` sequences that Adobe Target could interpret as offer placeholders.
-
 ## Next
 
 - [Build an Experiment](/build-an-experiment) explains the files you edit.

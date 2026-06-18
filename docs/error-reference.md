@@ -39,10 +39,6 @@ pnpm lint
 
 Fix remaining errors, including unused variables and `console` calls.
 
-## `Adobe Target unsafe placeholder syntax found` {#adobe-target-unsafe-placeholder-syntax}
-
-The emitted JavaScript still contains `${`, which Adobe Target can treat as placeholder syntax. Avoid constructing literal placeholders with template literals or escaped string fragments. Keep approved Target placeholders as plain quoted strings and rebuild.
-
 ## `IIFE bundle not found`
 
 Playwright loads `dist/v1/v1.js`. Run E2E through:
