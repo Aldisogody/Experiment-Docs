@@ -57,7 +57,7 @@ Product-card helpers also mock the Samsung product API before injection. Minimal
 
 The generated smoke test does this for each configured market:
 
-1. Build `dist/v1/v1.js` through `pnpm test:e2e`.
+1. Build `dist/v1-index.jsx` through `pnpm test:e2e`.
 2. Resolve the market URL from `e2e/config.js`.
 3. Navigate to the page.
 4. Inject or find the target element.
@@ -74,7 +74,7 @@ Use `e2e/config.js` when you need to adjust market coverage after scaffolding:
 ```js
 export const urlsConfig = {
     baseUrl: 'https://www.samsung.com',
-    bundlePath: 'dist/v1/v1.js',
+    bundlePath: 'dist/v1-index.jsx',
     markets: [{ code: 'UK', urlPath: 'uk', name: 'United Kingdom' }],
 };
 ```

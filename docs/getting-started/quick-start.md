@@ -4,7 +4,7 @@ This tutorial walks you through creating a minimal experiment. By the end you wi
 
 **Time to complete:** ~10 minutes
 
-**Prerequisites:** Node 18+ and pnpm 10+ installed. Node 24 is recommended. If not, complete [Prerequisites](/getting-started/prerequisites) first.
+**Prerequisites:** Node 20.19+ and pnpm 10+ installed. Node 24 is recommended. If not, complete [Prerequisites](/getting-started/prerequisites) first.
 
 ---
 
@@ -41,13 +41,12 @@ The generated project includes `.nvmrc`. Running `nvm use` keeps Node aligned be
 
 ## Optional: add AI project support
 
-AI instructions and project skills are not generated automatically. Create the
-relevant local support from the project root:
+AI instruction files are not generated automatically. Create the relevant local
+support from the project root:
 
 ```bash
 pnpm init-claude
 pnpm init-agents
-pnpm init-skills
 ```
 
 The commands infer the experiment name, boilerplate type, and E2E setup from
@@ -65,7 +64,7 @@ You will see Vite build output followed by:
 
 ```text
 built in 312ms
-v1.js copied to clipboard
+v1-index.jsx copied to clipboard
 ```
 
 Every time you save a source file, Vite rebuilds and copies the latest bundle to your clipboard automatically.
@@ -104,8 +103,7 @@ Output:
 
 ```text
 dist/
-└── v1/
-    └── v1.js
+└── v1-index.jsx
 ```
 
 Each file is a self-contained IIFE bundle. Upload or paste these into Adobe Target for your production activity.

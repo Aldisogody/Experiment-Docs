@@ -34,7 +34,7 @@ Edit `e2e/config.js` directly:
 ```js
 export const urlsConfig = {
     baseUrl: 'https://samsung.com',
-    bundlePath: 'dist/v1/v1.js',
+    bundlePath: 'dist/v1-index.jsx',
     markets: [
         // Add or remove entries here
         { code: 'UK', urlPath: 'uk', name: 'United Kingdom' },

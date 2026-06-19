@@ -28,13 +28,12 @@ It returns silently when `options.selector` does not match inside the container.
 
 Yes, but there is no add-on command. Scaffold a temporary E2E-enabled project with the same boilerplate and copy `playwright.config.js`, `e2e/`, the Playwright dependency, and the `test:e2e` script.
 
-## What is the difference between AI instruction files and project skills?
+## What AI support can I add?
 
 `CLAUDE.md` and `AGENTS.md` are repository-wide instructions for tools that
-read those files. `pnpm init-skills` installs a reusable, task-triggered
-experiment workflow in the native project-skill directories for Codex, Claude
-Code, and Cursor. All are opt-in and ignored by Git in a generated project by
-default. See [AI Project Support](/development/ai-project-support).
+read those files. They are opt-in and ignored by Git in a generated project by
+default. Create them with `pnpm init-claude` and `pnpm init-agents`. See
+[AI Project Support](/development/ai-project-support).
 
 ## Does `includeEmergencyBrake` change the current bundle?
 

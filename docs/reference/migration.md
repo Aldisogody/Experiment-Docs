@@ -49,7 +49,6 @@ Remove legacy framework packages only after imports and scripts have been migrat
         "new-variation": "exp-new-variation",
         "init-claude": "exp-init-claude",
         "init-agents": "exp-init-agents",
-        "init-skills": "exp-init-skills",
         "lint": "biome check src",
         "format": "biome check --write src",
         "live": "exp-live"
@@ -67,22 +66,20 @@ Replace older command names:
 
 ### Optional AI project support
 
-Current projects expose `init-claude`, `init-agents`, and `init-skills`
-scripts, but AI support remains opt-in. Upgrade the `create-experiment`
-dependency first. If the older project's `package.json` does not contain those
-scripts, invoke the package-owned binaries directly from the project root:
+Current projects expose `init-claude` and `init-agents` scripts, but AI support
+remains opt-in. Upgrade the `create-experiment` dependency first. If the older
+project's `package.json` does not contain those scripts, invoke the
+package-owned binaries directly from the project root:
 
 ```bash
 pnpm exec exp-init-claude
 pnpm exec exp-init-agents
-pnpm exec exp-init-skills
 ```
 
-They create `CLAUDE.md`, `AGENTS.md`, or identical skills under
-`.agents/skills/`, `.claude/skills/`, and `.cursor/skills/` after inferring the
-experiment name, boilerplate type, and E2E setup from the existing project.
-See [AI Project Support](/development/ai-project-support) before forcing an
-update over customized files.
+They create `CLAUDE.md` or `AGENTS.md` after inferring the experiment name,
+boilerplate type, and E2E setup from the existing project. See
+[AI Project Support](/development/ai-project-support) before forcing an update
+over customized files.
 
 ## 4. Import the package runtime
 

@@ -28,7 +28,7 @@ The development loop follows five steps:
 
 Watch mode rebuilds the active variation after every source change and copies the latest bundle to your clipboard. When the experiment is ready to ship, `pnpm build` creates production bundles for every variation.
 
-Use Node 18+ and pnpm 10+. Node 24 is recommended. See [Prerequisites](/getting-started/prerequisites) before creating your first project.
+Use Node 20.19+ and pnpm 10+. Node 24 is recommended. See [Prerequisites](/getting-started/prerequisites) before creating your first project.
 
 ## Single-File Bundles
 
@@ -36,15 +36,13 @@ Each variation compiles to a self-contained IIFE bundle:
 
 ```text
 dist/
-├── v1/
-│   └── v1.js
-└── v2/
-    └── v2.js
+├── v1-index.jsx
+└── v2-index.jsx
 ```
 
 The bundle includes the variation code, Preact components, and imported styles. You paste one JavaScript file into Adobe Target without uploading separate CSS or runtime assets.
 
-During development, `pnpm start 0` watches `src/js/v1` and updates `dist/v1/v1.js`. The variation index is zero-based, so `pnpm start 1` watches `v2`.
+During development, `pnpm start 0` watches `src/js/v1` and updates `dist/v1-index.jsx`. The variation index is zero-based, so `pnpm start 1` watches `v2`.
 
 [Learn how to watch, build, and ship variations](/run-and-ship)
 

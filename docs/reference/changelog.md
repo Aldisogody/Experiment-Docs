@@ -6,12 +6,6 @@ This page summarizes user-facing scaffold changes. The package repository `CHANG
 
 - Made `CLAUDE.md` and `AGENTS.md` opt-in instead of generating AI instruction files during scaffolding.
 - Added package-owned `exp-init-claude` and `exp-init-agents` binaries and generated `pnpm init-claude` / `pnpm init-agents` scripts.
-- Added opt-in `pnpm init-skills` / `exp-init-skills`, which installs
-  boilerplate-aware project skills for Codex, Claude Code, and Cursor with
-  transactional `--force` replacement. See
-  [AI Project Support](/development/ai-project-support).
-- Removed generated skill `assets/` and `scripts/` directories; skills now
-  contain `SKILL.md` and applicable reference documents only.
 - Added `pnpm live` / `exp-live` with variation, URL, overlay, and browser-profile options.
 - Added `getPath()`, `getPathSegments()`, `getMarket()`, `log()`, and `debug()` runtime helpers.
 - Added ordered selector fallbacks and the no-fallback position shorthand to `mountExperiment()`.
@@ -42,6 +36,6 @@ This page summarizes user-facing scaffold changes. The package repository `CHANG
 - Added optional Playwright smoke tests.
 - Migrated generated projects from ESLint to Biome.
 - Added clipboard copy during focused watch mode.
-- Set Node 18 as the minimum and Node 24 in generated `.nvmrc`.
+- Set Node 20.19 as the minimum and Node 24 in generated `.nvmrc`.
 
 See [Migration](/reference/migration) for an upgrade checklist.

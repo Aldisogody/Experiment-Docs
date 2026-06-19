@@ -4,7 +4,7 @@ Use this page when you are creating an experiment for the first time. It gives y
 
 ## What the framework creates
 
-`create-experiment` scaffolds a Vite + Preact project for Adobe Target. Each variation builds to a self-contained IIFE bundle in `dist/vN/vN.js`.
+`create-experiment` scaffolds a Vite + Preact project for Adobe Target. Each variation builds to a self-contained IIFE bundle in `dist/vN-index.jsx`.
 
 The generated project includes:
 
@@ -61,8 +61,8 @@ The command index maps to the variation folder:
 
 | Command | Folder | Bundle |
 |---|---|---|
-| `pnpm start 0` | `src/js/v1` | `dist/v1/v1.js` |
-| `pnpm start 1` | `src/js/v2` | `dist/v2/v2.js` |
+| `pnpm start 0` | `src/js/v1` | `dist/v1-index.jsx` |
+| `pnpm start 1` | `src/js/v2` | `dist/v2-index.jsx` |
 
 When the watcher builds, it copies the IIFE bundle to your clipboard. Paste it into Adobe Target custom code for the matching variation.
 
@@ -87,7 +87,7 @@ Run:
 pnpm build
 ```
 
-The production build runs the Biome lint gate first. If lint passes, every variation builds to `dist/vN/vN.js`.
+The production build runs the Biome lint gate first. If lint passes, every variation builds to `dist/vN-index.jsx`.
 
 ## Next
 

@@ -35,7 +35,6 @@ my-experiment/
 ├── .gitignore
 ├── CLAUDE.md                           # Optional local AI instructions; created by pnpm init-claude
 ├── AGENTS.md                           # Optional local AI instructions; created by pnpm init-agents
-├── .agents/skills/<skill-name>/        # Optional Codex project skill; created by pnpm init-skills
 ├── .claude/skills/<skill-name>/        # Optional Claude Code project skill; same generated content
 ├── .cursor/skills/<skill-name>/        # Optional Cursor project skill; same generated content
 └── package.json

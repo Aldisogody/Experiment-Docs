@@ -84,8 +84,8 @@ Paste the clipboard contents into Adobe Target's custom code editor and refresh 
 
 ```bash
 pnpm build
-# dist/v1/v1.js
-# dist/v2/v2.js
+# dist/v1-index.jsx
+# dist/v2-index.jsx
 ```
 
 :::

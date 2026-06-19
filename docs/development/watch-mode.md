@@ -28,7 +28,7 @@ On every save, the IIFE bundle is automatically copied to your clipboard:
 | Linux | `xclip -selection clipboard` |
 | Windows | `clip` (built-in) |
 
-If the clipboard tool is unavailable, the build continues silently - you'll just need to copy the bundle manually from `dist/v1/v1.js`.
+If the clipboard tool is unavailable, the build continues silently - you'll just need to copy the bundle manually from `dist/v1-index.jsx`.
 
 ::: tip Linux: install xclip
 ```bash

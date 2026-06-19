@@ -37,7 +37,7 @@ The helper:
 1. Registers the product API mock for product-card projects.
 2. Opens the market URL.
 3. Creates the primary target when it is a missing simple class selector.
-4. Injects the loaded `dist/v1/v1.js` code.
+4. Injects the loaded `dist/v1-index.jsx` code.
 5. Waits for `experimentContainer`.
 6. Attaches the test URL to the report.
 
@@ -89,7 +89,7 @@ The `for...of` loop creates one independent test per market. `SEBN`, for example
 ```js
 export const urlsConfig = {
     baseUrl: 'https://samsung.com',
-    bundlePath: 'dist/v1/v1.js',
+    bundlePath: 'dist/v1-index.jsx',
     markets: [{ code: 'UK', urlPath: 'uk', name: 'United Kingdom' }],
 
     getUrl(marketCode, pagePath) {

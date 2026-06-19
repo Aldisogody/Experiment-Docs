@@ -22,9 +22,9 @@ All commands available in a generated experiment project. Run them from the proj
 Build output:
 ```
 dist/
-├── v1/v1.js   ← IIFE bundle for variation 1
-├── v2/v2.js   ← IIFE bundle for variation 2
-└── vN/vN.js
+├── v1-index.jsx   ← IIFE bundle for variation 1
+├── v2-index.jsx   ← IIFE bundle for variation 2
+└── vN-index.jsx
 ```
 
 ## Linting
@@ -53,18 +53,17 @@ CLI flags override the matching values in `experiment.config.js`.
 
 ## AI project support
 
-AI instruction files and project skills are not generated automatically. Run
+AI instruction files are not generated automatically. Run
 the optional commands from the generated project root:
 
 | Command | Output |
 |---|---|
 | `pnpm init-claude` | `CLAUDE.md` |
 | `pnpm init-agents` | `AGENTS.md` |
-| `pnpm init-skills` | Identical skills in `.agents/skills/<skill-name>/`, `.claude/skills/<skill-name>/`, and `.cursor/skills/<skill-name>/` |
 
 The commands infer the experiment name, boilerplate type, and E2E setup from
-the existing project files. Review the generated instructions and skill
-frontmatter for the experiment.
+the existing project files. Review the generated instructions for the
+experiment.
 
 If a destination exists, the command stops without replacing it. Replace it
 intentionally with:
@@ -72,12 +71,7 @@ intentionally with:
 ```bash
 pnpm init-claude -- --force
 pnpm init-agents -- --force
-pnpm init-skills -- --force
 ```
-
-For skills, `--force` transactionally replaces all three complete directories
-and removes stale files. Without `--force`, one existing destination prevents
-changes to every destination.
 
 Run these commands from the project root, where `package.json` and either `experiment.config.js` or `src/config.js` are present.
 
@@ -86,14 +80,13 @@ Older generated projects may not have the package scripts. After upgrading `crea
 ```bash
 pnpm exec exp-init-claude
 pnpm exec exp-init-agents
-pnpm exec exp-init-skills
 ```
 
-See [AI Project Support](/development/ai-project-support) for skill naming,
-generated resources, local `.gitignore` behavior, and replacement behavior.
+See [AI Project Support](/development/ai-project-support) for generated
+resources, local `.gitignore` behavior, and replacement behavior.
 
 ## Notes
 
 - `pnpm build` aborts on lint errors.
 - Watch commands block an invalid bundle but keep the watcher running for the next save.
-- All commands require Node 18+ and pnpm 10+. Run `nvm use` first so the generated `.nvmrc` selects the project Node version.
+- All commands require Node 20.19+ and pnpm 10+. Run `nvm use` first so the generated `.nvmrc` selects the project Node version.

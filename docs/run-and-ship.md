@@ -29,9 +29,9 @@ The command index is zero-based, but folders are one-based:
 
 | Command index | Variation folder | Output bundle |
 |---|---|---|
-| `0` | `src/js/v1` | `dist/v1/v1.js` |
-| `1` | `src/js/v2` | `dist/v2/v2.js` |
-| `2` | `src/js/v3` | `dist/v3/v3.js` |
+| `0` | `src/js/v1` | `dist/v1-index.jsx` |
+| `1` | `src/js/v2` | `dist/v2-index.jsx` |
+| `2` | `src/js/v3` | `dist/v3-index.jsx` |
 
 On each successful rebuild, the generated IIFE is copied to your clipboard. Paste it into Adobe Target custom code and refresh the preview page.
 
@@ -78,7 +78,7 @@ The production build:
 
 1. Runs `biome check src`.
 2. Builds each `src/js/vN/index.jsx` entry as an IIFE.
-3. Writes bundles to `dist/vN/vN.js`.
+3. Writes bundles to `dist/vN-index.jsx`.
 4. Prints raw and gzip bundle sizes.
 
 If Biome reports errors, the build aborts before bundling.

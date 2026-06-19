@@ -106,4 +106,4 @@ pnpm lint
 pnpm build
 ```
 
-The final bundle is `dist/v1/v1.js`.
+The final bundle is `dist/v1-index.jsx`.

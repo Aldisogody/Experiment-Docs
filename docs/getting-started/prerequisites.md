@@ -4,7 +4,7 @@ Before creating your first experiment, make sure your environment meets the foll
 
 ## Node version {#node-version}
 
-::: warning Node 18 is the minimum. Node 24 is recommended.
+::: warning Node 20.19 is the minimum. Node 24 is recommended.
 The generated project's `.nvmrc` is set to `24`. Running an older Node version will cause compatibility issues with pnpm 10.
 :::
 
@@ -23,7 +23,7 @@ Use [nvm-windows](https://github.com/coreybutler/nvm-windows) instead of nvm.
 :::
 
 ::: danger Node 16 is incompatible
-The system default Node on some machines is 16. pnpm 10.x requires Node 18 at minimum. Always run `nvm use` before any `pnpm` or `node` commands in a generated project.
+The system default Node on some machines is 16. pnpm 10.x requires Node 20.19 at minimum. Always run `nvm use` before any `pnpm` or `node` commands in a generated project.
 :::
 
 ## pnpm {#pnpm}

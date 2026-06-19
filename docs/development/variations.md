@@ -27,9 +27,9 @@ Build to confirm the new variation compiles:
 
 ```bash
 pnpm build
-# dist/v1/v1.js
-# dist/v2/v2.js
-# dist/v3/v3.js
+# dist/v1-index.jsx
+# dist/v2-index.jsx
+# dist/v3-index.jsx
 ```
 
 ## Developing a specific variation
@@ -52,12 +52,9 @@ Builds all variations in parallel. Output:
 
 ```
 dist/
-├── v1/
-│   └── v1.js
-├── v2/
-│   └── v2.js
-└── vN/
-    └── vN.js
+├── v1-index.jsx
+├── v2-index.jsx
+└── vN-index.jsx
 ```
 
 Biome runs before the build. The build aborts if linting fails.
