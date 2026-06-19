@@ -75,11 +75,21 @@ That means component SCSS can use the framework media-query and fluid-property h
 
 ## Boilerplate differences
 
-The `minimal` boilerplate keeps styling inside the shared button component.
+The `minimal` boilerplate keeps component styling inside `ExperimentButton`.
 
-The `product-card` boilerplate includes product-card component styles. Neither boilerplate currently generates per-variation SCSS.
+The `product-card` boilerplate includes product-card component styles in `src/components/ExperimentCard/styles.module.scss`.
 
-Keep shared component styles in `src/components/*/styles.module.scss`. Use per-variation styles only when the variation needs layout or presentation changes that should not affect other variations.
+Both boilerplates generate **mount-root** styles in `src/js/v1/styles.module.scss`. This file styles the outer wrapper created by `mountExperiment()`, not the Preact component inside it.
+
+```text
+src/js/v1/
+  index.jsx
+  styles.module.scss   # mount wrapper — pass style.root to mountExperiment()
+```
+
+Keep shared component styles in `src/components/*/styles.module.scss`. Extend per-variation mount styles when a variation needs different wrapper layout or spacing. `pnpm new-variation N` copies `v1/styles.module.scss` into the new variation folder when the file exists.
+
+See [mountExperiment()](/framework-api/mount-experiment) for usage examples.
 
 ## Shared mixins
 

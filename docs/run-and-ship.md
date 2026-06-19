@@ -45,6 +45,8 @@ pnpm live
 
 `pnpm live` reads `experiment.config.js`, opens `targetUrl`, watches the bundle, injects it into the page, and shows an overlay with status information.
 
+Injection succeeds when the bundle registers on `window[globalObject][packageName]` — the same signal legacy `gulp development` used. The overlay may also show which selector from `src/config.js` matched, but a missing selector does not block injection. Experiments that only change text, styles, or tracking still preview correctly as long as `runScript` registers the package name.
+
 To reuse one browser cache profile across experiments:
 
 ```bash

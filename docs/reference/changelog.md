@@ -15,6 +15,7 @@ This page summarizes user-facing scaffold changes. The package repository `CHANG
 - Added `pnpm live` / `exp-live` with variation, URL, overlay, and browser-profile options.
 - Added `getPath()`, `getPathSegments()`, `getMarket()`, `log()`, and `debug()` runtime helpers.
 - Added ordered selector fallbacks and the no-fallback position shorthand to `mountExperiment()`.
+- Added optional mount options to `mountExperiment()` (`className`, `id`, `dataset`, `attributes`) and scaffolded `src/js/vN/styles.module.scss` for mount-root styling. See [mountExperiment()](/framework-api/mount-experiment).
 - Added shared `mq()` and `fluid-property()` Sass helpers.
 - Removed experimental Adobe Target template-literal lowering and emitted `${` bundle protection.
 - Added `targetUrl` and `live` settings to `experiment.config.js`.

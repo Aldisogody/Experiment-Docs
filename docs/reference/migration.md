@@ -110,9 +110,16 @@ export const selectors = {
 Mount with:
 
 ```js
-const container = mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin');
+import style from './styles.module.scss';
+
+const container = mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin', {
+    className: style.root,
+    dataset: { experiment: 'my-experiment' },
+});
 if (!container) return;
 ```
+
+Existing projects can add `src/js/vN/styles.module.scss` and pass `style.root` when upgrading. See [mountExperiment()](/framework-api/mount-experiment) for all options.
 
 ## 6. Update experiment config
 

@@ -57,9 +57,20 @@ Generated E2E helpers can create only a simple class target such as `.target-sel
 
 `e2e/config.js#getUrl()` could not find the requested country code in `urlsConfig.markets`. Use a configured country code, not only the parent group code.
 
+## `Bundle did not register window.<globalObject>["<package-name>"]`
+
+`pnpm live` injected the bundle but `window[globalObject][packageName]` was not set within the wait window. Common causes:
+
+- The variation entry point does not call `runScript`
+- `package.json` `name` does not match the registered key
+- `experiment.config.js` `globalObject` does not match the runtime namespace
+- The bundle threw before registration completed
+
+Fix the variation entry point and confirm the built bundle executes without errors in the browser console.
+
 ## `No target matched selectors`
 
-Live injection tried `selectors.primary` and every fallback without finding an element. Verify the target URL, page state, and selector chain.
+Live injection could not match `selectors.primary` or any fallback. This is informational only — injection still runs when the bundle registers on `window[globalObject][packageName]`. Verify the target URL, page state, and selector chain when you need mount-point context in the overlay.
 
 ## `AGENTS.md already exists.`
 

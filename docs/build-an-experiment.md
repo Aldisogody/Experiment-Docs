@@ -36,9 +36,13 @@ The variation entry point follows the same order in both boilerplates:
 ```jsx
 import { render } from 'preact';
 import { mountExperiment, runScript, setupTracking } from 'create-experiment/framework';
+import style from './styles.module.scss';
 
 runScript(async () => {
-    const container = mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin');
+    const container = mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin', {
+        className: style.root,
+        dataset: { experiment: 'my-experiment' },
+    });
     if (!container) return;
 
     render(<ExperimentComponent />, container);

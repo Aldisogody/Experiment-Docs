@@ -108,7 +108,7 @@ The `minimal` boilerplate does not need Samsung API integration.
 The experiment runtime is imported from `create-experiment/framework`. Every variation entry point can use:
 
 - `runScript(fn)` - ensures DOM is ready before executing
-- `mountExperiment(selector, fallback?, position?)` - creates and injects the container `div`
+- `mountExperiment(selector, fallback?, position?, options?)` — creates and injects the container `div`; pass `className: style.root` from `src/js/vN/styles.module.scss` for mount-wrapper styling
 - `trackAAEvent(evar, event, data)` - fires Adobe Analytics events
 - `waitFor(selectors, callback)` - polls until elements are present
 - `watchFor(selector, callback, options?)` - waits via MutationObserver
@@ -128,10 +128,14 @@ import { mountExperiment, runScript, setupTracking } from 'create-experiment/fra
 import ExperimentCard from '@components/ExperimentCard';
 import { fetchProductCard } from '../../helpers';
 import { selectors, translationByMarket } from '../../config';
+import style from './styles.module.scss';
 
 runScript(async () => {
     // 1. Mount container
-    const container = mountExperiment(selectors.primary, selectors.fallbacks);
+    const container = mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin', {
+        className: style.root,
+        dataset: { experiment: 'my-experiment' },
+    });
     if (!container) return;
 
     // 2. Fetch data

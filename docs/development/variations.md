@@ -16,7 +16,7 @@ The scaffolder generates `v1` and any additional variations you requested. To ad
 pnpm new-variation 3
 ```
 
-This creates `src/js/v3/index.jsx` from `v1`. If you manually added `src/js/v1/styles.module.scss`, the command copies it too.
+This creates `src/js/v3/index.jsx` from `v1`. The command also copies `src/js/v1/styles.module.scss` when present (both boilerplates scaffold this file for mount-root styling).
 
 After creation, open `src/js/v3/index.jsx` and update:
 
@@ -67,14 +67,18 @@ Biome runs before the build. The build aborts if linting fails.
 On Samsung's SPA pages, Adobe Target may re-execute custom code on route changes, causing the experiment to mount twice. `mountExperiment` does not include a built-in dedup guard - if your target page is an SPA, add a manual check before mounting:
 
 ```js
+import style from './styles.module.scss';
+
 runScript(async () => {
     const marker = 'my-experiment-v1';
     if (document.querySelector(`[data-experiment="${marker}"]`)) return;
 
-    const container = mountExperiment(selectors.primary, selectors.fallbacks);
+    const container = mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin', {
+        className: style.root,
+        dataset: { experiment: marker },
+    });
     if (!container) return;
 
-    container.dataset.experiment = marker;
     render(<MyComponent />, container);
     setupTracking(container, { label: 'my-experiment: v1 cta clicked' });
 });
