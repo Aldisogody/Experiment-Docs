@@ -21,9 +21,7 @@
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   padding: 16px;
-  background:
-    linear-gradient(135deg, rgba(66, 184, 131, 0.1), transparent 44%),
-    var(--vp-c-bg-soft);
+  background: var(--vp-c-bg-soft);
 }
 
 .playground-kicker {
@@ -50,23 +48,27 @@
   gap: 8px;
 }
 
-.playground-actions button,
-.playground-file {
-  min-height: 34px;
+.playground-actions button {
+  min-height: 44px;
   border: 1px solid var(--vp-c-divider);
   border-radius: 6px;
   background: var(--vp-c-bg);
   color: var(--vp-c-text-1);
-  padding: 6px 10px;
+  padding: 8px 10px;
   cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
 }
 
-.playground-actions button:hover,
-.playground-file:hover {
+.playground-actions button:hover {
   border-color: var(--docs-brand-border);
+  background: var(--vp-c-bg-soft);
 }
 
 .playground-actions button:focus-visible,
+.playground-folder:focus-visible,
 .playground-file:focus-visible,
 .playground-code:focus-visible {
   outline: 2px solid var(--docs-brand-ring);
@@ -88,7 +90,7 @@
 
 .playground-grid {
   display: grid;
-  grid-template-columns: minmax(180px, 240px) minmax(320px, 1fr) minmax(320px, 1fr);
+  grid-template-columns: minmax(240px, 280px) minmax(320px, 1fr) minmax(320px, 1fr);
   grid-template-rows: minmax(460px, 62vh) 220px;
   gap: 12px;
 }
@@ -105,24 +107,207 @@
 }
 
 .playground-file-tree {
-  overflow: auto;
-  padding: 8px;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+  flex-direction: column;
+  border-radius: 4px;
+  background: var(--vp-code-block-bg);
 }
 
+.playground-explorer-title {
+  display: flex;
+  min-height: 35px;
+  align-items: center;
+  border-bottom: 1px solid var(--vp-c-divider);
+  padding: 0 12px;
+  color: var(--vp-c-text-2);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.playground-file-list {
+  min-height: 0;
+  overflow: auto;
+  padding: 4px 0 8px;
+}
+
+.playground-folder,
 .playground-file {
-  display: block;
+  position: relative;
+  display: flex;
   width: 100%;
-  margin-bottom: 4px;
-  overflow-wrap: anywhere;
+  min-height: 24px;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--vp-c-text-1);
+  cursor: pointer;
+  padding: 2px 8px 2px calc(8px + (var(--tree-depth, 0) * 14px));
   text-align: left;
-  font-family: var(--vp-font-family-mono);
-  font-size: 12px;
+  font-family: var(--vp-font-family-base);
+  font-size: 13px;
+  line-height: 20px;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.playground-folder:hover,
+.playground-file:hover {
+  background: color-mix(in srgb, var(--vp-c-text-1) 7%, transparent);
+}
+
+.playground-folder.is-root {
+  min-height: 26px;
+  color: var(--vp-c-text-1);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.playground-folder-chevron {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  color: var(--vp-c-text-2);
+}
+
+.playground-folder-chevron::before {
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  content: '';
+  transform: rotate(-45deg);
+  transform-origin: center;
+  transition: transform 120ms ease;
+}
+
+.playground-folder[aria-expanded='true'] .playground-folder-chevron::before {
+  transform: rotate(45deg);
+}
+
+.playground-folder-icon,
+.playground-file-icon {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+}
+
+.playground-folder-icon::before {
+  position: absolute;
+  top: 4px;
+  left: 1px;
+  width: 13px;
+  height: 10px;
+  border-radius: 1px;
+  background: #dcb67a;
+  content: '';
+}
+
+.playground-folder-icon::after {
+  position: absolute;
+  top: 2px;
+  left: 1px;
+  width: 7px;
+  height: 4px;
+  border-radius: 1px 1px 0 0;
+  background: #dcb67a;
+  content: '';
+}
+
+.playground-folder[aria-expanded='true'] .playground-folder-icon::before,
+.playground-folder[aria-expanded='true'] .playground-folder-icon::after {
+  background: #e2c08d;
+}
+
+.playground-file-icon::before {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  width: 10px;
+  height: 12px;
+  border: 1px solid currentColor;
+  border-radius: 1px;
+  color: #858585;
+  content: '';
+}
+
+.playground-file-icon::after {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 4px;
+  height: 4px;
+  border-top: 1px solid var(--vp-code-block-bg);
+  border-right: 1px solid var(--vp-code-block-bg);
+  background: currentColor;
+  color: #858585;
+  content: '';
+}
+
+.playground-file.is-javascript .playground-file-icon::before,
+.playground-file.is-javascript .playground-file-icon::after {
+  color: #f1dd6f;
+}
+
+.playground-file.is-json .playground-file-icon::before,
+.playground-file.is-json .playground-file-icon::after,
+.playground-file.is-package-json .playground-file-icon::before,
+.playground-file.is-package-json .playground-file-icon::after {
+  color: #f0a45d;
+}
+
+.playground-file.is-markdown .playground-file-icon::before,
+.playground-file.is-markdown .playground-file-icon::after {
+  color: #6cb6ff;
+}
+
+.playground-file.is-stylesheet .playground-file-icon::before,
+.playground-file.is-stylesheet .playground-file-icon::after {
+  color: #c586c0;
+}
+
+.playground-file.is-html .playground-file-icon::before,
+.playground-file.is-html .playground-file-icon::after {
+  color: #e37933;
+}
+
+.playground-folder-name,
+.playground-file-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.playground-folder-name {
+  flex: 1 1 auto;
 }
 
 .playground-file.is-active {
-  border-color: var(--vp-c-brand-1);
-  background: var(--vp-c-brand-soft);
-  color: var(--vp-c-brand-1);
+  background: color-mix(in srgb, var(--vp-c-brand-1) 22%, transparent);
+  color: var(--vp-c-text-1);
+}
+
+.playground-file.is-active::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: var(--vp-c-brand-1);
+  content: '';
 }
 
 .playground-pane-heading {
@@ -204,10 +389,24 @@
 
   .playground-grid {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 420px 420px 220px;
+    grid-template-rows: minmax(260px, 42vh) 420px 420px 220px;
   }
 
   .playground-terminal {
     grid-column: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .playground-shell {
+    margin-top: 16px;
+  }
+
+  .playground-grid {
+    grid-template-rows: 320px 420px 420px 220px;
+  }
+
+  .playground-explorer-title {
+    min-height: 32px;
   }
 }
