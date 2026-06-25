@@ -22,8 +22,10 @@ const installProcess = ref<WebContainerProcess | null>(null);
 const devProcess = ref<WebContainerProcess | null>(null);
 const previewProcess = ref<WebContainerProcess | null>(null);
 const isTransitioning = ref(false);
+const dependenciesInstalled = ref(false);
 let lineId = 0;
 let operationId = 0;
+let writeGeneration = 0;
 let unsubscribeServerReady: (() => void) | null = null;
 const writeTimers = new Map<string, number>();
 
@@ -41,6 +43,7 @@ const isLifecycleLocked = computed(
 );
 const canReset = computed(() => !isLifecycleLocked.value);
 const canRestart = computed(() => Boolean(webcontainer.value) && !isLifecycleLocked.value);
+const isEditorDisabled = computed(() => isLifecycleLocked.value);
 const previewStatus = computed(() => (previewUrl.value ? 'ready' : status.value));
 
 function appendLine(source: TerminalLine['source'], text: string) {
@@ -63,9 +66,12 @@ function pipeProcessOutput(process: WebContainerProcess, source: TerminalLine['s
   });
 }
 
-function beginOperation() {
+function beginOperation(options: { invalidateWrites?: boolean } = {}) {
   isTransitioning.value = true;
   operationId += 1;
+  if (options.invalidateWrites) {
+    writeGeneration += 1;
+  }
   return operationId;
 }
 
@@ -85,32 +91,71 @@ function setOperationError(error: unknown) {
   appendLine('system', errorMessage.value);
 }
 
-async function installDependencies(instance: WebContainer) {
+function clearProcessRef(process: WebContainerProcess) {
+  if (installProcess.value === process) installProcess.value = null;
+  if (devProcess.value === process) devProcess.value = null;
+  if (previewProcess.value === process) previewProcess.value = null;
+}
+
+async function stopStartedProcesses(processes: WebContainerProcess[]) {
+  const results = await Promise.allSettled(processes.map((process) => stopProcess(process)));
+  for (const process of processes) {
+    clearProcessRef(process);
+  }
+  const failedStop = results.find((result) => result.status === 'rejected');
+  if (failedStop?.status === 'rejected') throw failedStop.reason;
+}
+
+function discardWebContainer(instance = webcontainer.value) {
+  if (!instance) return;
+  if (webcontainer.value === instance) {
+    webcontainer.value = null;
+  }
+  dependenciesInstalled.value = false;
+  try {
+    instance.teardown();
+  } catch (error) {
+    appendLine('system', error instanceof Error ? error.message : String(error));
+  }
+}
+
+async function installDependencies(instance: WebContainer, id: number) {
+  if (!isCurrentOperation(id)) return false;
   status.value = 'installing';
   appendLine('system', 'Installing generated project dependencies...');
-  installProcess.value = await instance.spawn('npm', ['install']);
-  pipeProcessOutput(installProcess.value, 'install');
-  const exitCode = await installProcess.value.exit;
-  installProcess.value = null;
+  const process = await instance.spawn('npm', ['install']);
+  installProcess.value = process;
+  pipeProcessOutput(process, 'install');
+  if (!isCurrentOperation(id)) {
+    await stopStartedProcesses([process]);
+    return false;
+  }
+  const exitCode = await process.exit;
+  clearProcessRef(process);
+  if (!isCurrentOperation(id)) return false;
   if (exitCode !== 0) throw new Error(`Dependency install exited with code ${exitCode}.`);
+  dependenciesInstalled.value = true;
+  return true;
 }
 
 async function startProcesses(instance: WebContainer, id: number) {
   if (!isCurrentOperation(id)) return;
   status.value = 'starting';
   appendLine('system', 'Starting generated watch process...');
-  devProcess.value = await instance.spawn('npm', ['run', 'dev']);
-  pipeProcessOutput(devProcess.value, 'dev');
+  const dev = await instance.spawn('npm', ['run', 'dev']);
+  devProcess.value = dev;
+  pipeProcessOutput(dev, 'dev');
   if (!isCurrentOperation(id)) {
-    await cleanupRunningProcesses();
+    await stopStartedProcesses([dev]);
     return;
   }
 
   appendLine('system', 'Starting preview harness...');
-  previewProcess.value = await instance.spawn('npx', ['vite', '--host', '0.0.0.0']);
-  pipeProcessOutput(previewProcess.value, 'preview');
+  const preview = await instance.spawn('npx', ['vite', '--host', '0.0.0.0']);
+  previewProcess.value = preview;
+  pipeProcessOutput(preview, 'preview');
   if (!isCurrentOperation(id)) {
-    await cleanupRunningProcesses();
+    await stopStartedProcesses([dev, preview]);
     return;
   }
 
@@ -125,7 +170,7 @@ async function startProcesses(instance: WebContainer, id: number) {
 
 async function boot() {
   if (isTransitioning.value) return;
-  const id = beginOperation();
+  const id = beginOperation({ invalidateWrites: true });
 
   if (!window.crossOriginIsolated) {
     status.value = 'error';
@@ -137,19 +182,36 @@ async function boot() {
   status.value = 'booting';
   errorMessage.value = '';
   terminalLines.value = [];
+  dependenciesInstalled.value = false;
   appendLine('system', 'Booting WebContainer...');
 
   try {
     const { WebContainer } = await import('@webcontainer/api');
+    if (!isCurrentOperation(id)) return;
     const instance = await WebContainer.boot();
+    if (!isCurrentOperation(id)) {
+      discardWebContainer(instance);
+      return;
+    }
     webcontainer.value = instance;
     await instance.mount(toFileSystemTree(editableFiles.value));
-    await installDependencies(instance);
+    if (!isCurrentOperation(id)) {
+      discardWebContainer(instance);
+      return;
+    }
+    const installed = await installDependencies(instance, id);
+    if (!installed || !isCurrentOperation(id)) {
+      if (!isCurrentOperation(id)) discardWebContainer(instance);
+      return;
+    }
     await startProcesses(instance, id);
   } catch (error) {
     if (isCurrentOperation(id)) {
       setOperationError(error);
       await cleanupRunningProcesses();
+      if (!dependenciesInstalled.value) {
+        discardWebContainer();
+      }
     }
   } finally {
     finishOperation(id);
@@ -177,11 +239,19 @@ async function restart() {
   previewUrl.value = '';
   try {
     await stopRunningProcesses();
+    if (!dependenciesInstalled.value) {
+      const installed = await installDependencies(webcontainer.value, id);
+      if (!installed) return;
+    }
+    if (!isCurrentOperation(id)) return;
     await startProcesses(webcontainer.value, id);
   } catch (error) {
     if (isCurrentOperation(id)) {
       setOperationError(error);
       await cleanupRunningProcesses();
+      if (!dependenciesInstalled.value) {
+        discardWebContainer();
+      }
     }
   } finally {
     finishOperation(id);
@@ -190,7 +260,7 @@ async function restart() {
 
 async function reset() {
   if (isLifecycleLocked.value) return;
-  const id = beginOperation();
+  const id = beginOperation({ invalidateWrites: true });
   previewUrl.value = '';
   clearPendingWrites();
   editableFiles.value = { ...artifact.files };
@@ -199,12 +269,21 @@ async function reset() {
     await stopRunningProcesses();
     if (webcontainer.value) {
       await webcontainer.value.mount(toFileSystemTree(editableFiles.value));
+      if (!isCurrentOperation(id)) return;
+      if (!dependenciesInstalled.value) {
+        const installed = await installDependencies(webcontainer.value, id);
+        if (!installed) return;
+      }
+      if (!isCurrentOperation(id)) return;
       await startProcesses(webcontainer.value, id);
     }
   } catch (error) {
     if (isCurrentOperation(id)) {
       setOperationError(error);
       await cleanupRunningProcesses();
+      if (!dependenciesInstalled.value) {
+        discardWebContainer();
+      }
     }
   } finally {
     finishOperation(id);
@@ -212,13 +291,15 @@ async function reset() {
 }
 
 function scheduleFileWrite(path: string, contents: string) {
-  if (!webcontainer.value || status.value === 'booting' || status.value === 'installing') return;
+  if (!webcontainer.value || isLifecycleLocked.value) return;
+  const generation = writeGeneration;
   const existingTimer = writeTimers.get(path);
   if (existingTimer) window.clearTimeout(existingTimer);
   const timer = window.setTimeout(() => {
     writeTimers.delete(path);
-    if (!webcontainer.value) return;
+    if (!webcontainer.value || generation !== writeGeneration) return;
     writeProjectFile(webcontainer.value, path, contents).catch((error) => {
+      if (generation !== writeGeneration) return;
       appendLine('system', error instanceof Error ? error.message : String(error));
     });
   }, 250);
@@ -246,6 +327,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   operationId += 1;
+  writeGeneration += 1;
   isTransitioning.value = false;
   clearPendingWrites();
   unsubscribeServerReady?.();
@@ -273,7 +355,7 @@ onBeforeUnmount(() => {
       <CodeEditor
         v-model="activeContents"
         :path="activePath"
-        :disabled="status === 'booting' || status === 'installing'"
+        :disabled="isEditorDisabled"
       />
       <PreviewPane :url="previewUrl" :status-label="previewStatus" />
       <TerminalPane :lines="terminalLines" />
