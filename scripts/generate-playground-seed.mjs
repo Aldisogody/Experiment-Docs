@@ -84,29 +84,38 @@ function withPreviewHarness(files) {
     'playground/preview.js': `const bundlePath = '/dist/v1-index.jsx';
 
 async function loadBundle() {
-  const previous = document.querySelector('[data-playground-bundle]');
-  if (previous) previous.remove();
-
   const response = await fetch(bundlePath + '?t=' + Date.now());
   if (!response.ok) {
     console.warn('Generated bundle is not ready yet: ' + bundlePath);
     return;
   }
 
+  const bundle = await response.text();
+
+  const previous = document.querySelector('[data-playground-bundle]');
+  if (previous) previous.remove();
+
   for (const node of document.querySelectorAll('[data-experiment="framework-playground"]')) {
     node.remove();
   }
 
   const script = document.createElement('script');
-  script.textContent = await response.text();
+  script.textContent = bundle;
   script.dataset.playgroundBundle = 'true';
   document.body.append(script);
 }
 
-loadBundle();
-setInterval(() => {
-  loadBundle().catch((error) => console.error(error));
-}, 1500);
+async function pollBundle() {
+  try {
+    await loadBundle();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    window.setTimeout(pollBundle, 1500);
+  }
+}
+
+pollBundle();
 `,
   };
 }
