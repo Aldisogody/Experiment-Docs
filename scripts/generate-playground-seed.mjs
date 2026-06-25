@@ -1,5 +1,6 @@
 import { createRequire } from 'node:module';
 import { mkdtempSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { dirname, join, relative, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -27,6 +28,7 @@ const { normalizeAnswers } = await import(pathToFileURL(join(frameworkRoot, 'lib
 
 const targetDir = mkdtempSync(join(tmpdir(), 'experiment-playground-seed-'));
 const projectName = 'framework-playground';
+const tarballName = 'create-experiment-local.tgz';
 
 function readFiles(root) {
   const files = {};
@@ -120,6 +122,38 @@ pollBundle();
   };
 }
 
+function packFrameworkTarball() {
+  const packDir = mkdtempSync(join(tmpdir(), 'experiment-playground-pack-'));
+  try {
+    execFileSync('pnpm', ['pack', '--pack-destination', packDir], {
+      cwd: frameworkRoot,
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+
+    const tarballs = readdirSync(packDir).filter((entry) => entry.endsWith('.tgz'));
+    if (tarballs.length !== 1) {
+      throw new Error(`Expected one packed create-experiment tarball, found ${tarballs.length}.`);
+    }
+
+    return readFileSync(join(packDir, tarballs[0])).toString('base64');
+  } finally {
+    rmSync(packDir, { recursive: true, force: true });
+  }
+}
+
+function withLocalCreateExperimentTarball(files) {
+  const packageJson = JSON.parse(files['package.json']);
+  packageJson.devDependencies = {
+    ...packageJson.devDependencies,
+    'create-experiment': `file:./${tarballName}`,
+  };
+
+  return {
+    ...files,
+    'package.json': `${JSON.stringify(packageJson, null, 2)}\n`,
+  };
+}
+
 try {
   const plop = await nodePlop(join(frameworkRoot, 'generator/index.js'));
   const generator = plop.getGenerator('experiment');
@@ -147,7 +181,10 @@ try {
       boilerplateType: 'minimal',
       variationCount: 1,
     },
-    files: withPreviewHarness(readFiles(targetDir)),
+    files: withPreviewHarness(withLocalCreateExperimentTarball(readFiles(targetDir))),
+    binaryFiles: {
+      [tarballName]: packFrameworkTarball(),
+    },
   };
 
   mkdirSync(dirname(outputPath), { recursive: true });

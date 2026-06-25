@@ -194,7 +194,7 @@ async function boot() {
       return;
     }
     webcontainer.value = instance;
-    await instance.mount(toFileSystemTree(editableFiles.value));
+    await instance.mount(toFileSystemTree(editableFiles.value, artifact.binaryFiles));
     if (!isCurrentOperation(id)) {
       discardWebContainer(instance);
       return;
@@ -273,7 +273,7 @@ async function reset() {
       return;
     }
 
-    await webcontainer.value.mount(toFileSystemTree(editableFiles.value));
+    await webcontainer.value.mount(toFileSystemTree(editableFiles.value, artifact.binaryFiles));
     if (!isCurrentOperation(id)) return;
     if (!dependenciesInstalled.value) {
       const installed = await installDependencies(webcontainer.value, id);

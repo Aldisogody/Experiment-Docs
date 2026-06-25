@@ -14,6 +14,7 @@ export type SeedArtifact = {
     variationCount: number;
   };
   files: Record<string, string>;
+  binaryFiles?: Record<string, string>;
 };
 
 export type OpenFile = {
