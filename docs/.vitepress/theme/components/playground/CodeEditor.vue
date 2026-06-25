@@ -16,6 +16,7 @@ const emit = defineEmits<{
     <textarea
       class="playground-code"
       spellcheck="false"
+      :aria-label="`Code editor for ${path}`"
       :disabled="disabled"
       :value="modelValue"
       @input="emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"

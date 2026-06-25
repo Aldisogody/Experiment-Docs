@@ -16,6 +16,7 @@ const emit = defineEmits<{
       :key="file"
       class="playground-file"
       :class="{ 'is-active': file === activePath }"
+      :aria-pressed="file === activePath"
       type="button"
       @click="emit('select', file)"
     >
