@@ -21,9 +21,11 @@ const webcontainer = ref<WebContainer | null>(null);
 const installProcess = ref<WebContainerProcess | null>(null);
 const devProcess = ref<WebContainerProcess | null>(null);
 const previewProcess = ref<WebContainerProcess | null>(null);
+const isTransitioning = ref(false);
 let lineId = 0;
-let writeTimer = 0;
+let operationId = 0;
 let unsubscribeServerReady: (() => void) | null = null;
+const writeTimers = new Map<string, number>();
 
 const files = computed(() => Object.keys(editableFiles.value).sort());
 const activeContents = computed({
@@ -34,8 +36,11 @@ const activeContents = computed({
   },
 });
 
-const canReset = computed(() => status.value !== 'booting' && status.value !== 'installing');
-const canRestart = computed(() => Boolean(webcontainer.value) && status.value !== 'booting');
+const isLifecycleLocked = computed(
+  () => isTransitioning.value || status.value === 'booting' || status.value === 'installing' || status.value === 'starting',
+);
+const canReset = computed(() => !isLifecycleLocked.value);
+const canRestart = computed(() => Boolean(webcontainer.value) && !isLifecycleLocked.value);
 const previewStatus = computed(() => (previewUrl.value ? 'ready' : status.value));
 
 function appendLine(source: TerminalLine['source'], text: string) {
@@ -53,8 +58,31 @@ function pipeProcessOutput(process: WebContainerProcess, source: TerminalLine['s
       },
     }),
   ).catch((error) => {
+    if (error instanceof Error && error.name === 'AbortError') return;
     appendLine('system', error instanceof Error ? error.message : String(error));
   });
+}
+
+function beginOperation() {
+  isTransitioning.value = true;
+  operationId += 1;
+  return operationId;
+}
+
+function isCurrentOperation(id: number) {
+  return id === operationId;
+}
+
+function finishOperation(id: number) {
+  if (isCurrentOperation(id)) {
+    isTransitioning.value = false;
+  }
+}
+
+function setOperationError(error: unknown) {
+  status.value = 'error';
+  errorMessage.value = error instanceof Error ? error.message : String(error);
+  appendLine('system', errorMessage.value);
 }
 
 async function installDependencies(instance: WebContainer) {
@@ -67,18 +95,28 @@ async function installDependencies(instance: WebContainer) {
   if (exitCode !== 0) throw new Error(`Dependency install exited with code ${exitCode}.`);
 }
 
-async function startProcesses(instance: WebContainer) {
+async function startProcesses(instance: WebContainer, id: number) {
+  if (!isCurrentOperation(id)) return;
   status.value = 'starting';
   appendLine('system', 'Starting generated watch process...');
   devProcess.value = await instance.spawn('npm', ['run', 'dev']);
   pipeProcessOutput(devProcess.value, 'dev');
+  if (!isCurrentOperation(id)) {
+    await cleanupRunningProcesses();
+    return;
+  }
 
   appendLine('system', 'Starting preview harness...');
   previewProcess.value = await instance.spawn('npx', ['vite', '--host', '0.0.0.0']);
   pipeProcessOutput(previewProcess.value, 'preview');
+  if (!isCurrentOperation(id)) {
+    await cleanupRunningProcesses();
+    return;
+  }
 
   unsubscribeServerReady?.();
   unsubscribeServerReady = instance.on('server-ready', (_port, url) => {
+    if (!isCurrentOperation(id)) return;
     previewUrl.value = `${url}/playground/`;
     status.value = 'ready';
     appendLine('system', `Preview ready at ${previewUrl.value}`);
@@ -86,9 +124,13 @@ async function startProcesses(instance: WebContainer) {
 }
 
 async function boot() {
+  if (isTransitioning.value) return;
+  const id = beginOperation();
+
   if (!window.crossOriginIsolated) {
     status.value = 'error';
     errorMessage.value = 'The playground requires cross-origin isolation headers.';
+    finishOperation(id);
     return;
   }
 
@@ -103,16 +145,21 @@ async function boot() {
     webcontainer.value = instance;
     await instance.mount(toFileSystemTree(editableFiles.value));
     await installDependencies(instance);
-    await startProcesses(instance);
+    await startProcesses(instance, id);
   } catch (error) {
-    status.value = 'error';
-    errorMessage.value = error instanceof Error ? error.message : String(error);
-    appendLine('system', errorMessage.value);
+    if (isCurrentOperation(id)) {
+      setOperationError(error);
+      await cleanupRunningProcesses();
+    }
+  } finally {
+    finishOperation(id);
   }
 }
 
 async function stopRunningProcesses() {
-  await Promise.all([
+  unsubscribeServerReady?.();
+  unsubscribeServerReady = null;
+  const results = await Promise.allSettled([
     stopProcess(installProcess.value),
     stopProcess(devProcess.value),
     stopProcess(previewProcess.value),
@@ -120,36 +167,77 @@ async function stopRunningProcesses() {
   installProcess.value = null;
   devProcess.value = null;
   previewProcess.value = null;
+  const failedStop = results.find((result) => result.status === 'rejected');
+  if (failedStop?.status === 'rejected') throw failedStop.reason;
 }
 
 async function restart() {
-  if (!webcontainer.value) return;
+  if (!webcontainer.value || isLifecycleLocked.value) return;
+  const id = beginOperation();
   previewUrl.value = '';
-  await stopRunningProcesses();
-  await startProcesses(webcontainer.value);
+  try {
+    await stopRunningProcesses();
+    await startProcesses(webcontainer.value, id);
+  } catch (error) {
+    if (isCurrentOperation(id)) {
+      setOperationError(error);
+      await cleanupRunningProcesses();
+    }
+  } finally {
+    finishOperation(id);
+  }
 }
 
 async function reset() {
+  if (isLifecycleLocked.value) return;
+  const id = beginOperation();
   previewUrl.value = '';
-  window.clearTimeout(writeTimer);
+  clearPendingWrites();
   editableFiles.value = { ...artifact.files };
   activePath.value = 'src/js/v1/index.jsx';
-  await stopRunningProcesses();
-  if (webcontainer.value) {
-    await webcontainer.value.mount(toFileSystemTree(editableFiles.value));
-    await startProcesses(webcontainer.value);
+  try {
+    await stopRunningProcesses();
+    if (webcontainer.value) {
+      await webcontainer.value.mount(toFileSystemTree(editableFiles.value));
+      await startProcesses(webcontainer.value, id);
+    }
+  } catch (error) {
+    if (isCurrentOperation(id)) {
+      setOperationError(error);
+      await cleanupRunningProcesses();
+    }
+  } finally {
+    finishOperation(id);
   }
 }
 
 function scheduleFileWrite(path: string, contents: string) {
   if (!webcontainer.value || status.value === 'booting' || status.value === 'installing') return;
-  window.clearTimeout(writeTimer);
-  writeTimer = window.setTimeout(() => {
+  const existingTimer = writeTimers.get(path);
+  if (existingTimer) window.clearTimeout(existingTimer);
+  const timer = window.setTimeout(() => {
+    writeTimers.delete(path);
     if (!webcontainer.value) return;
     writeProjectFile(webcontainer.value, path, contents).catch((error) => {
       appendLine('system', error instanceof Error ? error.message : String(error));
     });
   }, 250);
+  writeTimers.set(path, timer);
+}
+
+function clearPendingWrites() {
+  for (const timer of writeTimers.values()) {
+    window.clearTimeout(timer);
+  }
+  writeTimers.clear();
+}
+
+async function cleanupRunningProcesses() {
+  try {
+    await stopRunningProcesses();
+  } catch (error) {
+    appendLine('system', error instanceof Error ? error.message : String(error));
+  }
 }
 
 onMounted(() => {
@@ -157,10 +245,12 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  window.clearTimeout(writeTimer);
+  operationId += 1;
+  isTransitioning.value = false;
+  clearPendingWrites();
   unsubscribeServerReady?.();
   unsubscribeServerReady = null;
-  stopRunningProcesses();
+  cleanupRunningProcesses();
 });
 </script>
 
