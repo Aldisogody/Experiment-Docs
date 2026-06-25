@@ -93,6 +93,10 @@ async function loadBundle() {
     return;
   }
 
+  for (const node of document.querySelectorAll('[data-experiment="framework-playground"]')) {
+    node.remove();
+  }
+
   const script = document.createElement('script');
   script.textContent = await response.text();
   script.dataset.playgroundBundle = 'true';
