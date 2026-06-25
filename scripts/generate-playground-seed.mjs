@@ -141,7 +141,6 @@ try {
   }
 
   const artifact = {
-    generatedAt: new Date().toISOString(),
     source: {
       frameworkRoot: relative(docsRoot, frameworkRoot).replaceAll('\\', '/'),
       projectName,

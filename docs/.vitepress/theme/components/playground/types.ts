@@ -7,7 +7,6 @@ export type PlaygroundStatus =
   | 'error';
 
 export type SeedArtifact = {
-  generatedAt: string;
   source: {
     frameworkRoot: string;
     projectName: string;
