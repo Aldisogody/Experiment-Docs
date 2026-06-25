@@ -1,0 +1,213 @@
+.VPDoc:has(.playground-shell) .content-container {
+  max-width: none;
+}
+
+.VPDoc:has(.playground-shell) .main {
+  width: 100%;
+}
+
+.playground-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.playground-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  padding: 16px;
+  background:
+    linear-gradient(135deg, rgba(66, 184, 131, 0.1), transparent 44%),
+    var(--vp-c-bg-soft);
+}
+
+.playground-kicker {
+  margin: 0 0 4px;
+  color: var(--vp-c-brand-1);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.playground-toolbar h1 {
+  max-width: 720px;
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.playground-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.playground-actions button,
+.playground-file {
+  min-height: 34px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.playground-actions button:hover,
+.playground-file:hover {
+  border-color: var(--docs-brand-border);
+}
+
+.playground-actions button:focus-visible,
+.playground-file:focus-visible,
+.playground-code:focus-visible {
+  outline: 2px solid var(--docs-brand-ring);
+  outline-offset: 2px;
+}
+
+.playground-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.playground-status {
+  min-width: 76px;
+  color: var(--vp-c-text-2);
+  font-family: var(--vp-font-family-mono);
+  font-size: 12px;
+  text-align: right;
+}
+
+.playground-grid {
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) minmax(320px, 1fr) minmax(320px, 1fr);
+  grid-template-rows: minmax(460px, 62vh) 220px;
+  gap: 12px;
+}
+
+.playground-file-tree,
+.playground-editor,
+.playground-preview,
+.playground-terminal,
+.playground-error {
+  min-width: 0;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg);
+}
+
+.playground-file-tree {
+  overflow: auto;
+  padding: 8px;
+}
+
+.playground-file {
+  display: block;
+  width: 100%;
+  margin-bottom: 4px;
+  overflow-wrap: anywhere;
+  text-align: left;
+  font-family: var(--vp-font-family-mono);
+  font-size: 12px;
+}
+
+.playground-file.is-active {
+  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+
+.playground-pane-heading {
+  border-bottom: 1px solid var(--vp-c-divider);
+  padding: 8px 10px;
+  color: var(--vp-c-text-2);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.playground-code {
+  width: 100%;
+  height: calc(100% - 35px);
+  min-height: 360px;
+  resize: none;
+  border: 0;
+  border-radius: 0 0 8px 8px;
+  outline: 0;
+  padding: 12px;
+  background: var(--vp-code-block-bg);
+  color: var(--vp-c-text-1);
+  font-family: var(--vp-font-family-mono);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.playground-code:disabled {
+  opacity: 0.72;
+}
+
+.playground-preview-frame {
+  width: 100%;
+  height: calc(100% - 35px);
+  min-height: 360px;
+  border: 0;
+  border-radius: 0 0 8px 8px;
+  background: #fff;
+}
+
+.playground-empty,
+.playground-error {
+  padding: 16px;
+  color: var(--vp-c-text-2);
+}
+
+.playground-error {
+  border-color: var(--vp-c-danger-1);
+  color: var(--vp-c-danger-1);
+}
+
+.playground-terminal {
+  grid-column: 1 / -1;
+  overflow: hidden;
+}
+
+.playground-terminal-output {
+  height: calc(100% - 35px);
+  margin: 0;
+  overflow: auto;
+  padding: 12px;
+  background: #111827;
+  color: #d1d5db;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 960px) {
+  .playground-toolbar {
+    flex-direction: column;
+  }
+
+  .playground-actions {
+    justify-content: flex-start;
+  }
+
+  .playground-status {
+    text-align: left;
+  }
+
+  .playground-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 420px 420px 220px;
+  }
+
+  .playground-terminal {
+    grid-column: auto;
+  }
+}
