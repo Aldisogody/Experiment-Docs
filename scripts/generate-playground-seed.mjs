@@ -10,7 +10,14 @@ const outputPath = resolve(docsRoot, 'docs/.vitepress/theme/playground/generated
 
 function optionValue(name, fallback) {
   const index = process.argv.indexOf(name);
-  return index === -1 ? fallback : process.argv[index + 1];
+  if (index === -1) return fallback;
+
+  const value = process.argv[index + 1];
+  if (!value || value.startsWith('--')) {
+    throw new Error(`${name} requires a value`);
+  }
+
+  return value;
 }
 
 const frameworkRoot = resolve(docsRoot, optionValue('--framework-root', '../experiment-framework-v2'));
@@ -26,7 +33,7 @@ function readFiles(root) {
   const ignored = new Set(['node_modules', 'dist', '.git']);
 
   function walk(dir) {
-    for (const entry of readdirSync(dir)) {
+    for (const entry of readdirSync(dir).sort()) {
       if (ignored.has(entry)) continue;
 
       const fullPath = join(dir, entry);
@@ -117,8 +124,7 @@ try {
 
   const result = await generator.runActions(data);
   if (result.failures.length > 0) {
-    console.error(result.failures);
-    process.exit(1);
+    throw new Error(`Generator failed: ${JSON.stringify(result.failures, null, 2)}`);
   }
 
   const artifact = {
