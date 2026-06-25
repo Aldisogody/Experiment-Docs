@@ -267,16 +267,20 @@ async function reset() {
   activePath.value = 'src/js/v1/index.jsx';
   try {
     await stopRunningProcesses();
-    if (webcontainer.value) {
-      await webcontainer.value.mount(toFileSystemTree(editableFiles.value));
-      if (!isCurrentOperation(id)) return;
-      if (!dependenciesInstalled.value) {
-        const installed = await installDependencies(webcontainer.value, id);
-        if (!installed) return;
-      }
-      if (!isCurrentOperation(id)) return;
-      await startProcesses(webcontainer.value, id);
+    if (!webcontainer.value) {
+      finishOperation(id);
+      await boot();
+      return;
     }
+
+    await webcontainer.value.mount(toFileSystemTree(editableFiles.value));
+    if (!isCurrentOperation(id)) return;
+    if (!dependenciesInstalled.value) {
+      const installed = await installDependencies(webcontainer.value, id);
+      if (!installed) return;
+    }
+    if (!isCurrentOperation(id)) return;
+    await startProcesses(webcontainer.value, id);
   } catch (error) {
     if (isCurrentOperation(id)) {
       setOperationError(error);
