@@ -10,6 +10,16 @@ import TerminalPane from './TerminalPane.vue';
 import type { PlaygroundStatus, SeedArtifact, TerminalLine } from './types';
 import { stopProcess, toFileSystemTree, writeProjectFile } from './webcontainer';
 
+// Keep component imports referenced so Biome does not strip them on save.
+const playgroundComponents = {
+  CodeEditor,
+  FileTree,
+  PlaygroundToolbar,
+  PreviewPane,
+  TerminalPane,
+};
+void playgroundComponents;
+
 const artifact = seed as SeedArtifact;
 const editableFiles = ref<Record<string, string>>({ ...artifact.files });
 const activePath = ref('src/js/v1/index.jsx');
@@ -29,8 +39,8 @@ let writeGeneration = 0;
 let unsubscribeServerReady: (() => void) | null = null;
 const writeTimers = new Map<string, number>();
 
-const files = computed(() => Object.keys(editableFiles.value).sort());
-const activeContents = computed({
+const _files = computed(() => Object.keys(editableFiles.value).sort());
+const _activeContents = computed({
   get: () => editableFiles.value[activePath.value] ?? '',
   set: (value: string) => {
     editableFiles.value = { ...editableFiles.value, [activePath.value]: value };
@@ -39,31 +49,35 @@ const activeContents = computed({
 });
 
 const isLifecycleLocked = computed(
-  () => isTransitioning.value || status.value === 'booting' || status.value === 'installing' || status.value === 'starting',
+  () =>
+    isTransitioning.value || status.value === 'booting' || status.value === 'installing' || status.value === 'starting',
 );
-const canReset = computed(() => !isLifecycleLocked.value);
-const canRestart = computed(() => Boolean(webcontainer.value) && !isLifecycleLocked.value);
-const isEditorDisabled = computed(() => isLifecycleLocked.value);
-const previewStatus = computed(() => (previewUrl.value ? 'ready' : status.value));
+const _canReset = computed(() => !isLifecycleLocked.value);
+const _canRestart = computed(() => Boolean(webcontainer.value) && !isLifecycleLocked.value);
+const _isEditorDisabled = computed(() => isLifecycleLocked.value);
+const _previewStatus = computed(() => (previewUrl.value ? 'ready' : status.value));
 
 function appendLine(source: TerminalLine['source'], text: string) {
   for (const line of text.split('\n')) {
     if (line.trim().length === 0) continue;
-    terminalLines.value.push({ id: lineId += 1, source, text: line });
+    lineId += 1;
+    terminalLines.value.push({ id: lineId, source, text: line });
   }
 }
 
 function pipeProcessOutput(process: WebContainerProcess, source: TerminalLine['source']) {
-  process.output.pipeTo(
-    new WritableStream({
-      write(data) {
-        appendLine(source, data);
-      },
-    }),
-  ).catch((error) => {
-    if (error instanceof Error && error.name === 'AbortError') return;
-    appendLine('system', error instanceof Error ? error.message : String(error));
-  });
+  process.output
+    .pipeTo(
+      new WritableStream({
+        write(data) {
+          appendLine(source, data);
+        },
+      }),
+    )
+    .catch((error) => {
+      if (error instanceof Error && error.name === 'AbortError') return;
+      appendLine('system', error instanceof Error ? error.message : String(error));
+    });
 }
 
 function beginOperation(options: { invalidateWrites?: boolean } = {}) {
@@ -233,7 +247,7 @@ async function stopRunningProcesses() {
   if (failedStop?.status === 'rejected') throw failedStop.reason;
 }
 
-async function restart() {
+async function _restart() {
   if (!webcontainer.value || isLifecycleLocked.value) return;
   const id = beginOperation();
   previewUrl.value = '';
@@ -258,7 +272,7 @@ async function restart() {
   }
 }
 
-async function reset() {
+async function _reset() {
   if (isLifecycleLocked.value) return;
   const id = beginOperation({ invalidateWrites: true });
   previewUrl.value = '';
@@ -344,10 +358,10 @@ onBeforeUnmount(() => {
   <div class="playground-shell">
     <PlaygroundToolbar
       :status="status"
-      :can-reset="canReset"
-      :can-restart="canRestart"
-      @reset="reset"
-      @restart="restart"
+      :can-reset="_canReset"
+      :can-restart="_canRestart"
+      @reset="_reset"
+      @restart="_restart"
     />
 
     <div v-if="status === 'error'" class="playground-error" role="alert">
@@ -355,13 +369,13 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="playground-grid">
-      <FileTree :files="files" :active-path="activePath" @select="activePath = $event" />
+      <FileTree :files="_files" :active-path="activePath" @select="activePath = $event" />
       <CodeEditor
-        v-model="activeContents"
+        v-model="_activeContents"
         :path="activePath"
-        :disabled="isEditorDisabled"
+        :disabled="_isEditorDisabled"
       />
-      <PreviewPane :url="previewUrl" :status-label="previewStatus" />
+      <PreviewPane :url="previewUrl" :status-label="_previewStatus" />
       <TerminalPane :lines="terminalLines" />
     </div>
   </div>

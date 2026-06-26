@@ -2,7 +2,7 @@
 import type { TerminalLine } from './types';
 
 defineProps<{
-  lines: TerminalLine[];
+	lines: TerminalLine[];
 }>();
 </script>
 
