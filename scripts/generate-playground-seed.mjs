@@ -1,6 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import {
   copyFileSync,
+  cpSync,
   existsSync,
   mkdirSync,
   readdirSync,
@@ -87,6 +88,12 @@ function withLocalCreateExperimentTarball(files) {
   };
 }
 
+function copyIfExists(source, destination) {
+  if (!existsSync(source)) return;
+  mkdirSync(dirname(destination), { recursive: true });
+  cpSync(source, destination, { recursive: true });
+}
+
 function packFrameworkTarball() {
   const packageJsonPath = resolve(frameworkRoot, 'package.json');
   if (!existsSync(packageJsonPath)) {
@@ -95,10 +102,42 @@ function packFrameworkTarball() {
     );
   }
 
-  const packDir = mkdtemp();
+  const packRoot = mkdtemp();
+  const packageRoot = join(packRoot, 'package');
+  const packDir = join(packRoot, 'dist');
   try {
+    mkdirSync(packageRoot, { recursive: true });
+    mkdirSync(packDir, { recursive: true });
+
+    const sourcePackageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    const packageJson = {
+      name: sourcePackageJson.name,
+      version: sourcePackageJson.version,
+      description: sourcePackageJson.description,
+      type: sourcePackageJson.type,
+      license: sourcePackageJson.license,
+      bin: {
+        'exp-build': './bin/build.js',
+      },
+      exports: {
+        './framework': './runtime/framework.js',
+      },
+      peerDependencies: {
+        esbuild: sourcePackageJson.dependencies?.esbuild ?? '^0.27.0',
+        vite: '>=5',
+      },
+    };
+
+    writeFileSync(join(packageRoot, 'package.json'), `${JSON.stringify(packageJson, null, 2)}\n`, 'utf-8');
+    copyIfExists(resolve(frameworkRoot, 'LICENSE'), join(packageRoot, 'LICENSE'));
+    copyIfExists(resolve(frameworkRoot, 'README.md'), join(packageRoot, 'README.md'));
+    copyIfExists(resolve(frameworkRoot, 'bin/build.js'), join(packageRoot, 'bin/build.js'));
+    copyIfExists(resolve(frameworkRoot, 'lib/adobe-target-output.js'), join(packageRoot, 'lib/adobe-target-output.js'));
+    copyIfExists(resolve(frameworkRoot, 'lib/experiment-config.js'), join(packageRoot, 'lib/experiment-config.js'));
+    copyIfExists(resolve(frameworkRoot, 'runtime'), join(packageRoot, 'runtime'));
+
     execFileSync('npm', ['pack', '--pack-destination', packDir], {
-      cwd: frameworkRoot,
+      cwd: packageRoot,
       env: {
         ...process.env,
         npm_config_cache: join(packDir, '.npm-cache'),
@@ -116,7 +155,7 @@ function packFrameworkTarball() {
     copyFileSync(packedPath, stablePath);
     return readFileSync(stablePath).toString('base64');
   } finally {
-    rmSync(packDir, { recursive: true, force: true });
+    rmSync(packRoot, { recursive: true, force: true });
   }
 }
 

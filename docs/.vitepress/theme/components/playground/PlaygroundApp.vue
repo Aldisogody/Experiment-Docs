@@ -38,10 +38,17 @@ let operationId = 0;
 let writeGeneration = 0;
 const writeTimers = new Map<string, number>();
 const autoCopyDelayMs = 1000;
+const installTimeoutMs = 120_000;
 const sandboxBuildEnv = {
   EXP_BUILD_SKIP_LINT: '1',
   CI: '1',
   FORCE_COLOR: '0',
+};
+const sandboxInstallEnv = {
+  ...sandboxBuildEnv,
+  npm_config_audit: 'false',
+  npm_config_fund: 'false',
+  npm_config_progress: 'false',
 };
 
 const _files = computed(() => Object.keys(editableFiles.value).sort());
@@ -73,12 +80,21 @@ function appendLine(source: TerminalLine['source'], text: string) {
   }
 }
 
+function normalizeProcessOutput(data: string) {
+  return data
+    .replace(/\x1b\[[0-9;?]*[ -/]*[@-~]/g, '')
+    .replace(/\r/g, '\n')
+    .split('\n')
+    .filter((line) => !['-', '\\', '|', '/'].includes(line.trim()))
+    .join('\n');
+}
+
 function pipeProcessOutput(process: WebContainerProcess, source: TerminalLine['source']) {
   process.output
     .pipeTo(
       new WritableStream({
         write(data) {
-          appendLine(source, data);
+          appendLine(source, normalizeProcessOutput(data));
         },
       }),
     )
@@ -145,16 +161,29 @@ async function installDependencies(instance: WebContainer, id: number) {
   if (!isCurrentOperation(id)) return false;
   status.value = 'installing';
   appendLine('system', 'Installing sandbox dependencies...');
-  const process = await instance.spawn('npm', ['install']);
+  const process = await instance.spawn(
+    'pnpm',
+    ['install', '--no-frozen-lockfile', '--ignore-scripts', '--reporter=append-only'],
+    { env: sandboxInstallEnv },
+  );
   installProcess.value = process;
   pipeProcessOutput(process, 'install');
   if (!isCurrentOperation(id)) {
     await stopStartedProcesses([process]);
     return false;
   }
+  let timedOut = false;
+  const timeout = window.setTimeout(() => {
+    timedOut = true;
+    process.kill();
+  }, installTimeoutMs);
   const exitCode = await process.exit;
+  window.clearTimeout(timeout);
   clearProcessRef(process);
   if (!isCurrentOperation(id)) return false;
+  if (timedOut) {
+    throw new Error('Dependency install timed out after 120 seconds.');
+  }
   if (exitCode !== 0) throw new Error(`Dependency install exited with code ${exitCode}.`);
   dependenciesInstalled.value = true;
   return true;
