@@ -4,7 +4,7 @@ function base64ToBytes(contents: string) {
   const binary = globalThis.atob(contents);
   const bytes = new Uint8Array(binary.length);
 
-  for (let index = 0; index < binary.length; index += 1) {
+  for (let index = 0; index < binary.length; index++) {
     bytes[index] = binary.charCodeAt(index);
   }
 

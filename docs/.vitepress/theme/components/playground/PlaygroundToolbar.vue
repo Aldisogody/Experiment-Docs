@@ -7,7 +7,7 @@ defineProps<{
   canRestart: boolean;
 }>();
 
-const emit = defineEmits<{
+defineEmits<{
   reset: [];
   restart: [];
 }>();
@@ -17,12 +17,12 @@ const emit = defineEmits<{
   <header class="playground-toolbar">
     <div>
       <p class="playground-kicker">Experiment playground</p>
-      <h1>Run a generated create-experiment project in your browser</h1>
+      <h1>Edit a sandboxed create-experiment project</h1>
     </div>
     <div class="playground-actions">
+      <button type="button" :disabled="!canRestart" @click="$emit('restart')">Restart</button>
+      <button type="button" :disabled="!canReset" @click="$emit('reset')">Reset</button>
       <span class="playground-status">{{ status }}</span>
-      <button type="button" :disabled="!canRestart" @click="emit('restart')">Restart</button>
-      <button type="button" :disabled="!canReset" @click="emit('reset')">Reset</button>
     </div>
   </header>
 </template>

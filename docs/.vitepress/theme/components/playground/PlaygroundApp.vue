@@ -5,17 +5,14 @@ import seed from '../../playground/generated-seed.json';
 import CodeEditor from './CodeEditor.vue';
 import FileTree from './FileTree.vue';
 import PlaygroundToolbar from './PlaygroundToolbar.vue';
-import PreviewPane from './PreviewPane.vue';
 import TerminalPane from './TerminalPane.vue';
 import type { PlaygroundStatus, SeedArtifact, TerminalLine } from './types';
 import { stopProcess, toFileSystemTree, writeProjectFile } from './webcontainer';
 
-// Keep component imports referenced so Biome does not strip them on save.
 const playgroundComponents = {
   CodeEditor,
   FileTree,
   PlaygroundToolbar,
-  PreviewPane,
   TerminalPane,
 };
 void playgroundComponents;
@@ -25,19 +22,27 @@ const editableFiles = ref<Record<string, string>>({ ...artifact.files });
 const activePath = ref('src/js/v1/index.jsx');
 const status = ref<PlaygroundStatus>('idle');
 const errorMessage = ref('');
-const previewUrl = ref('');
 const terminalLines = ref<TerminalLine[]>([]);
 const webcontainer = ref<WebContainer | null>(null);
 const installProcess = ref<WebContainerProcess | null>(null);
 const devProcess = ref<WebContainerProcess | null>(null);
-const previewProcess = ref<WebContainerProcess | null>(null);
+const buildProcess = ref<WebContainerProcess | null>(null);
 const isTransitioning = ref(false);
 const dependenciesInstalled = ref(false);
+const pendingBundle = ref<{ fileName: string; contents: string } | null>(null);
+const bundleCopied = ref(false);
+let bundleCopiedTimer: number | undefined;
+let autoCopyTimer: number | undefined;
 let lineId = 0;
 let operationId = 0;
 let writeGeneration = 0;
-let unsubscribeServerReady: (() => void) | null = null;
 const writeTimers = new Map<string, number>();
+const autoCopyDelayMs = 1000;
+const sandboxBuildEnv = {
+  EXP_BUILD_SKIP_LINT: '1',
+  CI: '1',
+  FORCE_COLOR: '0',
+};
 
 const _files = computed(() => Object.keys(editableFiles.value).sort());
 const _activeContents = computed({
@@ -50,17 +55,20 @@ const _activeContents = computed({
 
 const isLifecycleLocked = computed(
   () =>
-    isTransitioning.value || status.value === 'booting' || status.value === 'installing' || status.value === 'starting',
+    isTransitioning.value ||
+    status.value === 'booting' ||
+    status.value === 'installing' ||
+    status.value === 'building' ||
+    status.value === 'starting',
 );
 const _canReset = computed(() => !isLifecycleLocked.value);
 const _canRestart = computed(() => Boolean(webcontainer.value) && !isLifecycleLocked.value);
 const _isEditorDisabled = computed(() => isLifecycleLocked.value);
-const _previewStatus = computed(() => (previewUrl.value ? 'ready' : status.value));
 
 function appendLine(source: TerminalLine['source'], text: string) {
   for (const line of text.split('\n')) {
     if (line.trim().length === 0) continue;
-    lineId += 1;
+    lineId++;
     terminalLines.value.push({ id: lineId, source, text: line });
   }
 }
@@ -82,9 +90,9 @@ function pipeProcessOutput(process: WebContainerProcess, source: TerminalLine['s
 
 function beginOperation(options: { invalidateWrites?: boolean } = {}) {
   isTransitioning.value = true;
-  operationId += 1;
+  operationId++;
   if (options.invalidateWrites) {
-    writeGeneration += 1;
+    writeGeneration++;
   }
   return operationId;
 }
@@ -108,7 +116,7 @@ function setOperationError(error: unknown) {
 function clearProcessRef(process: WebContainerProcess) {
   if (installProcess.value === process) installProcess.value = null;
   if (devProcess.value === process) devProcess.value = null;
-  if (previewProcess.value === process) previewProcess.value = null;
+  if (buildProcess.value === process) buildProcess.value = null;
 }
 
 async function stopStartedProcesses(processes: WebContainerProcess[]) {
@@ -136,7 +144,7 @@ function discardWebContainer(instance = webcontainer.value) {
 async function installDependencies(instance: WebContainer, id: number) {
   if (!isCurrentOperation(id)) return false;
   status.value = 'installing';
-  appendLine('system', 'Installing generated project dependencies...');
+  appendLine('system', 'Installing sandbox dependencies...');
   const process = await instance.spawn('npm', ['install']);
   installProcess.value = process;
   pipeProcessOutput(process, 'install');
@@ -152,11 +160,34 @@ async function installDependencies(instance: WebContainer, id: number) {
   return true;
 }
 
+async function runBuild(instance: WebContainer, id: number, message = 'Building the initial bundle...') {
+  if (!isCurrentOperation(id)) return false;
+  status.value = 'building';
+  appendLine('system', message);
+  const process = await instance.spawn('npm', ['run', 'build'], { env: sandboxBuildEnv });
+  buildProcess.value = process;
+  pipeProcessOutput(process, 'build');
+  if (!isCurrentOperation(id)) {
+    await stopStartedProcesses([process]);
+    return false;
+  }
+  const exitCode = await process.exit;
+  clearProcessRef(process);
+  if (!isCurrentOperation(id)) return false;
+  if (exitCode !== 0) throw new Error(`Bundle build exited with code ${exitCode}.`);
+  pendingBundle.value = await readGeneratedBundle(instance);
+  return true;
+}
+
 async function startProcesses(instance: WebContainer, id: number) {
   if (!isCurrentOperation(id)) return;
+
+  const built = await runBuild(instance, id);
+  if (!built || !isCurrentOperation(id)) return;
+
   status.value = 'starting';
   appendLine('system', 'Starting generated watch process...');
-  const dev = await instance.spawn('npm', ['run', 'dev']);
+  const dev = await instance.spawn('npm', ['run', 'dev'], { env: sandboxBuildEnv });
   devProcess.value = dev;
   pipeProcessOutput(dev, 'dev');
   if (!isCurrentOperation(id)) {
@@ -164,22 +195,121 @@ async function startProcesses(instance: WebContainer, id: number) {
     return;
   }
 
-  appendLine('system', 'Starting preview harness...');
-  const preview = await instance.spawn('npx', ['vite', '--host', '0.0.0.0']);
-  previewProcess.value = preview;
-  pipeProcessOutput(preview, 'preview');
-  if (!isCurrentOperation(id)) {
-    await stopStartedProcesses([dev, preview]);
+  appendLine('system', 'Sandbox watch process is running.');
+  status.value = 'ready';
+}
+
+async function readGeneratedBundle(instance: WebContainer) {
+  const fileName = 'v1-index.jsx';
+  const contents = await instance.fs.readFile(`dist/${fileName}`, 'utf-8');
+  return { fileName, contents };
+}
+
+async function writeClipboardText(text: string) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    const input = document.createElement('textarea');
+    input.value = text;
+    input.style.position = 'fixed';
+    input.style.opacity = '0';
+    document.body.appendChild(input);
+    input.select();
+    const copied = document.execCommand('copy');
+    input.remove();
+    return copied;
+  }
+}
+
+async function flushPendingFileWrites() {
+  if (!webcontainer.value || writeTimers.size === 0) return;
+
+  const instance = webcontainer.value;
+  const generation = writeGeneration;
+  const pendingPaths = [...writeTimers.keys()];
+  for (const path of pendingPaths) {
+    const timer = writeTimers.get(path);
+    if (timer) window.clearTimeout(timer);
+    writeTimers.delete(path);
+  }
+
+  await Promise.all(
+    pendingPaths.map((path) => writeProjectFile(instance, path, editableFiles.value[path] ?? '')),
+  );
+
+  if (generation !== writeGeneration) {
+    throw new Error('Editor changed while preparing the bundle. Try copying again.');
+  }
+}
+
+async function buildPendingBundleForCopy(message: string) {
+  if (!webcontainer.value || isLifecycleLocked.value) return false;
+
+  const id = beginOperation();
+  let built = false;
+  try {
+    errorMessage.value = '';
+    pendingBundle.value = null;
+    await flushPendingFileWrites();
+    built = await runBuild(webcontainer.value, id, message);
+    return built;
+  } catch (error) {
+    if (isCurrentOperation(id)) {
+      pendingBundle.value = null;
+      setOperationError(error);
+    }
+    return false;
+  } finally {
+    if (built && isCurrentOperation(id)) {
+      status.value = 'ready';
+    }
+    finishOperation(id);
+  }
+}
+
+async function copyBundleContents(options: { automatic: boolean }) {
+  if (!pendingBundle.value) {
+    appendLine('system', 'No generated bundle is ready yet.');
     return;
   }
 
-  unsubscribeServerReady?.();
-  unsubscribeServerReady = instance.on('server-ready', (_port, url) => {
-    if (!isCurrentOperation(id)) return;
-    previewUrl.value = `${url}/playground/`;
-    status.value = 'ready';
-    appendLine('system', `Preview ready at ${previewUrl.value}`);
-  });
+  const { fileName, contents } = pendingBundle.value;
+  const copied = await writeClipboardText(contents);
+  if (copied) {
+    bundleCopied.value = true;
+    window.clearTimeout(bundleCopiedTimer);
+    bundleCopiedTimer = window.setTimeout(() => {
+      bundleCopied.value = false;
+    }, 2000);
+    appendLine(
+      'system',
+      options.automatic
+        ? `Latest bundle copied automatically to browser clipboard (${fileName}).`
+        : `Latest bundle copied to browser clipboard (${fileName}).`,
+    );
+    return;
+  }
+
+  appendLine(
+    'system',
+    options.automatic
+      ? 'Automatic clipboard copy was blocked by the browser. Use Copy bundle to copy manually.'
+      : 'Could not copy bundle to clipboard.',
+  );
+}
+
+async function autoCopyBundle() {
+  const built = await buildPendingBundleForCopy('Building latest bundle...');
+  if (!built) return;
+  await copyBundleContents({ automatic: true });
+}
+
+async function copyPendingBundle() {
+  clearScheduledAutoCopy();
+  const built = await buildPendingBundleForCopy('Building latest bundle...');
+  if (!built) return;
+  await copyBundleContents({ automatic: false });
 }
 
 async function boot() {
@@ -196,8 +326,9 @@ async function boot() {
   status.value = 'booting';
   errorMessage.value = '';
   terminalLines.value = [];
+  pendingBundle.value = null;
   dependenciesInstalled.value = false;
-  appendLine('system', 'Booting WebContainer...');
+  appendLine('system', 'Booting WebContainer sandbox...');
 
   try {
     const { WebContainer } = await import('@webcontainer/api');
@@ -233,16 +364,14 @@ async function boot() {
 }
 
 async function stopRunningProcesses() {
-  unsubscribeServerReady?.();
-  unsubscribeServerReady = null;
   const results = await Promise.allSettled([
     stopProcess(installProcess.value),
     stopProcess(devProcess.value),
-    stopProcess(previewProcess.value),
+    stopProcess(buildProcess.value),
   ]);
   installProcess.value = null;
   devProcess.value = null;
-  previewProcess.value = null;
+  buildProcess.value = null;
   const failedStop = results.find((result) => result.status === 'rejected');
   if (failedStop?.status === 'rejected') throw failedStop.reason;
 }
@@ -250,7 +379,8 @@ async function stopRunningProcesses() {
 async function _restart() {
   if (!webcontainer.value || isLifecycleLocked.value) return;
   const id = beginOperation();
-  previewUrl.value = '';
+  clearScheduledAutoCopy();
+  pendingBundle.value = null;
   try {
     await stopRunningProcesses();
     if (!dependenciesInstalled.value) {
@@ -275,7 +405,8 @@ async function _restart() {
 async function _reset() {
   if (isLifecycleLocked.value) return;
   const id = beginOperation({ invalidateWrites: true });
-  previewUrl.value = '';
+  clearScheduledAutoCopy();
+  pendingBundle.value = null;
   clearPendingWrites();
   editableFiles.value = { ...artifact.files };
   activePath.value = 'src/js/v1/index.jsx';
@@ -311,6 +442,8 @@ async function _reset() {
 function scheduleFileWrite(path: string, contents: string) {
   if (!webcontainer.value || isLifecycleLocked.value) return;
   const generation = writeGeneration;
+  pendingBundle.value = null;
+  bundleCopied.value = false;
   const existingTimer = writeTimers.get(path);
   if (existingTimer) window.clearTimeout(existingTimer);
   const timer = window.setTimeout(() => {
@@ -322,6 +455,22 @@ function scheduleFileWrite(path: string, contents: string) {
     });
   }, 250);
   writeTimers.set(path, timer);
+  scheduleAutoCopyBundle(generation);
+}
+
+function scheduleAutoCopyBundle(generation: number) {
+  if (!webcontainer.value || isLifecycleLocked.value) return;
+  window.clearTimeout(autoCopyTimer);
+  autoCopyTimer = window.setTimeout(() => {
+    if (generation !== writeGeneration) return;
+    autoCopyTimer = undefined;
+    autoCopyBundle();
+  }, autoCopyDelayMs);
+}
+
+function clearScheduledAutoCopy() {
+  window.clearTimeout(autoCopyTimer);
+  autoCopyTimer = undefined;
 }
 
 function clearPendingWrites() {
@@ -344,12 +493,12 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  operationId += 1;
-  writeGeneration += 1;
+  operationId++;
+  writeGeneration++;
   isTransitioning.value = false;
   clearPendingWrites();
-  unsubscribeServerReady?.();
-  unsubscribeServerReady = null;
+  clearScheduledAutoCopy();
+  window.clearTimeout(bundleCopiedTimer);
   cleanupRunningProcesses();
 });
 </script>
@@ -375,8 +524,12 @@ onBeforeUnmount(() => {
         :path="activePath"
         :disabled="_isEditorDisabled"
       />
-      <PreviewPane :url="previewUrl" :status-label="_previewStatus" />
-      <TerminalPane :lines="terminalLines" />
+      <TerminalPane
+        :lines="terminalLines"
+        :pending-bundle="pendingBundle"
+        :bundle-copied="bundleCopied"
+        @copy-bundle="copyPendingBundle"
+      />
     </div>
   </div>
 </template>
