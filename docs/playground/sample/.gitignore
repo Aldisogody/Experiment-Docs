@@ -1,0 +1,15 @@
+node_modules
+dist
+*.log
+yarn-error.log
+.history
+.DS_Store
+.vscode
+
+# AI tools
+.claude
+CLAUDE.md
+.claudeignore
+.cursor
+AGENTS.md
+

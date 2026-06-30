@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": false,
+        "jsx": "react",
+        "jsxFactory": "h",
+        "jsxFragmentFactory": "Fragment",
+        "baseUrl": ".",
+        "paths": {
+            "@src/*": ["src/*"],
+            "@js/*": ["src/js/*"],
+            "@components/*": ["src/components/*"],
+            "@services/*": ["src/services/*"],
+            "@helpers/*": ["src/helpers/*"]
+        }
+    },
+    "include": ["src"]
+}

@@ -1,0 +1,35 @@
+{
+  "name": "sample",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0",
+    "pnpm": ">=10"
+  },
+  "scripts": {
+    "start": "exp-start",
+    "dev": "exp-build --watch",
+    "build": "exp-build",
+    "new-variation": "exp-new-variation",
+    "init-claude": "exp-init-claude",
+    "init-agents": "exp-init-agents",
+    "lint": "biome check src",
+    "format": "biome check --write src",
+    "live": "exp-live"
+  },
+  "dependencies": {
+    "preact": "^10.29.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["@biomejs/biome", "@parcel/watcher", "esbuild"]
+  },
+  "devDependencies": {
+    "vite": "^8.0.16",
+    "@preact/preset-vite": "^2.10.5",
+    "sass": "^1.101.0",
+    "esbuild": "^0.27.0",
+    "create-experiment": "file:./create-experiment-2.0.2.tgz",
+    "@biomejs/biome": "^2.5.0"
+  }
+}

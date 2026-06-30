@@ -4,6 +4,28 @@ const ECOSYSTEM_LINKS = {
   samlinksV2: 'https://samlinks2.vercel.app/',
 } as const;
 
+const webcontainerHeaders = {
+  'Cross-Origin-Opener-Policy': 'same-origin',
+  'Cross-Origin-Embedder-Policy': 'require-corp',
+} as const;
+
+function applyWebcontainerHeaders(_req: unknown, res: { setHeader: (name: string, value: string) => void }, next: () => void) {
+  for (const [name, value] of Object.entries(webcontainerHeaders)) {
+    res.setHeader(name, value);
+  }
+  next();
+}
+
+const webcontainerHeadersPlugin = {
+  name: 'webcontainer-headers',
+  configureServer(server: { middlewares: { use: (handler: typeof applyWebcontainerHeaders) => void } }) {
+    server.middlewares.use(applyWebcontainerHeaders);
+  },
+  configurePreviewServer(server: { middlewares: { use: (handler: typeof applyWebcontainerHeaders) => void } }) {
+    server.middlewares.use(applyWebcontainerHeaders);
+  },
+};
+
 const docsSidebar = [
   {
     text: 'Getting Started',
@@ -100,6 +122,15 @@ export default defineConfig({
   title: 'Experiment Docs',
   description: 'Scaffold Adobe Target A/B experiments with Vite + Preact',
   lastUpdated: true,
+  vite: {
+    plugins: [webcontainerHeadersPlugin],
+    server: {
+      headers: webcontainerHeaders,
+    },
+    preview: {
+      headers: webcontainerHeaders,
+    },
+  },
 
   head: [
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
