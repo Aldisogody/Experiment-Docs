@@ -17,6 +17,6 @@ For browser-first iteration, `pnpm live` starts the same focused watcher, opens 
 - [Watch Mode & Clipboard](/development/watch-mode) - `pnpm start 0`, clipboard mechanics, Adobe Target paste workflow
 - [Variations](/development/variations) - adding v2/v3, the `-eN` flag, dedup guard
 - [Configuration](/development/config) - `experiment.config.js` and `src/config.js` fields
-- [Templates](/development/templates) - product-card vs minimal, when to use each
+- [Scaffold Template](/development/templates) - what the current generated project includes
 - [AI Project Support](/development/ai-project-support) - opt-in instruction files and reusable project skills
 - [Run and Ship](/run-and-ship) - live injection, production builds, and handoff

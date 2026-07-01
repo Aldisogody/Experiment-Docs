@@ -32,21 +32,10 @@ if (!artifact.files || typeof artifact.files !== 'object') {
   throw new Error('Playground seed artifact must include a files object.');
 }
 
-if (!artifact.binaryFiles || typeof artifact.binaryFiles !== 'object') {
-  throw new Error('Playground seed artifact must include a binaryFiles object.');
-}
-
 for (const file of requiredFiles) {
   if (typeof artifact.files[file] !== 'string' || artifact.files[file].length === 0) {
     throw new Error(`Playground seed is missing ${file}.`);
   }
-}
-
-if (
-  typeof artifact.binaryFiles['create-experiment-2.0.2.tgz'] !== 'string' ||
-  artifact.binaryFiles['create-experiment-2.0.2.tgz'].length === 0
-) {
-  throw new Error('Playground seed is missing create-experiment-2.0.2.tgz.');
 }
 
 const packageJson = JSON.parse(artifact.files['package.json']);
@@ -54,8 +43,8 @@ if (packageJson.scripts?.dev !== 'exp-build --watch') {
   throw new Error('Generated project must expose the expected watch command.');
 }
 
-if (packageJson.devDependencies?.['create-experiment'] !== 'file:./create-experiment-2.0.2.tgz') {
-  throw new Error('Generated project must use the packed local create-experiment tarball.');
+if (packageJson.devDependencies?.['@sogody/experiment-framework'] !== '^2.0.0') {
+  throw new Error('Generated project must use the published @sogody/experiment-framework package.');
 }
 
 if (packageJson.devDependencies?.['@biomejs/biome']) {
@@ -66,12 +55,16 @@ if (packageJson.pnpm?.onlyBuiltDependencies?.includes('@biomejs/biome')) {
   throw new Error('Sandbox package metadata must not approve @biomejs/biome native builds.');
 }
 
-if (!artifact.files['src/js/v1/index.jsx'].includes('create-experiment/framework')) {
+if (!artifact.files['src/js/v1/index.jsx'].includes('@sogody/experiment-framework/framework')) {
   throw new Error('Generated v1 entry must import the real framework runtime.');
 }
 
 if (artifact.files['package.json'].includes('.playground-cache')) {
   throw new Error('Generated seed must not reference the local playground cache.');
+}
+
+if (artifact.files['package.json'].includes('file:./') || artifact.files['package.json'].includes('.tgz')) {
+  throw new Error('Generated seed must not use local package tarballs.');
 }
 
 if ('playground/index.html' in artifact.files || 'playground/preview.js' in artifact.files) {

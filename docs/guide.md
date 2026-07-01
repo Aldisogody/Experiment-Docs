@@ -6,14 +6,9 @@ title: Guide
 
 Use this guide to choose the right workflow after a project has been scaffolded.
 
-## Choose a boilerplate
+## Start from the generated button scaffold
 
-| Need | Boilerplate |
-|---|---|
-| Button, copy, layout, or small UI change | `minimal` |
-| Samsung product image, price, title, or CTA data | `product-card` |
-
-`minimal` is the CLI default. Both boilerplates use the same runtime helpers, build commands, CSS Modules setup, and optional Playwright structure.
+The CLI generates a single generic button template. Use it as the base for copy, CTA, layout, and small UI experiments. Add product API calls, custom data helpers, or replacement components only when the experiment needs them.
 
 ## Work in the generated layers
 
@@ -21,7 +16,7 @@ Use this guide to choose the right workflow after a project has been scaffolded.
 2. Keep DOM mounting, data loading, rendering, and tracking in `src/js/vN/index.jsx`.
 3. Keep Preact components focused on rendering props.
 4. Keep component styles beside the component in `styles.module.scss`.
-5. Put reusable product API and formatting logic in `src/helpers.js` when using `product-card`.
+5. Put reusable API and formatting logic in `src/helpers.js` only when the experiment needs shared data helpers.
 
 ## Keep the runtime order
 

@@ -4,19 +4,19 @@ title: Tutorial
 
 # Tutorial
 
-Build a product-card experiment from scaffold to production bundle. Use [Quick Start](/getting-started/quick-start) instead when you want the shortest minimal-boilerplate walkthrough.
+Build a button experiment from scaffold to production bundle. Use [Quick Start](/getting-started/quick-start) when you want the shortest version of the same workflow.
 
 ## 1. Scaffold
 
 ```bash
-npx create-experiment product-upsell
-cd product-upsell
+npx @sogody/experiment-framework button-cta-test
+cd button-cta-test
 nvm use
 ```
 
-Choose `product-card`, one variation, the default `sgd` namespace, and no E2E testing for this walkthrough.
+Choose one variation, the default `sgd` namespace, the default emergency brake setting, and no E2E testing for this walkthrough.
 
-## 2. Configure the target
+## 2. Configure the Target
 
 Update `src/config.js`:
 
@@ -26,68 +26,37 @@ export const selectors = {
     fallbacks: ['main', 'body'],
 };
 
-export const MODEL_CODE_MAP = {
-    default: 'SM-XXXXXXX',
-    uk: 'SM-XXXXXXX',
-};
+export const buttonText = 'Shop now';
 ```
 
-Replace the sample model codes with the approved codes for the experiment. Keep the selector chain ordered from the most specific target to the broadest fallback.
+Keep the selector chain ordered from the most specific target to the broadest fallback.
 
-## 3. Configure copy
+## 3. Review the Entry Point
 
-The scaffold keeps the translations object private and exports the resolved value:
-
-```js
-const translations = {
-    uk: {
-        title: 'Upgrade to the latest model',
-        from: 'From',
-        ctaText: 'Shop now',
-    },
-};
-
-export const translationByMarket = translations[locale] || translations.uk;
-```
-
-Add every supported URL locale and retain a known fallback.
-
-## 4. Review product loading
-
-`src/helpers.js` resolves the market model code, calls the Samsung product-card API, and returns `{ data, error }`.
+`src/js/v1/index.jsx` mounts the wrapper, renders the button, and attaches tracking:
 
 ```jsx
-const { data } = await fetchProductCard();
-if (!data) return;
-```
+const container = mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin', {
+    className: style.root,
+    dataset: { experiment: 'button-cta-test' },
+});
+if (!container) return;
 
-Returning silently prevents a failed API response from breaking the host page.
-
-## 5. Render and track
-
-Keep tracking after `render()`:
-
-```jsx
-render(
-    <ExperimentCard
-        title={translationByMarket.title}
-        priceText={`${translationByMarket.from} ${formatPrice(data.promotionPrice)}`}
-        ctaText={translationByMarket.ctaText}
-        ctaLink={data.configuratorUrl}
-        imageSrc={data.thumbUrl ? `https:${data.thumbUrl}` : undefined}
-        imageAlt={data.imageAlt || data.displayName || ''}
-    />,
-    container,
-);
+render(<ExperimentButton text={buttonText} />, container);
 
 setupTracking(container, {
-    label: 'product-upsell: v1 cta clicked',
+    label: 'button-cta-test: v1 button clicked',
+    selector: 'button',
 });
 ```
 
-The product card renders an anchor, so `setupTracking()` can use its default selector of `'a'`.
+Tracking stays after `render()` so the button exists before `setupTracking()` queries it.
 
-## 6. Preview
+## 4. Style the Button
+
+Edit `src/components/ExperimentButton/styles.module.scss` for the visible UI. Edit `src/js/v1/styles.module.scss` only when the mount wrapper needs layout changes.
+
+## 5. Preview
 
 ```bash
 pnpm start 0
@@ -99,7 +68,7 @@ Paste the copied bundle into Adobe Target, or configure `targetUrl` in `experime
 pnpm live
 ```
 
-## 7. Build
+## 6. Build
 
 ```bash
 pnpm lint

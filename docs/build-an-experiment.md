@@ -7,9 +7,8 @@ Use this page when you have a generated project and need to know which files to 
 | File or folder | What you edit there |
 |---|---|
 | `experiment.config.js` | Tooling settings such as `globalObject`, `targetUrl`, and emergency brake behavior. |
-| `src/config.js` | Selectors, labels, translations, model codes, and boilerplate-specific content. |
-| `src/helpers.js` | Product-card API fetch and formatting helpers. Present in product-card projects. |
-| `src/js/v1/index.jsx` | Variation entry point: mount, fetch, render, track. |
+| `src/config.js` | Selectors and scaffolded button text. |
+| `src/js/v1/index.jsx` | Variation entry point: mount, render, track. |
 | `src/components/*` | Preact components and local styles. |
 
 Start with `src/config.js` and `src/js/v1/index.jsx`. Most experiments only need those files plus the component styles.
@@ -31,11 +30,13 @@ Keep the primary selector specific to the intended page region. Add fallbacks on
 
 ## Variation entry point
 
-The variation entry point follows the same order in both boilerplates:
+The variation entry point follows the same order in every generated variation:
 
 ```jsx
 import { render } from 'preact';
-import { mountExperiment, runScript, setupTracking } from 'create-experiment/framework';
+import { mountExperiment, runScript, setupTracking } from '@sogody/experiment-framework/framework';
+import ExperimentButton from '@components/ExperimentButton';
+import { buttonText, selectors } from '../../config';
 import style from './styles.module.scss';
 
 runScript(async () => {
@@ -45,10 +46,11 @@ runScript(async () => {
     });
     if (!container) return;
 
-    render(<ExperimentComponent />, container);
+    render(<ExperimentButton text={buttonText} />, container);
 
     setupTracking(container, {
-        label: 'my-experiment: v1 cta clicked',
+        label: 'my-experiment: v1 button clicked',
+        selector: 'button',
     });
 });
 ```
@@ -60,27 +62,16 @@ The important order is:
 3. Your experiment renders into that container.
 4. `setupTracking()` runs after render so the tracked element exists.
 
-## Boilerplate differences
+## Generated scaffold
 
-### Minimal
-
-Use `minimal` for copy, CTA, layout, or simple UI experiments. It generates:
+The current scaffold generates a locale-neutral button experiment:
 
 - `ExperimentButton`.
 - `buttonText` in `src/config.js`.
-- One variation entry point.
-- No product API helper.
+- One or more variation entry points under `src/js/vN/`.
+- No product API helper or Samsung product-card assumptions.
 
-The runtime tracking selector defaults to `'a'`. The minimal entry point explicitly sets `selector: 'button'`.
-
-### Product-card
-
-Use `product-card` when the experiment needs Samsung product data. It generates:
-
-- `ExperimentCard`.
-- `MODEL_CODE_MAP`, `MULTI_MODEL_CODES_MAP`, locale, and translations in `src/config.js`.
-- `fetchProductCard()` and `formatPrice()` in `src/helpers.js`.
-- Product image, price, CTA, and title props in the entry point.
+The runtime tracking selector defaults to `'a'`. The generated entry point explicitly sets `selector: 'button'`.
 
 ## Styling
 
@@ -96,7 +87,7 @@ export default function ExperimentButton({ text }) {
 
 Vite config sets CSS Modules to camelCase class names and prefixes generated classes with a project-derived prefix. Keep styles local to the component or variation that uses them.
 
-Shared Sass helpers are loaded from `create-experiment/runtime/scss`, so component SCSS can use `mq()` and `fluid-property()` without local imports.
+Shared Sass helpers are loaded from `@sogody/experiment-framework/runtime/scss`, so component SCSS can use `mq()` and `fluid-property()` without local imports.
 
 ```scss
 .button {
@@ -124,7 +115,7 @@ import {
     debug,
     waitFor,
     watchFor,
-} from 'create-experiment/framework';
+} from '@sogody/experiment-framework/framework';
 ```
 
 Use the API reference when you need exact parameters:

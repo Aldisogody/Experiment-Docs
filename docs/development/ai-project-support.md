@@ -14,8 +14,8 @@ pnpm init-agents
 | `pnpm init-claude` | `CLAUDE.md` |
 | `pnpm init-agents` | `AGENTS.md` |
 
-The commands infer the package name, boilerplate type, and E2E setup from the
-existing project. The generated `.gitignore` excludes `CLAUDE.md`, `AGENTS.md`,
+The commands infer the package name and E2E setup from the existing project.
+The generated `.gitignore` excludes `CLAUDE.md`, `AGENTS.md`,
 `.agents`, `.claude`, and `.cursor`, so these files remain local unless the team
 deliberately changes that policy.
 
@@ -29,7 +29,7 @@ Both commands refuse existing files unless passed `-- --force`.
 
 ## Older projects
 
-After upgrading the `create-experiment` dependency, an older generated project
+After upgrading the `@sogody/experiment-framework` dependency, an older generated project
 without the package scripts can call the package-owned binaries directly:
 
 ```bash

@@ -1,18 +1,18 @@
 # Introduction
 
-`create-experiment` helps you scaffold, develop, and ship Vite + Preact experiments for Adobe Target. This page explains the core workflow and points you to the right guide when you are ready to build.
+`@sogody/experiment-framework` helps you scaffold, develop, and ship Vite + Preact experiments for Adobe Target. This page explains the core workflow and points you to the right guide when you are ready to build.
 
-## What is create-experiment?
+## What is @sogody/experiment-framework?
 
-`create-experiment` is a CLI scaffolder for A/B experiment projects. It creates the variation entry points, configuration, optional Preact UI, linting, and build tooling needed to produce code for Adobe Target.
+`@sogody/experiment-framework` is a CLI scaffolder for A/B experiment projects. It creates the variation entry points, configuration, Preact button UI, linting, and build tooling needed to produce code for Adobe Target.
 
 Start a project with:
 
 ```bash
-npx create-experiment my-experiment
+npx @sogody/experiment-framework my-experiment
 ```
 
-For the smallest first project, choose the `minimal` boilerplate and one variation. The generated files keep selectors and content in `src/config.js`, variation logic in `src/js/v1/index.jsx`, and reusable UI in `src/components/`.
+For a first project, choose one variation. The generated files keep selectors and button text in `src/config.js`, variation logic in `src/js/v1/index.jsx`, and reusable UI in `src/components/ExperimentButton/`.
 
 [See the generated project structure](/getting-started/project-structure)
 
@@ -20,7 +20,7 @@ For the smallest first project, choose the `minimal` boilerplate and one variati
 
 The development loop follows five steps:
 
-1. Scaffold a project with `npx create-experiment`.
+1. Scaffold a project with `npx @sogody/experiment-framework`.
 2. Set the target selectors and experiment content.
 3. Start watch mode with `pnpm start 0`.
 4. Paste the clipboard-ready bundle into Adobe Target custom code.
@@ -48,7 +48,7 @@ During development, `pnpm start 0` watches `src/js/v1` and updates `dist/v1-inde
 
 ## Framework API Style
 
-Generated variations import runtime helpers from `create-experiment/framework`. These helpers are bundled into the final IIFE and provide a consistent lifecycle:
+Generated variations import runtime helpers from `@sogody/experiment-framework/framework`. These helpers are bundled into the final IIFE and provide a consistent lifecycle:
 
 ```jsx
 import { render } from 'preact';
@@ -56,7 +56,7 @@ import {
     mountExperiment,
     runScript,
     setupTracking,
-} from 'create-experiment/framework';
+} from '@sogody/experiment-framework/framework';
 import ExperimentButton from '@components/ExperimentButton';
 import { buttonText, selectors } from '../../config';
 
@@ -89,7 +89,7 @@ Use the focused reference pages when you need an exact answer:
 |---|---|
 | Which files should I edit? | [Build an Experiment](/build-an-experiment) |
 | How do selectors and package settings work? | [Configuration](/development/config) |
-| Which starter template should I choose? | [Templates](/development/templates) |
+| What does the scaffold generate? | [Scaffold Template](/development/templates) |
 | What does a framework helper return? | [Framework API](/framework-api/) |
 | Why is a command or build failing? | [Error Reference](/error-reference) |
 | Where are common team questions answered? | [FAQ](/faq) |

@@ -10,7 +10,7 @@ Scaffold a new project in one command:
 <div class="home-install-strip">
 
 ```bash
-npx create-experiment my-experiment
+npx @sogody/experiment-framework my-experiment
 ```
 
 </div>
@@ -24,7 +24,7 @@ npx create-experiment my-experiment
     <h3 id="home-doc-getting-started">Start Here</h3>
     <ul>
       <li><a href="/start-here">Start Here</a> - setup, scaffold prompts, first watcher, first Adobe Target paste</li>
-      <li><a href="/getting-started/quick-start">Quick Start</a> - minimal scaffold in about ten minutes</li>
+      <li><a href="/getting-started/quick-start">Quick Start</a> - button scaffold in about ten minutes</li>
       <li><a href="/getting-started/prerequisites">Prerequisites</a> - Node, pnpm, optional Playwright</li>
     </ul>
   </section>
@@ -33,7 +33,7 @@ npx create-experiment my-experiment
     <ul>
       <li><a href="/build-an-experiment">Build an Experiment</a> - editable files, selectors, components, styling, tracking</li>
       <li><a href="/development/config">Configuration</a> - <code>experiment.config.js</code> and <code>src/config.js</code></li>
-      <li><a href="/development/templates">Templates</a> - minimal vs product-card</li>
+      <li><a href="/development/templates">Scaffold Template</a> - current generated project shape</li>
     </ul>
   </section>
   <section class="home-doc-section" aria-labelledby="home-doc-run-ship">
@@ -65,10 +65,10 @@ npx create-experiment my-experiment
 
 The tooling follows a three-step workflow from scaffold to production.
 
-**1. Scaffold** - Run the create command and answer a handful of prompts. The CLI generates a complete Vite + Preact project with your chosen boilerplate, variation count, and market configuration.
+**1. Scaffold** - Run the create command and answer a handful of prompts. The CLI generates a complete Vite + Preact button project with your variation count and market configuration.
 
 ```bash
-npx create-experiment my-experiment
+npx @sogody/experiment-framework my-experiment
 ```
 
 **2. Develop** - Start the watcher for your active variation. On every save, Vite rebuilds the IIFE bundle and copies it to your clipboard automatically.

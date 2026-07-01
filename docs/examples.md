@@ -412,7 +412,7 @@ if (!storeConfig) return;
 
 **Source:** `coe-1324-mx-buy-page-kpn-subscription-ux-improvement`
 
-**Stack:** Source map — Preact, `create-experiment` runtime, host-price mutation observer.
+**Stack:** Source map — Preact, `@sogody/experiment-framework` runtime, host-price mutation observer.
 
 **When to use:** A host buying tool changes model, plan, or sticky-bar prices without a full page load.
 
@@ -466,7 +466,7 @@ runScript(() => {
 
 **Source:** `coe-2767-abandoned-browser-by-ecid`
 
-**Stack:** Source map — Preact, `create-experiment` runtime, class-based host state observation.
+**Stack:** Source map — Preact, `@sogody/experiment-framework` runtime, class-based host state observation.
 
 **When to use:** The host page swaps between normal and sticky navigation and the experiment must remain adjacent to the active navigation.
 
@@ -507,7 +507,7 @@ function observePlacement(container, selectors) {
 
 **Source:** `coe-1943-a-series-usp-banner-for-all-paid-media-users`
 
-**Stack:** Source map — Preact, `create-experiment` runtime, URL eligibility guard.
+**Stack:** Source map — Preact, `@sogody/experiment-framework` runtime, URL eligibility guard.
 
 **When to use:** Messaging should appear only for visitors arriving through a named paid-media route and product family.
 
@@ -542,7 +542,7 @@ runScript(() => {
 
 **Source:** `coe-1001-cro-installation-service`
 
-**Stack:** Source map — Preact, `create-experiment` runtime, route-based page classification.
+**Stack:** Source map — Preact, `@sogody/experiment-framework` runtime, route-based page classification.
 
 **When to use:** One proposition belongs in a slim category-page banner but needs a richer product-page upsell.
 

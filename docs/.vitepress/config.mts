@@ -58,7 +58,7 @@ const docsSidebar = [
       { text: 'Watch Mode & Clipboard', link: '/development/watch-mode' },
       { text: 'Variations', link: '/development/variations' },
       { text: 'Configuration', link: '/development/config' },
-      { text: 'Templates', link: '/development/templates' },
+      { text: 'Scaffold Template', link: '/development/templates' },
       {
         text: 'AI Project Support',
         link: '/development/ai-project-support',

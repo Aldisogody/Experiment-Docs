@@ -23,7 +23,7 @@ trackAAEvent(evar: string, event: string, data: string): void
 ### Usage
 
 ```js
-import { trackAAEvent } from 'create-experiment/framework';
+import { trackAAEvent } from '@sogody/experiment-framework/framework';
 
 trackAAEvent('eVar26', 'event26', 'my-experiment: v1 cta clicked');
 ```

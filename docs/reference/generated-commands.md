@@ -61,9 +61,8 @@ the optional commands from the generated project root:
 | `pnpm init-claude` | `CLAUDE.md` |
 | `pnpm init-agents` | `AGENTS.md` |
 
-The commands infer the experiment name, boilerplate type, and E2E setup from
-the existing project files. Review the generated instructions for the
-experiment.
+The commands infer the experiment name and E2E setup from the existing project
+files. Review the generated instructions for the experiment.
 
 If a destination exists, the command stops without replacing it. Replace it
 intentionally with:
@@ -75,7 +74,7 @@ pnpm init-agents -- --force
 
 Run these commands from the project root, where `package.json` and either `experiment.config.js` or `src/config.js` are present.
 
-Older generated projects may not have the package scripts. After upgrading `create-experiment`, run the package-owned binaries directly:
+Older generated projects may not have the package scripts. After upgrading `@sogody/experiment-framework`, run the package-owned binaries directly:
 
 ```bash
 pnpm exec exp-init-claude

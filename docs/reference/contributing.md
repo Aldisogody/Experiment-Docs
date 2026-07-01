@@ -4,7 +4,7 @@ The scaffolder and documentation are separate repositories in the local workspac
 
 | Project | Repository |
 |---|---|
-| Scaffolder and runtime | [andi-sogody/experiment-framework-v2](https://github.com/andi-sogody/experiment-framework-v2) |
+| Scaffolder and runtime | [Sogody/experiment-framework](https://github.com/Sogody/experiment-framework) |
 | Documentation site | [Aldisogody/v2-docs-for-devs](https://github.com/Aldisogody/v2-docs-for-devs) |
 
 ## Documentation workflow
@@ -24,10 +24,10 @@ When adding a page:
 4. Run `pnpm docs:build`.
 5. Inspect the rendered page when the change affects navigation, code blocks, or layout.
 
-Keep examples aligned with current source in `experiment-framework-v2`, especially:
+Keep examples aligned with current source in `experiment-framework`, especially:
 
 - `cli.js` for interactive defaults.
-- `template/` and `template-minimal/` for generated files.
+- `template/` for generated files.
 - `runtime/framework.js` for API behavior.
 - `bin/` for generated commands.
 - `lib/markets.js` for E2E market choices.
@@ -35,7 +35,7 @@ Keep examples aligned with current source in `experiment-framework-v2`, especial
 ## Scaffolder workflow
 
 ```bash
-cd experiment-framework-v2
+cd experiment-framework
 nvm use 24
 pnpm install
 pnpm test
@@ -47,8 +47,7 @@ The project uses ESM, Vitest, node-plop, 2-space indentation in repository sourc
 
 Update the source template rather than a generated sample:
 
-- Shared files: `template/`
-- Minimal overrides: `template-minimal/`
+- Generated files: `template/`
 - File selection: `lib/scaffold-plan.js`
 - Plop adapter: `generator/actions.js`
 
@@ -66,4 +65,4 @@ Add or update tests that generate real files in a temporary directory. Run the f
 
 ## Pull requests
 
-Use a Conventional Commit title such as `docs: update live injection guide` or `fix: correct minimal scaffold output`. Include the validation commands you ran and call out any behavior that exists on `main` but is not yet published.
+Use a Conventional Commit title such as `docs: update live injection guide` or `fix: correct scaffold output`. Include the validation commands you ran and call out any behavior that exists on `main` but is not yet published.

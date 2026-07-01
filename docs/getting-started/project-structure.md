@@ -1,24 +1,25 @@
 # Project Structure
 
-A generated `product-card` project with two variations looks like this:
+A generated project with two variations looks like this:
 
 ```
 my-experiment/
 │
 ├── src/
 │   ├── components/
-│   │   └── ExperimentCard/
-│   │       ├── index.jsx              # Preact component - image, title, price, CTA
+│   │   └── ExperimentButton/
+│   │       ├── index.jsx              # Preact button component
 │   │       └── styles.module.scss     # Scoped component styles
 │   │
 │   ├── js/
 │   │   ├── v1/
-│   │   │   └── index.jsx              # Variation 1 entry point
+│   │   │   ├── index.jsx              # Variation 1 entry point
+│   │   │   └── styles.module.scss     # Mount-wrapper styles
 │   │   └── v2/
-│   │       └── index.jsx              # Variation 2 entry point
+│   │       ├── index.jsx              # Variation 2 entry point
+│   │       └── styles.module.scss     # Mount-wrapper styles
 │   │
-│   ├── config.js                      # selectors, translations, MODEL_CODE_MAP
-│   └── helpers.js                     # Samsung API fetch, price formatting (product-card only)
+│   └── config.js                      # selectors and button text
 │
 ├── e2e/                               # Only present when E2E is enabled
 │   ├── smoke.spec.js
@@ -78,33 +79,12 @@ export const selectors = {
     fallbacks: ['.alternate-selector', 'body'],
 };
 
-export const locale = window.location.pathname.split('/')[1];
-
-export const MODEL_CODE_MAP = {
-    default: 'SM-XXXXXXX',   // Samsung model code per locale
-    uk: 'SM-XXXXXXX',
-};
-
-const translations = {
-    uk: { title: 'Upgrade today', from: 'From', ctaText: 'Shop now' },
-};
-
-export const translationByMarket = translations[locale] || translations.uk;
+export const buttonText = 'Click Me';
 ```
-
-### `src/helpers.js`
-
-Samsung-specific utilities included in the `product-card` boilerplate. The key exports are:
-
-- `fetchProductCard()` - fetches Samsung product data from the search API
-- `formatPrice(price)` - formats a price using `Intl.NumberFormat` for the current locale
-- `modelCode()` - resolves the model code from `MODEL_CODE_MAP` based on locale
-
-The `minimal` boilerplate does not need Samsung API integration.
 
 ### Runtime helpers
 
-The experiment runtime is imported from `create-experiment/framework`. Every variation entry point can use:
+The experiment runtime is imported from `@sogody/experiment-framework/framework`. Every variation entry point can use:
 
 - `runScript(fn)` - ensures DOM is ready before executing
 - `mountExperiment(selector, fallback?, position?, options?)` — creates and injects the container `div`; pass `className: style.root` from `src/js/vN/styles.module.scss` for mount-wrapper styling
@@ -123,10 +103,9 @@ The variation entry point. Every variation follows the same four-step pattern:
 
 ```jsx
 import { render } from 'preact';
-import { mountExperiment, runScript, setupTracking } from 'create-experiment/framework';
-import ExperimentCard from '@components/ExperimentCard';
-import { fetchProductCard } from '../../helpers';
-import { selectors, translationByMarket } from '../../config';
+import { mountExperiment, runScript, setupTracking } from '@sogody/experiment-framework/framework';
+import ExperimentButton from '@components/ExperimentButton';
+import { buttonText, selectors } from '../../config';
 import style from './styles.module.scss';
 
 runScript(async () => {
@@ -137,15 +116,14 @@ runScript(async () => {
     });
     if (!container) return;
 
-    // 2. Fetch data
-    const { data } = await fetchProductCard();
-    if (!data) return;
+    // 2. Render component
+    render(<ExperimentButton text={buttonText} />, container);
 
-    // 3. Render component
-    render(<ExperimentCard title={translationByMarket.title} />, container);
-
-    // 4. Set up tracking - MUST come after render
-    setupTracking(container, { label: 'my-experiment: v1 cta clicked' });
+    // 3. Set up tracking - MUST come after render
+    setupTracking(container, {
+        label: 'my-experiment: v1 button clicked',
+        selector: 'button',
+    });
 });
 ```
 
@@ -155,10 +133,14 @@ runScript(async () => {
 
 ### Import aliases
 
-Vite resolves this alias in generated projects:
+Vite resolves these aliases in generated projects:
 
 | Alias | Resolves to |
 |---|---|
+| `@src` | `src/` |
+| `@js` | `src/js/` |
 | `@components` | `src/components/` |
+| `@services` | `src/services/` |
+| `@helpers` | `src/helpers/` |
 
-The project does not generate per-variation SCSS. Add a co-located CSS Module only when a variation genuinely needs separate styles.
+Every generated variation includes `styles.module.scss` for mount-wrapper styling. Keep component styles under `src/components/*/styles.module.scss`.

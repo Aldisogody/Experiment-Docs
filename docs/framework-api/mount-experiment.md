@@ -2,7 +2,7 @@
 
 Creates a container `div` and injects it adjacent to a target element. Returns the container so you can render into it immediately.
 
-The mount wrapper sits **outside** the Preact component tree. Component CSS Modules (for example on `ExperimentCard` or `ExperimentButton`) do not apply to it automatically. Pass a scoped class from `src/js/vN/styles.module.scss` via the optional fourth argument.
+The mount wrapper sits **outside** the Preact component tree. Component CSS Modules, such as `ExperimentButton` styles, do not apply to it automatically. Pass a scoped class from `src/js/vN/styles.module.scss` via the optional fourth argument.
 
 ## Signature
 
@@ -48,7 +48,7 @@ Options are applied **after** `createElement('div')` and **before** `insertAdjac
 
 ## How styles are passed and injected
 
-The runtime package (`create-experiment/framework`) is plain ESM. It is **not** processed by Vite and **cannot** import `.scss`.
+The runtime package (`@sogody/experiment-framework/framework`) is plain ESM. It is **not** processed by Vite and **cannot** import `.scss`.
 
 | Layer | Responsibility |
 |---|---|
@@ -81,7 +81,7 @@ mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin', {
 
 ### Scaffold default (recommended)
 
-Both boilerplates generate `src/js/v1/styles.module.scss` with a `.root` class using `display: contents` so the wrapper does not affect flex/grid layout:
+The scaffold generates `src/js/v1/styles.module.scss` with a `.root` class using `display: contents` so the wrapper does not affect flex/grid layout:
 
 ```scss
 // src/js/v1/styles.module.scss
@@ -92,7 +92,7 @@ Both boilerplates generate `src/js/v1/styles.module.scss` with a `.root` class u
 
 ```js
 import { render } from 'preact';
-import { mountExperiment, runScript, setupTracking } from 'create-experiment/framework';
+import { mountExperiment, runScript, setupTracking } from '@sogody/experiment-framework/framework';
 import { selectors } from '../../config';
 import style from './styles.module.scss';
 
@@ -130,10 +130,10 @@ const container = mountExperiment(selectors.primary, selectors.fallbacks, 'after
 
 ### Multiple classes
 
-Combine a CSS Module class with conditional or host-page classes at the call site. Use the exported `classes()` helper from `create-experiment/framework` or a plain string:
+Combine a CSS Module class with conditional or host-page classes at the call site. Use the exported `classes()` helper from `@sogody/experiment-framework/framework` or a plain string:
 
 ```js
-import { classes, mountExperiment, runScript } from 'create-experiment/framework';
+import { classes, mountExperiment, runScript } from '@sogody/experiment-framework/framework';
 import style from './styles.module.scss';
 
 const isPromo = true;
@@ -274,7 +274,7 @@ container.dataset.experiment = 'my-experiment';
 | `'beforebegin'` | Before the target element itself |
 | `'afterend'` | After the target element itself |
 
-Both current boilerplates pass `'afterbegin'`.
+The current scaffold passes `'afterbegin'`.
 
 ## Why the wrapper div exists
 

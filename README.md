@@ -5,7 +5,7 @@ and delivering Adobe Target experiments with Vite and Preact.
 
 This repository contains the VitePress documentation site. The scaffolder,
 runtime, templates, and command-line tools are maintained separately in
-[experiment-framework-v2](https://github.com/andi-sogody/experiment-framework-v2).
+[experiment-framework](https://github.com/Sogody/experiment-framework).
 
 ## Documentation
 

@@ -57,12 +57,12 @@ The generated class prefix comes from the project folder name, so different expe
 
 ## Sass helpers
 
-Generated projects load shared Sass helpers from `create-experiment/runtime/scss`:
+Generated projects load shared Sass helpers from `@sogody/experiment-framework/runtime/scss`:
 
 ```js
 preprocessorOptions: {
     scss: {
-        loadPaths: [resolve(__dirname, 'node_modules/create-experiment/runtime/scss')],
+        loadPaths: [resolve(__dirname, 'node_modules/@sogody/experiment-framework/runtime/scss')],
         additionalData: `
             @use "media-queries" as *;
             @use "fluid-property" as *;
@@ -73,13 +73,11 @@ preprocessorOptions: {
 
 That means component SCSS can use the framework media-query and fluid-property helpers without adding local imports.
 
-## Boilerplate differences
+## Style locations
 
-The `minimal` boilerplate keeps component styling inside `ExperimentButton`.
+The scaffold keeps component styling inside `ExperimentButton`.
 
-The `product-card` boilerplate includes product-card component styles in `src/components/ExperimentCard/styles.module.scss`.
-
-Both boilerplates generate **mount-root** styles in `src/js/v1/styles.module.scss`. This file styles the outer wrapper created by `mountExperiment()`, not the Preact component inside it.
+Generated variations include **mount-root** styles in `src/js/v1/styles.module.scss`. This file styles the outer wrapper created by `mountExperiment()`, not the Preact component inside it.
 
 ```text
 src/js/v1/

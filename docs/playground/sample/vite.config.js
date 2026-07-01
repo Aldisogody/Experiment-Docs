@@ -31,7 +31,7 @@ export default defineConfig(({ mode }) => ({
         },
         preprocessorOptions: {
             scss: {
-                loadPaths: [resolve(__dirname, 'node_modules/create-experiment/runtime/scss')],
+                loadPaths: [resolve(__dirname, 'node_modules/@sogody/experiment-framework/runtime/scss')],
                 additionalData: `
                     @use "media-queries" as *;
                     @use "fluid-property" as *;

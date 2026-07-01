@@ -19,7 +19,7 @@ corepack prepare pnpm@10.30.1 --activate
 
 ## 2. Install package-owned tooling
 
-Current generated projects keep Preact as a runtime dependency and `create-experiment` as a development dependency:
+Current generated projects keep Preact as a runtime dependency and `@sogody/experiment-framework` as a development dependency:
 
 ```json
 {
@@ -29,7 +29,7 @@ Current generated projects keep Preact as a runtime dependency and `create-exper
     "devDependencies": {
         "@biomejs/biome": "^1.9.4",
         "@preact/preset-vite": "^2.10.5",
-        "create-experiment": "^2.0.2",
+        "@sogody/experiment-framework": "^2.0.0",
         "sass": "^1.99.0",
         "vite": "^6.4.1"
     }
@@ -67,7 +67,7 @@ Replace older command names:
 ### Optional AI project support
 
 Current projects expose `init-claude` and `init-agents` scripts, but AI support
-remains opt-in. Upgrade the `create-experiment` dependency first. If the older
+remains opt-in. Upgrade the `@sogody/experiment-framework` dependency first. If the older
 project's `package.json` does not contain those scripts, invoke the
 package-owned binaries directly from the project root:
 
@@ -76,8 +76,8 @@ pnpm exec exp-init-claude
 pnpm exec exp-init-agents
 ```
 
-They create `CLAUDE.md` or `AGENTS.md` after inferring the experiment name,
-boilerplate type, and E2E setup from the existing project. See
+They create `CLAUDE.md` or `AGENTS.md` after inferring the experiment name and
+E2E setup from the existing project. See
 [AI Project Support](/development/ai-project-support) before forcing an update
 over customized files.
 
@@ -90,7 +90,7 @@ import {
     mountExperiment,
     runScript,
     setupTracking,
-} from 'create-experiment/framework';
+} from '@sogody/experiment-framework/framework';
 ```
 
 The generated project no longer needs a copied `lib/framework.js`.
@@ -153,7 +153,7 @@ Use the generated Vite configuration as the baseline. Important current settings
 - Preact bundled into each IIFE.
 - `@components` mapped to `src/components`.
 - CSS Module names formatted as `<project-prefix>-[local]`.
-- Runtime Sass helpers loaded from `create-experiment/runtime/scss`.
+- Runtime Sass helpers loaded from `@sogody/experiment-framework/runtime/scss`.
 
 ## 9. Reinstall and validate
 

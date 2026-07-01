@@ -15,7 +15,7 @@ log(...args: unknown[]): void
 ### Example
 
 ```js
-import { log } from 'create-experiment/framework';
+import { log } from '@sogody/experiment-framework/framework';
 
 log('experiment mounted');
 ```
@@ -55,7 +55,7 @@ localStorage.setItem('expDebug', '1');
 ### Example
 
 ```js
-import { debug } from 'create-experiment/framework';
+import { debug } from '@sogody/experiment-framework/framework';
 
 debug('mount failed', selectors);
 ```

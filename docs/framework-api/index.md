@@ -1,6 +1,6 @@
 # Framework API
 
-`create-experiment/framework` is the experiment runtime export used by generated variation entry points.
+`@sogody/experiment-framework/framework` is the experiment runtime export used by generated variation entry points.
 
 ```js
 import {
@@ -15,7 +15,7 @@ import {
     trackAAEvent,
     waitFor,
     watchFor,
-} from 'create-experiment/framework';
+} from '@sogody/experiment-framework/framework';
 ```
 
 ## Exports
@@ -34,8 +34,8 @@ import {
 | [`log(...args)`](/framework-api/logging#log) | Logs only in development bundles | Unreleased |
 | [`debug(...args)`](/framework-api/logging#debug) | Logs when opt-in debug mode is enabled | Unreleased |
 
-The runtime lives in the installed `create-experiment` package, not in generated project source.
+The runtime lives in the installed `@sogody/experiment-framework` package, not in generated project source.
 
 ::: info Version labels
-`Unreleased` means the helper exists on the repository `main` branch but is newer than the latest `2.0.2` changelog entry.
+`Unreleased` means the helper exists on the repository `main` branch but is newer than the current `2.0.0` npm package.
 :::

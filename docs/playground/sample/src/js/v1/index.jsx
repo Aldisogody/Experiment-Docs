@@ -1,5 +1,5 @@
 import { render } from 'preact';
-import { mountExperiment, runScript, setupTracking } from 'create-experiment/framework';
+import { mountExperiment, runScript, setupTracking } from '@sogody/experiment-framework/framework';
 import ExperimentButton from '@components/ExperimentButton';
 import { buttonText, selectors } from '../../config';
 import style from './styles.module.scss';

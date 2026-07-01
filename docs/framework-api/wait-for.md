@@ -22,11 +22,11 @@ waitFor(selectors: string[], callback: () => void): void
 ### Usage
 
 ```js
-import { waitFor } from 'create-experiment/framework';
+import { waitFor } from '@sogody/experiment-framework/framework';
 
-waitFor(['.product-card', '.price-wrapper'], () => {
+waitFor(['.target-selector', '.price-wrapper'], () => {
     // All elements exist - safe to proceed
-    const card = document.querySelector('.product-card');
+    const target = document.querySelector('.target-selector');
 });
 ```
 
@@ -75,7 +75,7 @@ watchFor(
 ### Usage
 
 ```js
-import { watchFor } from 'create-experiment/framework';
+import { watchFor } from '@sogody/experiment-framework/framework';
 
 watchFor('.late-loading-element', (element) => {
     // element is the matched DOM node

@@ -38,4 +38,4 @@ my-experiment/
 - [Writing Tests](/e2e-testing/writing-tests) - smoke spec walkthrough, helpers, multi-market patterns
 - [Markets](/e2e-testing/markets) - URL path mapping, multi-country group behaviour
 
-The product-card and minimal boilerplates generate different smoke assertions. Product-card tests also mock the Samsung product API before bundle injection.
+Generated smoke tests assert the scaffolded button renders with the configured `buttonText`. Add product API mocks or extra assertions when your experiment introduces those dependencies.

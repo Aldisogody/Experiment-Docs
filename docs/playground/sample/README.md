@@ -28,7 +28,7 @@ dist/               # generated bundles, e.g. v1-index.jsx
 ```
 
 Framework utilities and build/start/new-variation/init commands come from the
-`create-experiment` package dependency.
+`@sogody/experiment-framework` package dependency.
 
 ## AI documentation
 
@@ -77,11 +77,11 @@ CSS Modules class naming is configured in `vite.config.js` and uses the scaffold
 - Format: `sample--[local]`
 - Example output: `sample--button`
 
-Sass helpers are injected at build time from `create-experiment`, so SCSS modules can use
+Sass helpers are injected at build time from `@sogody/experiment-framework`, so SCSS modules can use
 `@include mq()` without local imports. The default breakpoints are `$xs: 360px`, `$sm: 425px`, `$md: 768px`, `$lg: 1200px`, and `$xl: 1440px`.
 Vite compiles Sass CSS Modules and uses esbuild to minify production CSS; generated projects do not include Stylelint or cssnano dependencies.
 
-Runtime helpers from `create-experiment/framework` include legacy-compatible exports such as
+Runtime helpers from `@sogody/experiment-framework/framework` include legacy-compatible exports such as
 `runScript`, `withPreact`, `waitForJquery`, `domReady`, `createElementFromHTML`,
 `setCookie`, `getCookie`, `emergencyBrakeEnabled`, and `classes`. `withPreact`
 is a compatibility shim because Preact is bundled by default.

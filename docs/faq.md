@@ -4,9 +4,9 @@ title: FAQ
 
 # FAQ
 
-## Which boilerplate should I choose?
+## Which scaffold should I choose?
 
-Use `minimal` for most UI, copy, button, and layout experiments. Use `product-card` when you need Samsung product data from the generated helpers.
+There is one current scaffold: a generic button experiment. Add custom components, product data helpers, or API calls inside the generated project when the experiment needs them.
 
 ## Why does `pnpm start 0` watch `v1`?
 
@@ -22,11 +22,11 @@ Keep them in `src/config.js` as `selectors.primary` and ordered `selectors.fallb
 
 ## Why did `setupTracking()` do nothing?
 
-It returns silently when `options.selector` does not match inside the container. Call it after `render()` and verify the selector. The default is `'a'`; the minimal button scaffold passes `'button'`.
+It returns silently when `options.selector` does not match inside the container. Call it after `render()` and verify the selector. The default is `'a'`; the generated button scaffold passes `'button'`.
 
 ## Can I add E2E tests later?
 
-Yes, but there is no add-on command. Scaffold a temporary E2E-enabled project with the same boilerplate and copy `playwright.config.js`, `e2e/`, the Playwright dependency, and the `test:e2e` script.
+Yes. Run `pnpm add-e2e` from a current generated project, or `pnpm exec exp-add-e2e` after upgrading an older project to the current package.
 
 ## What AI support can I add?
 

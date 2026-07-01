@@ -2,9 +2,9 @@
 
 ## The smoke spec
 
-Generated smoke tests loop over `urlsConfig.markets`, call `setupPage()`, assert boilerplate-specific content, and attach a screenshot.
+Generated smoke tests loop over `urlsConfig.markets`, call `setupPage()`, assert the scaffolded button content, and attach a screenshot.
 
-Minimal example:
+Example:
 
 ```js
 import { expect, test } from '@playwright/test';
@@ -26,26 +26,23 @@ for (const market of urlsConfig.markets) {
 }
 ```
 
-The product-card version also verifies title, CTA, price, image attributes, and link output.
-
 ## Helpers
 
 ### `setupPage(page, market, testInfo)`
 
 The helper:
 
-1. Registers the product API mock for product-card projects.
-2. Opens the market URL.
-3. Creates the primary target when it is a missing simple class selector.
-4. Injects the loaded `dist/v1-index.jsx` code.
-5. Waits for `experimentContainer`.
-6. Attaches the test URL to the report.
+1. Opens the market URL.
+2. Creates the primary target when it is a missing simple class selector.
+3. Injects the loaded `dist/v1-index.jsx` code.
+4. Waits for `experimentContainer`.
+5. Attaches the test URL to the report.
 
 Generated target creation supports selectors such as `.target-selector`. Customize `injectTargetElement()` when the primary selector is an attribute, descendant, or other complex selector.
 
 ### `experimentContainer`
 
-The current boilerplates mount as the first child of `selectors.primary`:
+The current scaffold mounts as the first child of `selectors.primary`:
 
 ```js
 export const experimentContainer = `${primarySelector} > div:first-child`;
@@ -64,20 +61,6 @@ Captures the experiment container and attaches the image to the Playwright HTML 
 
 ```js
 await takeScreenshot(page, market.code, 'after-render', testInfo);
-```
-
-### `mockProductApi(page, overrides?)`
-
-Product-card helpers route `**/product/card/detail/**` and return a stable model. Override fields for focused cases:
-
-```js
-await setupPage(page, market, testInfo, {
-    mockFn: (currentPage) =>
-        mockProductApi(currentPage, {
-            promotionPrice: 999.99,
-            displayName: 'Test device',
-        }),
-});
 ```
 
 ## Multi-market parametrisation

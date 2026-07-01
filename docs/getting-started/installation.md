@@ -5,7 +5,7 @@
 Run the create command with your project name:
 
 ```bash
-npx create-experiment my-experiment
+npx @sogody/experiment-framework my-experiment
 ```
 
 The CLI guides you through a series of prompts, then generates a complete project, installs dependencies, and optionally runs Playwright setup and a smoke test.
@@ -14,7 +14,6 @@ The CLI guides you through a series of prompts, then generates a complete projec
 
 | Prompt | Default | What it controls |
 |---|---|---|
-| **Select boilerplate** | `minimal` | Which template to use. `minimal` generates a button with no API integration. `product-card` includes Samsung product API helpers and a Preact card. |
 | **Number of variations** | `1` | Generates `src/js/v1/` through `src/js/vN/`. Pick 2 for A/B, 3 for A/B/C. |
 | **Window namespace** | `sgd` | The IIFE output name on `window` (e.g. `window.sgd`). Must be a valid JS identifier. Keep the default unless it conflicts with another experiment on the same page. |
 | **Include emergency brake** | `true` | Records `includeEmergencyBrake` in `experiment.config.js`. The current build/runtime does not consume this field, so verify the deployment integration before relying on it. |
@@ -47,13 +46,13 @@ pnpm init-agents
 ```
 
 The commands create `CLAUDE.md` and `AGENTS.md` after inferring the experiment
-name, boilerplate type, and E2E setup from the scaffolded project.
+name and E2E setup from the scaffolded project.
 
 See [AI Project Support](/development/ai-project-support) for generated paths,
 replacement behavior, and older-project usage.
 
-::: tip Choosing a boilerplate
-Use `product-card` when your experiment displays Samsung product data (image, price, CTA). Use `minimal` for layout tests, copy changes, or anything that doesn't need the Samsung product API.
+::: tip Current scaffold
+The CLI now generates one generic button template. Add experiment-specific data loading or custom components in the generated project when needed.
 :::
 
 ::: info Existing directories

@@ -1,6 +1,6 @@
 # Quick Start
 
-This tutorial walks you through creating a minimal experiment. By the end you will have a Vite + Preact project and a clipboard-ready IIFE bundle for Adobe Target.
+This tutorial walks you through creating a button experiment. By the end you will have a Vite + Preact project and a clipboard-ready IIFE bundle for Adobe Target.
 
 **Time to complete:** ~10 minutes
 
@@ -13,14 +13,13 @@ This tutorial walks you through creating a minimal experiment. By the end you wi
 Run the create command and follow the prompts:
 
 ```bash
-npx create-experiment my-first-experiment
+npx @sogody/experiment-framework my-first-experiment
 ```
 
 When prompted, answer:
 
 | Prompt | Recommended answer |
 |---|---|
-| Select boilerplate | `minimal` (default) |
 | Number of variations | `1` (default) |
 | Window namespace | `sgd` (default) |
 | Include emergency brake | `Yes` (default) |
@@ -49,8 +48,7 @@ pnpm init-claude
 pnpm init-agents
 ```
 
-The commands infer the experiment name, boilerplate type, and E2E setup from
-existing project files. See
+The commands infer the experiment name and E2E setup from existing project files. See
 [AI Project Support](/development/ai-project-support) for tool destinations,
 generated resources, and safe replacement.
 

@@ -19,7 +19,7 @@ runScript(fn: () => void | Promise<void>): void
 Every variation entry point wraps its logic in `runScript`:
 
 ```js
-import { runScript } from 'create-experiment/framework';
+import { runScript } from '@sogody/experiment-framework/framework';
 
 runScript(async () => {
     // DOM is guaranteed to be ready here

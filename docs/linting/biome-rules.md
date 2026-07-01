@@ -87,11 +87,11 @@ debug('product data', data);
 
 ```js
 // WRONG - unused import fails the build
-import { waitFor, watchFor } from 'create-experiment/framework';
+import { waitFor, watchFor } from '@sogody/experiment-framework/framework';
 // watchFor is never used
 
 // CORRECT - only import what you use
-import { waitFor } from 'create-experiment/framework';
+import { waitFor } from '@sogody/experiment-framework/framework';
 ```
 
 Unused variables and imports increase bundle size unnecessarily. This rule enforces clean imports.

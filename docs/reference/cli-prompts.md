@@ -1,31 +1,16 @@
 # CLI Prompts Reference
 
-Complete reference for every prompt shown when running `npx create-experiment`.
+Complete reference for every prompt shown when running `npx @sogody/experiment-framework`.
 
 ## Usage
 
 ```bash
-npx create-experiment my-experiment
+npx @sogody/experiment-framework my-experiment
 ```
 
 The project name is a required argument. The CLI exits if it is not provided.
 
 ## Prompts
-
-### Select boilerplate
-
-| | |
-|---|---|
-| **Type** | Select |
-| **Default** | `minimal` |
-| **Options** | `minimal`, `product-card` |
-
-Controls which template is used for the generated project.
-
-- `product-card` - Generates a Samsung product card UI with Samsung API helpers and an `ExperimentCard` Preact component. Use for upsell, cross-sell, and product promotion experiments.
-- `minimal` - Generates a simple button component with no API integration. Use for CTA copy tests, layout experiments, and anything that doesn't need product data.
-
----
 
 ### Number of variations
 
@@ -40,6 +25,8 @@ Controls how many variation directories are generated under `src/js/`.
 - `1` - generates `src/js/v1/` only (control)
 - `2` - generates `src/js/v1/` and `src/js/v2/` (A/B)
 - `custom` - prompts for a number between 1 and 10
+
+The current CLI uses one generic button scaffold for every project. It does not ask for a boilerplate type.
 
 ---
 

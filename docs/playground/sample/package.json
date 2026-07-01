@@ -29,7 +29,7 @@
     "@preact/preset-vite": "^2.10.5",
     "sass": "^1.101.0",
     "esbuild": "^0.27.0",
-    "create-experiment": "file:./create-experiment-2.0.2.tgz",
+    "@sogody/experiment-framework": "^2.0.0",
     "@biomejs/biome": "^2.5.0"
   }
 }

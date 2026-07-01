@@ -4,12 +4,12 @@ title: Error Reference
 
 # Error Reference
 
-## `Usage: create-experiment <project-name>`
+## `Usage: experiment-framework <project-name>`
 
 The project argument is missing.
 
 ```bash
-npx create-experiment my-experiment
+npx @sogody/experiment-framework my-experiment
 ```
 
 ## `Failed to load experiment.config.js`
@@ -97,11 +97,8 @@ can report:
 - `package.json is not valid JSON.`
 - `package.json must contain a string "name" field.`
 - `No experiment.config.js or src/config.js found. Run this command from a generated experiment project root.`
-- `Unable to determine boilerplate type from src/components or src/config.js.`
 
-Restore valid package metadata and experiment configuration. Boilerplate
-inference expects `ExperimentButton`, `ExperimentCard`, or the corresponding
-`buttonText`, `MODEL_CODE_MAP`, or `translationByMarket` config markers.
+Restore valid package metadata and experiment configuration.
 
 ## `Unknown option "<option>". Supported option: --force`
 

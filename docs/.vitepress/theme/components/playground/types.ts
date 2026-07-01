@@ -10,8 +10,8 @@ export type PlaygroundStatus =
 export type SeedArtifact = {
   source: {
     sampleRoot: string;
-    frameworkRoot: string;
-    tarballName: string;
+    frameworkPackageName: string;
+    frameworkVersion: string;
   };
   files: Record<string, string>;
   binaryFiles?: Record<string, string>;

@@ -4,26 +4,25 @@ title: Releases
 
 # Releases
 
-The published package is `create-experiment`. Generated projects depend on it for runtime helpers and the `exp-*` commands.
+The package is `@sogody/experiment-framework`. Generated projects depend on it for runtime helpers and the `exp-*` commands.
 
 ## Current published line
 
-The repository package metadata reports `2.0.2`, released on April 23, 2026.
+The npm package currently resolves to `2.0.0`. The repository changelog contains newer entries, but they are source/release-preparation notes until published to npm.
 
 | Version | Main change |
 |---|---|
-| `2.0.2` | Removed the unused Stylelint toolchain from generated projects. |
-| `2.0.1` | Added package-owned runtime commands, minimal scaffold fixes, and CSS class-prefix generation. |
-| `2.0.0` | Introduced the v2 Vite, Preact, Biome, multi-variation, and optional Playwright scaffold. |
+| `2.0.0` | Current npm package for the scoped `@sogody/experiment-framework` line. |
+| Source newer than npm | Repository changelog entries mention release metadata, Stylelint removal, and the single button scaffold. |
 
-The `main` branch also contains unreleased work such as live injection, URL and debug helpers, SCSS runtime helpers, and structured selector fallbacks. Treat repository source as newer than the last published changelog entry until a release is tagged.
+Treat repository source as newer than the npm package until a new package version is published.
 
 ## Upgrade a generated project
 
-The scaffold writes a compatible `create-experiment` version into `devDependencies`. To inspect the installed version:
+The scaffold writes a compatible `@sogody/experiment-framework` version into `devDependencies`. To inspect the installed version:
 
 ```bash
-pnpm why create-experiment
+pnpm why @sogody/experiment-framework
 ```
 
 After changing the dependency, run:

@@ -16,7 +16,7 @@ The scaffolder generates `v1` and any additional variations you requested. To ad
 pnpm new-variation 3
 ```
 
-This creates `src/js/v3/index.jsx` from `v1`. The command also copies `src/js/v1/styles.module.scss` when present (both boilerplates scaffold this file for mount-root styling).
+This creates `src/js/v3/index.jsx` from `v1`. The command also copies `src/js/v1/styles.module.scss` when present; the current scaffold uses this file for mount-root styling.
 
 After creation, open `src/js/v3/index.jsx` and update:
 

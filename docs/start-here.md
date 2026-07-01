@@ -4,13 +4,13 @@ Use this page when you are creating an experiment for the first time. It gives y
 
 ## What the framework creates
 
-`create-experiment` scaffolds a Vite + Preact project for Adobe Target. Each variation builds to a self-contained IIFE bundle in `dist/vN-index.jsx`.
+`@sogody/experiment-framework` scaffolds a Vite + Preact project for Adobe Target. Each variation builds to a self-contained IIFE bundle in `dist/vN-index.jsx`.
 
 The generated project includes:
 
 - `src/config.js` for selectors and experiment content.
 - `src/js/v1/index.jsx` as the first variation entry point.
-- `src/components/*` for Preact UI.
+- `src/components/ExperimentButton/` for the scaffolded Preact button UI.
 - `experiment.config.js` for package-level tooling config.
 - `vite.config.js` for IIFE bundling, CSS Modules, aliases, and Sass setup.
 - `biome.json` for JavaScript, JSX, and JSON linting and formatting.
@@ -32,7 +32,7 @@ Generated projects include `.nvmrc` and require pnpm 10+. Run `nvm use` before i
 Run the scaffold command with a project name:
 
 ```bash
-npx create-experiment my-experiment
+npx @sogody/experiment-framework my-experiment
 cd my-experiment
 nvm use
 ```
@@ -41,13 +41,12 @@ For a first project, use these prompt choices:
 
 | Prompt | First-project choice | Why |
 |---|---|---|
-| Boilerplate | `minimal` | Smallest generated project and easiest to understand. |
 | Variations | `1` | Keeps the first build focused on `v1`. |
 | Window namespace | `sgd` | Default global namespace. |
 | Emergency brake | `Yes` | Preserves the scaffolded setting. Confirm your deployment integration consumes it. |
 | E2E testing | `No` | Add Playwright after the core loop is working. |
 
-Use `product-card` when the experiment needs Samsung product data, product images, prices, or CTA URLs.
+The current scaffold uses a single generic button template. Add product data, custom components, or API helpers only when the experiment needs them.
 
 ## First bundle
 
