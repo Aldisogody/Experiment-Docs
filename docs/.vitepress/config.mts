@@ -43,10 +43,10 @@ const docsSidebar = [
   {
     text: 'Essentials',
     items: [
-      { text: 'Start Here', link: '/start-here' },
       { text: 'Build an Experiment', link: '/build-an-experiment' },
-      { text: 'Guide', link: '/guide' },
-      { text: 'Tutorial', link: '/tutorial' },
+      { text: 'Variations', link: '/development/variations' },
+      { text: 'Watch Mode & Clipboard', link: '/development/watch-mode' },
+      { text: 'Configuration', link: '/development/config' },
       { text: 'Examples', link: '/examples' },
       { text: 'Playground', link: '/playground' },
     ],
@@ -55,15 +55,11 @@ const docsSidebar = [
     text: 'Development',
     items: [
       { text: 'Dev Loop Overview', link: '/development/' },
-      { text: 'Watch Mode & Clipboard', link: '/development/watch-mode' },
-      { text: 'Variations', link: '/development/variations' },
-      { text: 'Configuration', link: '/development/config' },
       { text: 'Scaffold Template', link: '/development/templates' },
       {
         text: 'AI Project Support',
         link: '/development/ai-project-support',
       },
-      { text: 'Run and Ship', link: '/run-and-ship' },
     ],
   },
   {
@@ -79,8 +75,9 @@ const docsSidebar = [
     ],
   },
   {
-    text: 'Testing & Quality',
+    text: 'Best Practices',
     items: [
+      { text: 'Run and Ship', link: '/run-and-ship' },
       { text: 'Testing Overview', link: '/testing' },
       { text: 'Linting & Formatting', link: '/linting/' },
       { text: 'Biome Rules', link: '/linting/biome-rules' },
@@ -159,10 +156,10 @@ export default defineConfig({
           '^/(start-here|build-an-experiment|run-and-ship|testing|guide|tutorial|examples|error-reference|playground|getting-started|development|framework-api|linting|e2e-testing|reference)',
         items: [
           { text: 'Getting Started', link: '/getting-started/' },
-          { text: 'Essentials', link: '/start-here' },
+          { text: 'Essentials', link: '/build-an-experiment' },
           { text: 'Development', link: '/development/' },
           { text: 'Framework API', link: '/framework-api/' },
-          { text: 'Testing & Quality', link: '/testing' },
+          { text: 'Best Practices', link: '/run-and-ship' },
           { text: 'Reference', link: '/reference/' },
         ],
       },

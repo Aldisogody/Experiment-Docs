@@ -49,7 +49,8 @@ Mount before rendering, guard a missing target, and attach tracking after render
 
 Before handing off a bundle:
 
-- Run `pnpm lint`.
+- Run `pnpm lint:fix`.
+- Run `pnpm ci:lint`.
 - Run `pnpm build`.
 - Preview every variation on the intended market URL.
 - Verify selectors and fallback order.

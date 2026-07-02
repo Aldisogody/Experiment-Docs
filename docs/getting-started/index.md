@@ -100,8 +100,8 @@ Choose the page that matches what you need to do next:
 
 | Goal | Start here |
 |---|---|
-| Create your first experiment | [Start Here](/start-here) |
-| Follow a complete walkthrough | [Quick Start](/getting-started/quick-start) |
+| Create your first experiment | [Quick Start](/getting-started/quick-start) |
+| Understand generated files | [Project Structure](/getting-started/project-structure) |
 | Edit selectors, UI, styles, and tracking | [Build an Experiment](/build-an-experiment) |
 | Use watch mode and ship bundles | [Run and Ship](/run-and-ship) |
 | Add Playwright coverage | [Testing](/testing) |

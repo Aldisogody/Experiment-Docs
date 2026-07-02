@@ -1,8 +1,25 @@
 # Testing
 
-E2E testing is optional. Enable it when you have a stable target URL and need repeatable smoke coverage across Samsung markets.
+Use this page when an experiment needs repeatable smoke coverage before release. E2E testing is optional; add it after the Adobe Target workflow is stable.
 
-Skip E2E during early prototyping. You can add it later by copying the generated files from a fresh E2E-enabled project.
+## Testing checklist
+
+- Confirm the experiment has a stable target URL.
+- Confirm the selector in `src/config.js` works on the target page.
+- Run `pnpm build` before debugging browser tests.
+- Run `pnpm test:e2e` after the build passes.
+- Add assertions for experiment-owned behavior only.
+
+## When to add E2E
+
+| Situation | Add E2E? | Why |
+|---|---|---|
+| First scaffold or early prototype | No | The target page, selector, and copy may still change quickly. |
+| Stable Target activity with repeated QA | Yes | Playwright gives the team a repeatable smoke check. |
+| Multi-market launch | Yes | Market iterations catch URL and locale-specific selector issues. |
+| One-off copy or style tweak | Usually no | Manual Target preview is often enough unless the release risk is high. |
+
+If you are unsure, skip E2E until the core watch, paste, and preview loop works.
 
 ## What gets generated
 
@@ -95,7 +112,17 @@ test(`cta renders - ${market.name}`, async ({ page }, testInfo) => {
 
 Keep assertions focused on experiment behavior. Avoid testing Samsung page features that the experiment does not own.
 
-## Next
+## Failure modes
 
-- [Markets Reference](/reference/markets) lists available market groups.
-- [Framework API](/framework-api/) explains the runtime helpers used by generated experiments.
+| Symptom | Check |
+|---|---|
+| `pnpm test:e2e` fails before opening a browser | Fix `pnpm build` first. The test command builds before Playwright runs. |
+| Browser install is missing | Run `pnpm playwright install chromium`. |
+| Tests pass in one market and fail in another | Check market URL paths and selectors in `e2e/config.js`. |
+| Screenshot shows the page but not the experiment | Confirm `bundlePath` points to the built variation. |
+
+## Related pages
+
+- [E2E Testing](/e2e-testing/)
+- [Markets Reference](/reference/markets)
+- [Framework API](/framework-api/)

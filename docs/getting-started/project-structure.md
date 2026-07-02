@@ -1,5 +1,17 @@
 # Project Structure
 
+`@sogody/experiment-framework` scaffolds a Vite + Preact project for Adobe Target. Each variation builds to a self-contained IIFE bundle in `dist/vN-index.jsx`.
+
+The generated project includes:
+
+- `src/config.js` for selectors and experiment content.
+- `src/js/v1/index.jsx` as the first variation entry point.
+- `src/components/ExperimentButton/` for the scaffolded Preact button UI.
+- `experiment.config.js` for package-level tooling config.
+- `vite.config.js` for IIFE bundling, CSS Modules, aliases, and Sass setup.
+- `biome.json` for JavaScript, JSX, JSON, and formatting checks.
+- Optional `e2e/` Playwright tests when E2E is enabled during scaffolding.
+
 A generated project with two variations looks like this:
 
 ```

@@ -71,7 +71,8 @@ pnpm live
 ## 6. Build
 
 ```bash
-pnpm lint
+pnpm lint:fix
+pnpm ci:lint
 pnpm build
 ```
 

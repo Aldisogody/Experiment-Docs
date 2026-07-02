@@ -30,11 +30,11 @@ pnpm start 1
 
 ## `Build aborted - fix lint errors before bundling`
 
-Production builds run `biome check src`. Run:
+Production builds run a read-only Biome check. Run:
 
 ```bash
-pnpm format
-pnpm lint
+pnpm lint:fix
+pnpm ci:lint
 ```
 
 Fix remaining errors, including unused variables and `console` calls.

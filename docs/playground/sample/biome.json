@@ -18,7 +18,7 @@
             "MutationObserver", "HTMLElement", "Intl", "s"
         ]
     },
-    "assist": { "actions": { "source": { "organizeImports": "off" } } },
+    "assist": { "actions": { "source": { "organizeImports": "on" } } },
     "linter": {
         "enabled": true,
         "rules": {

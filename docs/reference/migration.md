@@ -27,7 +27,7 @@ Current generated projects keep Preact as a runtime dependency and `@sogody/expe
         "preact": "^10.28.3"
     },
     "devDependencies": {
-        "@biomejs/biome": "^1.9.4",
+        "@biomejs/biome": "^2.5.0",
         "@preact/preset-vite": "^2.10.5",
         "@sogody/experiment-framework": "^2.0.0",
         "sass": "^1.99.0",
@@ -49,8 +49,10 @@ Remove legacy framework packages only after imports and scripts have been migrat
         "new-variation": "exp-new-variation",
         "init-claude": "exp-init-claude",
         "init-agents": "exp-init-agents",
-        "lint": "biome check src",
-        "format": "biome check --write src",
+        "lint": "biome check .",
+        "lint:fix": "biome check --write .",
+        "format": "biome format --write .",
+        "ci:lint": "biome ci .",
         "live": "exp-live"
     }
 }
@@ -140,8 +142,8 @@ export default {
 Remove ESLint, Prettier, and Stylelint scripts or packages that are no longer used. Copy `biome.json` from a newly generated project so globals and rule groups match the current scaffold.
 
 ```bash
-pnpm format
-pnpm lint
+pnpm lint:fix
+pnpm ci:lint
 ```
 
 Direct `console` calls fail the generated Biome rules. Use framework `log()` or `debug()` for diagnostics.
@@ -159,7 +161,8 @@ Use the generated Vite configuration as the baseline. Important current settings
 
 ```bash
 pnpm install
-pnpm lint
+pnpm lint:fix
+pnpm ci:lint
 pnpm build
 pnpm start 0
 ```

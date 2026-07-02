@@ -11,8 +11,10 @@ pnpm build            # lint, then build production IIFE bundles into dist/vN-in
 pnpm new-variation 2  # create src/js/v2 from the scaffolded variation
 pnpm init-claude      # create CLAUDE.md on demand
 pnpm init-agents      # create AGENTS.md on demand
-pnpm lint             # Biome for JS/JSX/JSON
-pnpm format           # Biome auto-fix for src/
+pnpm lint             # Biome check without writing files
+pnpm lint:fix         # Biome format, import sorting, and safe fixes
+pnpm format           # Biome formatting only
+pnpm ci:lint          # read-only CI lint gate
 pnpm live             # watch v1 and inject it into the configured targetUrl
 pnpm live -- --profile shared      # reuse one OS cache profile across experiments
 ```

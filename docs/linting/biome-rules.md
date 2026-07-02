@@ -1,6 +1,6 @@
 # Biome Rules
 
-[Biome](https://biomejs.dev) is the linter and formatter for all JavaScript and JSX in generated experiment projects. It replaces ESLint and Prettier.
+[Biome](https://biomejs.dev) is the linter and formatter for JavaScript, JSX, JSON, and import sorting in generated experiment projects. It replaces ESLint and Prettier.
 
 ## Full configuration
 
@@ -8,9 +8,9 @@ The generated `biome.json`:
 
 ```json
 {
-    "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+    "$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
     "files": {
-        "ignore": ["dist/**", "node_modules/**", "scripts/**", "lib/**"]
+        "includes": ["**", "!dist", "!scripts", "!lib"]
     },
     "formatter": {
         "indentStyle": "space",
@@ -27,23 +27,21 @@ The generated `biome.json`:
             "MutationObserver", "HTMLElement", "Intl", "s"
         ]
     },
-    "organizeImports": {
-        "enabled": false
-    },
+    "assist": { "actions": { "source": { "organizeImports": "on" } } },
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": false,
+            "preset": "none",
             "correctness": {
-                "recommended": true,
+                "preset": "recommended",
                 "noUnusedVariables": "error"
             },
             "suspicious": {
-                "recommended": true,
+                "preset": "recommended",
                 "noConsole": "error"
             },
             "a11y": {
-                "recommended": true
+                "preset": "recommended"
             }
         }
     }
@@ -58,6 +56,10 @@ The generated `biome.json`:
 | `indentWidth` | `4` | 4-space indentation |
 | `lineWidth` | `120` | Wider than the 80-char default to accommodate JSX |
 | `quoteStyle` | `single` | Single quotes throughout |
+
+## Import sorting
+
+`biome check .` includes import sorting through Biome's assist action. Run `pnpm lint:fix` to apply the sort locally before committing.
 
 ## Linter rules
 
@@ -124,11 +126,17 @@ The `s` global is specific to the Samsung/Adobe Analytics setup. Biome will not 
 ## Commands
 
 ```bash
-# Check for violations (read-only - used in CI and build gate)
+# Check for violations without writing files
 pnpm lint
 
-# Auto-fix formatting violations
+# Format, sort imports, and apply safe fixes
+pnpm lint:fix
+
+# Format supported files only
 pnpm format
+
+# Run the read-only CI check
+pnpm ci:lint
 ```
 
 ## Common errors and fixes
@@ -137,4 +145,5 @@ pnpm format
 |---|---|---|
 | `noConsole` | `console.log` in `src/` | Remove it or use framework `log()` / `debug()` |
 | `noUnusedVariables` | Unused import or declared variable | Remove the unused declaration |
-| Formatting | Tabs instead of spaces, wrong quote style | Run `pnpm format` to auto-fix |
+| Formatting | Tabs instead of spaces, wrong quote style | Run `pnpm lint:fix` to auto-fix |
+| Import order | Imports are not sorted | Run `pnpm lint:fix` to sort imports |

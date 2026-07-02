@@ -1,117 +1,97 @@
 # Quick Start
 
-This tutorial walks you through creating a button experiment. By the end you will have a Vite + Preact project and a clipboard-ready IIFE bundle for Adobe Target.
+Create a Vite + Preact experiment, start watch mode, and paste the generated IIFE bundle into Adobe Target.
 
 **Time to complete:** ~10 minutes
 
-**Prerequisites:** Node 20.19+ and pnpm 10+ installed. Node 24 is recommended. If not, complete [Prerequisites](/getting-started/prerequisites) first.
+::: tip Prerequisites
+Use Node 24 and pnpm 10+. If you have not set them up yet, complete [Installation](/getting-started/installation) first.
+:::
 
----
+## Choose your path
+
+| Goal | Use this path |
+|---|---|
+| First experiment | Follow this page end to end. |
+| Existing Target activity | Scaffold, start watch mode, then paste into the matching variation. |
+| Just exploring | Open [Playground](/playground). |
+| Preparing release | Skip to [Run and Ship](/run-and-ship). |
 
 ## Step 1: Scaffold the project
 
-Run the create command and follow the prompts:
-
 ```bash
 npx @sogody/experiment-framework my-first-experiment
-```
-
-When prompted, answer:
-
-| Prompt | Recommended answer |
-|---|---|
-| Number of variations | `1` (default) |
-| Window namespace | `sgd` (default) |
-| Include emergency brake | `Yes` (default) |
-| Enable E2E testing | `No` (default - add later if needed) |
-
-The CLI generates the project, installs dependencies, and prints next steps.
-
-## Step 2: Switch to the correct Node version
-
-```bash
 cd my-first-experiment
-nvm use   # reads .nvmrc - switches to Node 24
+nvm use
 ```
 
-::: warning Always run nvm use first
-The generated project includes `.nvmrc`. Running `nvm use` keeps Node aligned before you run `pnpm` commands.
-:::
+When prompted:
 
-## Optional: add AI project support
+| Prompt | Choose | Why |
+|---|---|---|
+| Number of variations | `1` | Keeps the first bundle focused. |
+| Window namespace | `sgd` | Uses the team default. |
+| Include emergency brake | `Yes` | Keeps the safety hook available. |
+| Enable E2E testing | `No` | Add Playwright after the core loop works. |
 
-AI instruction files are not generated automatically. Create the relevant local
-support from the project root:
+If you are unsure, keep the default answer.
 
-```bash
-pnpm init-claude
-pnpm init-agents
-```
-
-The commands infer the experiment name and E2E setup from existing project files. See
-[AI Project Support](/development/ai-project-support) for tool destinations,
-generated resources, and safe replacement.
-
-## Step 3: Start watch mode for variation 1
+## Step 2: Start watch mode
 
 ```bash
 pnpm start 0
 ```
 
-You will see Vite build output followed by:
+You should see:
 
 ```text
-built in 312ms
 v1-index.jsx copied to clipboard
 ```
 
-Every time you save a source file, Vite rebuilds and copies the latest bundle to your clipboard automatically.
+::: tip
+Every save rebuilds the bundle and copies the latest output to your clipboard.
+:::
 
-## Step 4: Paste into Adobe Target
+## Step 3: Paste into Adobe Target
 
 1. Open your Adobe Target activity.
-2. Navigate to the **Custom Code** editor for the variation you are developing.
-3. Select all existing content in the editor and paste (`Cmd+V` / `Ctrl+V`).
-4. Click **Save** and refresh your preview page.
+2. Open the **Custom Code** editor for variation 1.
+3. Paste the clipboard contents.
+4. Save and refresh the preview page.
 
-The experiment renders on the page. No manual bundle copying needed - the clipboard is always up to date on save.
+::: warning
+Paste the bundle into the matching Target variation. `pnpm start 0` builds `v1-index.jsx`.
+:::
 
-## Step 5: Edit the experiment
+## Step 4: Make the first edit
 
-Open `src/config.js` and set the selector for your target page:
+Open `src/config.js` and replace the selector:
 
 ```js
 export const selectors = {
-    primary: '.your-page-selector',
+    primary: '.target-selector',
     fallbacks: ['.alternate-selector', 'body'],
 };
 ```
 
-Save the file. Vite rebuilds instantly and copies the new bundle to your clipboard. Paste into Adobe Target and refresh.
+Save the file, wait for the clipboard message, paste again in Target, and refresh.
 
-## Step 6: Run a production build
-
-When your experiment is ready:
+## Step 5: Build for shipping
 
 ```bash
 pnpm build
 ```
 
-Output:
+The production bundle is written to:
 
 ```text
-dist/
-└── v1-index.jsx
+dist/v1-index.jsx
 ```
 
-Each file is a self-contained IIFE bundle. Upload or paste these into Adobe Target for your production activity.
+Optional AI support is available after the core workflow works. See [AI Project Support](/development/ai-project-support) when you need local agent instructions or reusable skills.
 
----
+## Next steps
 
-## What's next
-
-- [Project Structure](/getting-started/project-structure) - understand every generated file
-- [Variations](/development/variations) - add another variation
-- [AI Project Support](/development/ai-project-support) - install local instructions and reusable skills
-- [Framework API](/framework-api/) - `runScript`, `waitFor`, `watchFor`, and tracking helpers
-- [Configuration](/development/config) - `experiment.config.js` and `src/config.js` field reference
+- [Project Structure](/getting-started/project-structure)
+- [Run and Ship](/run-and-ship)
+- [Testing](/testing)

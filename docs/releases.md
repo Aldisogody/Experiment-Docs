@@ -29,7 +29,8 @@ After changing the dependency, run:
 
 ```bash
 pnpm install
-pnpm lint
+pnpm lint:fix
+pnpm ci:lint
 pnpm build
 ```
 

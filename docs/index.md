@@ -21,11 +21,11 @@ npx @sogody/experiment-framework my-experiment
 
 <div class="home-doc-map">
   <section class="home-doc-section" aria-labelledby="home-doc-getting-started">
-    <h3 id="home-doc-getting-started">Start Here</h3>
+    <h3 id="home-doc-getting-started">Getting Started</h3>
     <ul>
-      <li><a href="/start-here">Start Here</a> - setup, scaffold prompts, first watcher, first Adobe Target paste</li>
-      <li><a href="/getting-started/quick-start">Quick Start</a> - button scaffold in about ten minutes</li>
+      <li><a href="/getting-started/quick-start">Quick Start</a> - scaffold, watch mode, first Adobe Target paste</li>
       <li><a href="/getting-started/prerequisites">Prerequisites</a> - Node, pnpm, optional Playwright</li>
+      <li><a href="/getting-started/project-structure">Project Structure</a> - generated files and bundle anatomy</li>
     </ul>
   </section>
   <section class="home-doc-section" aria-labelledby="home-doc-development">
@@ -90,4 +90,4 @@ pnpm build
 
 :::
 
-Ready to set up your environment? Start with [Start Here](/start-here).
+Ready to create your first experiment? Start with [Quick Start](/getting-started/quick-start).
