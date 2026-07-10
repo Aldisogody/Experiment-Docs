@@ -31,10 +31,8 @@ dist/
 
 | Command | What it does |
 |---|---|
-| `pnpm lint` | Runs `biome check .`. Reports violations without writing files. |
-| `pnpm lint:fix` | Runs `biome check --write .`. Formats files, sorts imports, and applies safe fixes. |
-| `pnpm format` | Runs `biome format --write .`. Formats supported files only. |
-| `pnpm ci:lint` | Runs `biome ci .`. Checks formatting, linting, and imports without writing files. |
+| `pnpm lint` | Runs `biome check src`. Reports violations without writing files. |
+| `pnpm format` | Runs `biome check --write src`. Formats files and applies safe fixes. |
 
 ## Live injection options
 

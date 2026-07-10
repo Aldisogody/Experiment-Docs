@@ -7,7 +7,7 @@ Use this page when an experiment has moved from scaffolding into the daily Adobe
 - Run the watcher for the variation you are editing.
 - Paste the matching clipboard bundle into Adobe Target.
 - Refresh the Target preview after every meaningful change.
-- Run `pnpm lint:fix` before review or handoff.
+- Run `pnpm format` before review or handoff.
 - Run `pnpm build` before shipping.
 - Copy the production bundle from `dist/vN-index.jsx` into the matching Target variation.
 
@@ -32,9 +32,7 @@ Use this page when an experiment has moved from scaffolding into the daily Adobe
 | `pnpm build` | Run the production lint gate and build all bundles. |
 | `pnpm new-variation 3` | Create `src/js/v3` from `v1`. |
 | `pnpm lint` | Run the read-only Biome check. |
-| `pnpm lint:fix` | Format files, sort imports, and apply safe Biome fixes. |
-| `pnpm format` | Run formatting only. |
-| `pnpm ci:lint` | Run the read-only Biome CI check. |
+| `pnpm format` | Format files and apply safe Biome fixes. |
 | `pnpm test:e2e` | Build and run Playwright tests when E2E is enabled. |
 
 ## Watch and paste
@@ -105,7 +103,7 @@ The production build:
 3. Writes bundles to `dist/vN-index.jsx`.
 4. Prints raw and gzip bundle sizes.
 
-If Biome reports errors, the build aborts before bundling. Run `pnpm lint:fix` first, then manually fix any diagnostics that remain.
+If Biome reports errors, the build aborts before bundling. Run `pnpm format` first, then manually fix any diagnostics that remain.
 
 ## Add a variation
 
@@ -130,7 +128,7 @@ After creation:
 | Symptom | Check |
 |---|---|
 | Clipboard bundle appears in the wrong variation | Confirm the command index and Target variation match. |
-| Build stops before bundling | Run `pnpm lint:fix`, then fix remaining Biome diagnostics manually. |
+| Build stops before bundling | Run `pnpm format`, then fix remaining Biome diagnostics manually. |
 | Live preview opens but does not inject | Check `targetUrl`, `globalObject`, and the selected live variation in `experiment.config.js`. |
 | Target preview does not change | Save the Target custom code editor, refresh the preview page, and paste the latest clipboard bundle. |
 

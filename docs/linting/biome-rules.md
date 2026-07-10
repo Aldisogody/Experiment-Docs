@@ -1,6 +1,6 @@
 # Biome Rules
 
-[Biome](https://biomejs.dev) is the linter and formatter for JavaScript, JSX, JSON, and import sorting in generated experiment projects. It replaces ESLint and Prettier.
+[Biome](https://biomejs.dev) is the linter and formatter for JavaScript, JSX, and JSON in generated experiment projects. It replaces ESLint and Prettier.
 
 ## Full configuration
 
@@ -27,7 +27,7 @@ The generated `biome.json`:
             "MutationObserver", "HTMLElement", "Intl", "s"
         ]
     },
-    "assist": { "actions": { "source": { "organizeImports": "on" } } },
+    "assist": { "actions": { "source": { "organizeImports": "off" } } },
     "linter": {
         "enabled": true,
         "rules": {
@@ -59,7 +59,7 @@ The generated `biome.json`:
 
 ## Import sorting
 
-`biome check .` includes import sorting through Biome's assist action. Run `pnpm lint:fix` to apply the sort locally before committing.
+Generated projects leave Biome import sorting disabled with `organizeImports: "off"`. Keep imports readable, but do not expect `pnpm format` to reorder them.
 
 ## Linter rules
 
@@ -129,14 +129,8 @@ The `s` global is specific to the Samsung/Adobe Analytics setup. Biome will not 
 # Check for violations without writing files
 pnpm lint
 
-# Format, sort imports, and apply safe fixes
-pnpm lint:fix
-
-# Format supported files only
+# Format and apply safe fixes
 pnpm format
-
-# Run the read-only CI check
-pnpm ci:lint
 ```
 
 ## Common errors and fixes
@@ -145,5 +139,5 @@ pnpm ci:lint
 |---|---|---|
 | `noConsole` | `console.log` in `src/` | Remove it or use framework `log()` / `debug()` |
 | `noUnusedVariables` | Unused import or declared variable | Remove the unused declaration |
-| Formatting | Tabs instead of spaces, wrong quote style | Run `pnpm lint:fix` to auto-fix |
-| Import order | Imports are not sorted | Run `pnpm lint:fix` to sort imports |
+| Formatting | Tabs instead of spaces, wrong quote style | Run `pnpm format` to auto-fix |
+| Import order | Imports are hard to scan | Reorder imports manually when needed |

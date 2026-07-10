@@ -24,14 +24,15 @@ Current generated projects keep Preact as a runtime dependency and `@sogody/expe
 ```json
 {
     "dependencies": {
-        "preact": "^10.28.3"
+        "preact": "^10.29.2"
     },
     "devDependencies": {
         "@biomejs/biome": "^2.5.0",
         "@preact/preset-vite": "^2.10.5",
         "@sogody/experiment-framework": "^2.0.0",
-        "sass": "^1.99.0",
-        "vite": "^6.4.1"
+        "esbuild": "^0.27.0",
+        "sass": "^1.101.0",
+        "vite": "^8.0.16"
     }
 }
 ```
@@ -47,12 +48,11 @@ Remove legacy framework packages only after imports and scripts have been migrat
         "dev": "exp-build --watch",
         "build": "exp-build",
         "new-variation": "exp-new-variation",
+        "add-e2e": "exp-add-e2e",
         "init-claude": "exp-init-claude",
         "init-agents": "exp-init-agents",
-        "lint": "biome check .",
-        "lint:fix": "biome check --write .",
-        "format": "biome format --write .",
-        "ci:lint": "biome ci .",
+        "lint": "biome check src",
+        "format": "biome check --write src",
         "live": "exp-live"
     }
 }
@@ -135,15 +135,15 @@ export default {
 };
 ```
 
-`includeEmergencyBrake` is retained as a scaffold setting, but the current package build/runtime does not consume it.
+`includeEmergencyBrake` is retained as a scaffold setting and is injected into the runtime bundle by the package-owned build command.
 
 ## 7. Move to Biome
 
 Remove ESLint, Prettier, and Stylelint scripts or packages that are no longer used. Copy `biome.json` from a newly generated project so globals and rule groups match the current scaffold.
 
 ```bash
-pnpm lint:fix
-pnpm ci:lint
+pnpm format
+pnpm lint
 ```
 
 Direct `console` calls fail the generated Biome rules. Use framework `log()` or `debug()` for diagnostics.
@@ -154,15 +154,15 @@ Use the generated Vite configuration as the baseline. Important current settings
 
 - Preact bundled into each IIFE.
 - `@components` mapped to `src/components`.
-- CSS Module names formatted as `<project-prefix>-[local]`.
+- CSS Module names formatted as `<project-prefix>--[local]`.
 - Runtime Sass helpers loaded from `@sogody/experiment-framework/runtime/scss`.
 
 ## 9. Reinstall and validate
 
 ```bash
 pnpm install
-pnpm lint:fix
-pnpm ci:lint
+pnpm format
+pnpm lint
 pnpm build
 pnpm start 0
 ```

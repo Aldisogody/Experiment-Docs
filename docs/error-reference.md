@@ -33,8 +33,8 @@ pnpm start 1
 Production builds run a read-only Biome check. Run:
 
 ```bash
-pnpm lint:fix
-pnpm ci:lint
+pnpm format
+pnpm lint
 ```
 
 Fix remaining errors, including unused variables and `console` calls.

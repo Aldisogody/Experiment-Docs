@@ -6,15 +6,13 @@ A/B testing experiment built with Preact, bundled as a self-contained IIFE for A
 
 ```bash
 pnpm start 0          # watch v1; copy a production-mode bundle without sourcemaps
-pnpm dev              # watch all variations with development sourcemaps
+pnpm dev              # watch all variations
 pnpm build            # lint, then build production IIFE bundles into dist/vN-index.jsx
 pnpm new-variation 2  # create src/js/v2 from the scaffolded variation
 pnpm init-claude      # create CLAUDE.md on demand
 pnpm init-agents      # create AGENTS.md on demand
 pnpm lint             # Biome check without writing files
-pnpm lint:fix         # Biome format, import sorting, and safe fixes
-pnpm format           # Biome formatting only
-pnpm ci:lint          # read-only CI lint gate
+pnpm format           # Biome formatting and safe fixes
 pnpm live             # watch v1 and inject it into the configured targetUrl
 pnpm live -- --profile shared      # reuse one OS cache profile across experiments
 ```

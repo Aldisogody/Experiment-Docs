@@ -53,7 +53,7 @@ export default defineConfig(({ mode }) => ({
             },
         },
         cssCodeSplit: true,
-        sourcemap: mode === 'development',
+        sourcemap: false,
         minify: false,
         cssMinify: mode === 'production' ? 'esbuild' : false,
     },
