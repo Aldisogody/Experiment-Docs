@@ -25,7 +25,8 @@ Build output:
 dist/
 ├── v1-index.jsx   ← IIFE bundle for variation 1
 ├── v2-index.jsx   ← IIFE bundle for variation 2
-└── vN-index.jsx
+├── vN-index.jsx
+└── control-index.jsx
 ```
 
 ## Linting

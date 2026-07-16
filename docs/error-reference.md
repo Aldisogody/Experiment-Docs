@@ -18,11 +18,15 @@ Run the command from the generated project root and check that `experiment.confi
 
 ## `No variation entry points found`
 
-The build expects `src/js/vN/index.jsx`. Restore `v1/index.jsx` or run from the correct directory.
+The build expects at least one `src/js/*/index.jsx` entry point. Restore
+`src/js/v1/index.jsx`, add a valid named entry such as `src/js/control/index.jsx`,
+or run from the correct directory.
 
 ## `-eN is out of range`
 
-The zero-based watch index is larger than the number of discovered variation folders. For `v2`, use:
+The zero-based watch index is larger than the number of discovered variation
+folders. Numeric `vN` folders are ordered first, then named folders such as
+`control`. For `v2`, use:
 
 ```bash
 pnpm start 1

@@ -42,7 +42,7 @@ dist/
 
 The bundle includes the variation code, Preact components, and imported styles. You paste one JavaScript file into Adobe Target without uploading separate CSS or runtime assets.
 
-During development, `pnpm start 0` watches `src/js/v1` and updates `dist/v1-index.jsx`. The variation index is zero-based, so `pnpm start 1` watches `v2`.
+During development, `pnpm start 0` watches `src/js/v1` and updates `dist/v1-index.jsx`. The variation index is zero-based; with numeric folders, `pnpm start 1` watches `v2`. Named folders such as `control` are ordered after numeric `vN` folders.
 
 [Learn how to watch, build, and ship variations](/run-and-ship)
 
