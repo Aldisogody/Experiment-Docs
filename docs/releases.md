@@ -8,14 +8,15 @@ The package is `@sogody/experiment-framework`. Generated projects depend on it f
 
 ## Current published line
 
-The npm package currently resolves to `2.0.0`. The repository changelog contains newer entries, but they are source/release-preparation notes until published to npm.
+The current package line is `2.1.0`.
 
 | Version | Main change |
 |---|---|
-| `2.0.0` | Current npm package for the scoped `@sogody/experiment-framework` line. |
-| Source newer than npm | Repository changelog entries mention release metadata, Stylelint removal, and the single button scaffold. |
+| `2.1.0` | Adds named `control` variation generation and numeric-first/named-last entry discovery. |
+| `2.0.1` | Adds package type declarations, pnpm 10.26+/11 build approvals, development watch logging, and source-map fixes. |
+| `2.0.0` | Introduces the scoped package line, generic button scaffold, package-owned runtime, build/live tooling, and optional E2E setup. |
 
-Treat repository source as newer than the npm package until a new package version is published.
+Use the repository changelog as the source of truth when preparing a release.
 
 ## Upgrade a generated project
 

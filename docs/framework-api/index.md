@@ -28,14 +28,15 @@ import {
 | [`watchFor(selector, callback, options?)`](/framework-api/wait-for) | MutationObserver-based alternative to `waitFor` | `v2.0.0` |
 | [`trackAAEvent(evar, event, data)`](/framework-api/tracking) | Fires an Adobe Analytics event via the global `s` object | `v2.0.0` |
 | [`setupTracking(container, options)`](/framework-api/tracking) | Attaches click tracking to a rendered element | `v2.0.0` |
-| [`getPath()`](/framework-api/path-and-market#getpath) | Returns the current path, query string, and hash | Unreleased |
-| [`getPathSegments(path?)`](/framework-api/path-and-market#getpathsegments) | Splits a path into non-empty pathname segments | Unreleased |
-| [`getMarket(path?)`](/framework-api/path-and-market#getmarket) | Returns the lowercase first path segment | Unreleased |
-| [`log(...args)`](/framework-api/logging#log) | Logs only in development bundles | Unreleased |
-| [`debug(...args)`](/framework-api/logging#debug) | Logs when opt-in debug mode is enabled | Unreleased |
+| [`getPath()`](/framework-api/path-and-market#getpath) | Returns the current path, query string, and hash | Current package |
+| [`getPathSegments(path?)`](/framework-api/path-and-market#getpathsegments) | Splits a path into non-empty pathname segments | Current package |
+| [`getMarket(path?)`](/framework-api/path-and-market#getmarket) | Returns the lowercase first path segment | Current package |
+| [`log(...args)`](/framework-api/logging#log) | Logs only in development bundles | Current package |
+| [`debug(...args)`](/framework-api/logging#debug) | Logs when opt-in debug mode is enabled | Current package |
 
 The runtime lives in the installed `@sogody/experiment-framework` package, not in generated project source.
 
 ::: info Version labels
-`Unreleased` means the helper exists on the repository `main` branch but is newer than the current `2.0.0` npm package.
+`Current package` means the helper exists in the current `@sogody/experiment-framework`
+package line documented by this site.
 :::

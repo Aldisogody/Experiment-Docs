@@ -1,54 +1,57 @@
 # Changelog
 
-This page summarizes user-facing scaffold changes. The package repository `CHANGELOG.md` remains the release source of truth.
+This page summarizes user-facing scaffold changes. The package repository
+`CHANGELOG.md` remains the release source of truth.
 
 ## Unreleased on `main`
 
-- Added `pnpm new-variation control` support and documented numeric-first,
-  named-last variation discovery for build, watch, and live preview.
-- Removed the product-card boilerplate, `template-minimal/` overlay system, CLI boilerplate selection, `boilerplateType` generator field, and `inferBoilerplateType` project detection.
-- Consolidated generated projects to one generic button boilerplate in `template/`.
-- Updated generated AI docs to describe the button-only project shape and markets/E2E URL guidance without product-card references.
-- Made `CLAUDE.md` and `AGENTS.md` opt-in instead of generating AI instruction files during scaffolding.
-- Added package-owned `exp-init-claude` and `exp-init-agents` binaries and generated `pnpm init-claude` / `pnpm init-agents` scripts.
-- Added `pnpm live` / `exp-live` with variation, URL, overlay, and browser-profile options.
-- Added `getPath()`, `getPathSegments()`, `getMarket()`, `log()`, and `debug()` runtime helpers.
-- Added ordered selector fallbacks and the no-fallback position shorthand to `mountExperiment()`.
-- Added optional mount options to `mountExperiment()` (`className`, `id`, `dataset`, `attributes`) and scaffolded `src/js/vN/styles.module.scss` for mount-root styling. See [mountExperiment()](/framework-api/mount-experiment).
-- Added shared `mq()` and `fluid-property()` Sass helpers.
-- Removed experimental Adobe Target template-literal lowering and emitted `${` bundle protection.
-- Added `targetUrl` and `live` settings to `experiment.config.js`.
-- Refactored generator behavior around a file-oriented scaffold plan.
+No documented user-facing changes beyond the current package line.
 
-## 2.0.3 - June 30, 2026
+## 2.1.0 - July 13, 2026
 
-- Prepared npm release metadata with a `release:check` script for maintainer handoff.
-- Included `CHANGELOG.md` in the published package payload.
-- Documented maintainer release flow and npm package-name verification steps.
-- Removed unused non-template AI instruction docs from the package payload while preserving generated `*.hbs` documentation templates.
-- Corrected release notes that described JavaScript minification as enabled; generated Vite projects keep JS minification disabled and only minify production CSS.
+### Added
 
-## 2.0.2 - April 23, 2026
+- Added `pnpm new-variation control` support for generated projects that need a dedicated control entry point.
 
-- Removed Stylelint packages and the generated `.stylelintrc`.
-- Kept Biome for JavaScript, JSX, and JSON.
-- Kept Sass compilation as the SCSS validation step.
+### Changed
 
-## 2.0.1 - April 23, 2026
+- Variation entry discovery now keeps numeric `vN` folders before named folders such as `control`.
 
-- Changed the interactive boilerplate default to `minimal`.
-- Moved generated runtime and command tooling into the framework package.
-- Added `exp-build`, `exp-start`, and `exp-new-variation`.
-- Derived CSS Module prefixes from the project name.
-- Fixed the minimal scaffold so it does not receive product-card variation styles.
+## 2.0.1 - July 13, 2026
 
-## 2.0.0 - March 13, 2026
+### Added
 
-- Added the minimal boilerplate.
-- Added multi-variation generation.
-- Added optional Playwright smoke tests.
-- Migrated generated projects from ESLint to Biome.
-- Added clipboard copy during focused watch mode.
-- Set Node 20.19 as the minimum and Node 24 in generated `.nvmrc`.
+- Added TypeScript declarations for the root and `/framework` package entry points.
+
+### Changed
+
+- `pnpm start` now keeps development logging enabled while production behavior remains exclusive to `pnpm build`.
+- Generated projects use workspace-level dependency build approvals compatible with pnpm 10.26 and pnpm 11.
+- Generated Biome configuration rejects undeclared JSX references before a broken Adobe Target bundle can be emitted.
+
+### Fixed
+
+- Disabled generated source maps in development and production output for Adobe Target paste compatibility.
+
+## 2.0.0 - July 1, 2026
+
+### Added
+
+- Added the generic button experiment template with CSS Modules class prefixes derived from the project name.
+- Added multi-variation generation and the `exp-build`, `exp-start`, `exp-live`, and `exp-new-variation` package binaries.
+- Added emergency brake support, fallback selectors, Adobe Analytics tracking helpers, and optional Playwright E2E smoke tests.
+- Added package-owned runtime, build tooling, Sass helpers, generated AI documentation, and maintainer release checks.
+
+### Changed
+
+- Migrated generated projects to the scoped `@sogody/experiment-framework` dependency, Vite, Preact, Biome, and Sass CSS Modules.
+- Consolidated scaffolding to one generic button template and removed product-card boilerplate selection.
+- JavaScript minification remains disabled for Adobe Target compatibility; production CSS uses Vite's esbuild minifier.
+- DOM waiting uses `MutationObserver`, and variation builds run in parallel.
+
+### Fixed
+
+- Corrected the default base URL and initialized tracking after Preact rendering.
+- Removed unused non-template AI instruction files and legacy stylelint tooling from the published payload.
 
 See [Migration](/reference/migration) for an upgrade checklist.

@@ -295,7 +295,7 @@ Removing the wrapper is only safe when the target is an empty placeholder elemen
 ## Since
 
 - `v2.0.0` — initial helper, ordered fallbacks, position shorthand.
-- Unreleased on `main` — optional fourth `options` argument; scaffolded `src/js/vN/styles.module.scss` for mount-root styling.
+- Current package — optional fourth `options` argument; scaffolded `src/js/vN/styles.module.scss` for mount-root styling.
 
 ## See Also
 

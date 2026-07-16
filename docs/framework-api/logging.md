@@ -28,7 +28,7 @@ log('experiment mounted');
 
 ### Since
 
-Unreleased
+Current package
 
 ## debug()
 
@@ -66,7 +66,7 @@ debug('mount failed', selectors);
 
 ### Since
 
-Unreleased
+Current package
 
 ### See Also
 

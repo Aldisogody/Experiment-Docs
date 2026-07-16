@@ -27,7 +27,7 @@ getPath(); // "/uk/shop/?cid=test#offers"
 
 ### Since
 
-Unreleased
+Current package
 
 ## getPathSegments()
 
@@ -58,7 +58,7 @@ getPathSegments('/UK//Galaxy-S25/buy/?cid=test#offers');
 
 ### Since
 
-Unreleased
+Current package
 
 ## getMarket()
 
@@ -89,7 +89,7 @@ The lowercase first segment, or `null` when no segment exists.
 
 ### Since
 
-Unreleased
+Current package
 
 ### See Also
 
