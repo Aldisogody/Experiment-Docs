@@ -12,6 +12,7 @@
     "dev": "exp-build --watch",
     "build": "exp-build",
     "new-variation": "exp-new-variation",
+    "add-e2e": "exp-add-e2e",
     "init-claude": "exp-init-claude",
     "init-agents": "exp-init-agents",
     "lint": "biome check src",

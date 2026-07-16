@@ -5,11 +5,12 @@ A/B testing experiment built with Preact, bundled as a self-contained IIFE for A
 ## Dev workflow
 
 ```bash
-pnpm start 0          # watch v1; copy a production-mode bundle without sourcemaps
+pnpm start 0          # watch v1; copy the development bundle on save
 pnpm dev              # watch all variations
 pnpm build            # lint, then build production IIFE bundles into dist/vN-index.jsx
 pnpm new-variation 2  # create src/js/v2 from the scaffolded variation
 pnpm new-variation control  # create src/js/control from the scaffolded variation
+pnpm add-e2e          # add Playwright E2E setup to an existing project
 pnpm init-claude      # create CLAUDE.md on demand
 pnpm init-agents      # create AGENTS.md on demand
 pnpm lint             # Biome check without writing files
@@ -31,6 +32,20 @@ dist/               # generated bundles, e.g. v1-index.jsx
 
 Framework utilities and build/start/new-variation/init commands come from the
 `@sogody/experiment-framework` package dependency.
+
+## Adding E2E Tests
+
+```bash
+pnpm add-e2e
+```
+
+This command adds the same Playwright setup offered during scaffolding. Use
+`pnpm add-e2e -- --force` to replace generated E2E files, `-- --dry-run` to
+preview changes, `-- --yes` to accept defaults, `-- --skip-install` to skip
+dependency installation, and `-- --run-smoke` to run the smoke test after setup.
+
+`pnpm add-e2e` does not install Playwright browsers. If the first smoke run reports
+missing browsers, install them on demand with `pnpm playwright install`.
 
 ## AI documentation
 
