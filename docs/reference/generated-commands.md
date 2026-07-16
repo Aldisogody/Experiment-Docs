@@ -91,4 +91,4 @@ resources, local `.gitignore` behavior, and replacement behavior.
 
 - `pnpm build` aborts on lint errors.
 - Watch commands block an invalid bundle but keep the watcher running for the next save.
-- All commands require Node 20.19+ and pnpm 10+. Run `nvm use` first so the generated `.nvmrc` selects the project Node version.
+- All commands require Node 20.19+ and pnpm >=10.26.0. Run `nvm use` first so the generated `.nvmrc` selects the project Node version. pnpm 11 requires Node 22 or newer.

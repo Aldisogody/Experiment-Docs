@@ -5,7 +5,7 @@ Before creating your first experiment, make sure your environment meets the foll
 ## Node version {#node-version}
 
 ::: warning Node 20.19 is the minimum. Node 24 is recommended.
-The generated project's `.nvmrc` is set to `24`. Running an older Node version will cause compatibility issues with pnpm 10.
+The generated project's `.nvmrc` is set to `24`. Running an older Node version will cause compatibility issues with current pnpm releases.
 :::
 
 Install and manage Node versions with [nvm](https://github.com/nvm-sh/nvm):
@@ -23,13 +23,13 @@ Use [nvm-windows](https://github.com/coreybutler/nvm-windows) instead of nvm.
 :::
 
 ::: danger Node 16 is incompatible
-The system default Node on some machines is 16. pnpm 10.x requires Node 20.19 at minimum. Always run `nvm use` before any `pnpm` or `node` commands in a generated project.
+The system default Node on some machines is 16. Generated projects require Node 20.19 or newer. Always run `nvm use` before any `pnpm` or `node` commands in a generated project.
 :::
 
 ## pnpm {#pnpm}
 
-::: warning pnpm 10.x required
-The generated project's `pnpm-lock.yaml` uses lockfile format v9, which is only compatible with pnpm 10.x. Using pnpm 9.x or earlier will fail `--frozen-lockfile` installs.
+::: warning pnpm >=10.26.0 required
+Generated projects support pnpm >=10.26.0. Node 20.19 users must stay on pnpm 10.26-10.x; pnpm 11 requires Node 22 or newer.
 :::
 
 **Install via Corepack (recommended):**
@@ -44,10 +44,20 @@ pnpm --version   # 10.30.1
 
 ```bash
 npm install -g pnpm
-pnpm --version   # 10.x.x
+pnpm --version   # 10.26.0 or newer
 ```
 
-Why pnpm 10? The lockfile format changes between major versions. Projects committed with a v9 lockfile (`pnpm-lock.yaml` from pnpm 10.x) will fail on pnpm 9.x or below.
+Generated projects also use workspace-level dependency build approvals in `pnpm-workspace.yaml`:
+
+```yaml
+allowBuilds:
+  '@biomejs/biome': true
+  '@parcel/watcher': true
+  esbuild: true
+strictDepBuilds: true
+```
+
+This format is compatible with pnpm 10.26+ and pnpm 11.
 
 ## Playwright {#playwright}
 
@@ -77,8 +87,8 @@ The generated `playwright.config.js` uses `Desktop Chrome` only. You do not need
 Run these commands to confirm your environment is ready:
 
 ```bash
-node --version   # v18.x.x or newer
-pnpm --version   # 10.x.x
+node --version   # v20.19.x or newer
+pnpm --version   # 10.26.0 or newer
 ```
 
 Once both pass, continue to [Installation](/getting-started/installation).

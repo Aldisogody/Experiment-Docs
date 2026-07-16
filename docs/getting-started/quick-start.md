@@ -5,7 +5,7 @@ Create a Vite + Preact experiment, start watch mode, and paste the generated IIF
 **Time to complete:** ~10 minutes
 
 ::: tip Prerequisites
-Use Node 24 and pnpm 10+. If you have not set them up yet, complete [Installation](/getting-started/installation) first.
+Use Node 24 and pnpm >=10.26.0. If you have not set them up yet, complete [Installation](/getting-started/installation) first.
 :::
 
 ## Choose your path

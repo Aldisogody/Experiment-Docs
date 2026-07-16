@@ -20,7 +20,7 @@ The source repository for this site is
 ### Prerequisites
 
 - Node.js 18 or newer. Node.js 24 is recommended.
-- pnpm 10.
+- pnpm >=10.26.0. Use pnpm 10.26-10.x on Node 20.19; pnpm 11 requires Node 22 or newer.
 
 Install dependencies and start the VitePress development server:
 

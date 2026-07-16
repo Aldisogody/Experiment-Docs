@@ -28,7 +28,7 @@ The development loop follows five steps:
 
 Watch mode rebuilds the active variation after every source change and copies the latest bundle to your clipboard. When the experiment is ready to ship, `pnpm build` creates production bundles for every variation.
 
-Use Node 20.19+ and pnpm 10+. Node 24 is recommended. See [Prerequisites](/getting-started/prerequisites) before creating your first project.
+Use Node 20.19+ and pnpm >=10.26.0. Node 24 is recommended. See [Prerequisites](/getting-started/prerequisites) before creating your first project.
 
 ## Single-File Bundles
 

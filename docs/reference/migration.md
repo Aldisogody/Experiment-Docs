@@ -17,6 +17,9 @@ nvm use
 corepack prepare pnpm@10.30.1 --activate
 ```
 
+Generated projects support pnpm >=10.26.0. Use pnpm 10.26-10.x on Node 20.19;
+pnpm 11 requires Node 22 or newer.
+
 ## 2. Install package-owned tooling
 
 Current generated projects keep Preact as a runtime dependency and `@sogody/experiment-framework` as a development dependency:
@@ -157,7 +160,19 @@ Use the generated Vite configuration as the baseline. Important current settings
 - CSS Module names formatted as `<project-prefix>--[local]`.
 - Runtime Sass helpers loaded from `@sogody/experiment-framework/runtime/scss`.
 
-## 9. Reinstall and validate
+## 9. Move pnpm build approvals to the workspace file
+
+Remove `package.json.pnpm.onlyBuiltDependencies` and add `pnpm-workspace.yaml`:
+
+```yaml
+allowBuilds:
+  '@biomejs/biome': true
+  '@parcel/watcher': true
+  esbuild: true
+strictDepBuilds: true
+```
+
+## 10. Reinstall and validate
 
 ```bash
 pnpm install
