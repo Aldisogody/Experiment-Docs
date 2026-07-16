@@ -8,7 +8,7 @@ All commands available in a generated experiment project. Run them from the proj
 |---|---|
 | `pnpm start 0` | Watch variation 1 (`src/js/v1/`). Rebuilds on save and copies IIFE bundle to clipboard. |
 | `pnpm start 1` | Watch variation 2 (`src/js/v2/`). Clipboard copy enabled. |
-| `pnpm start N` | Watch variation N+1. The argument is zero-indexed. |
+| `pnpm start N` | Watch the variation at zero-based discovered order. Numeric `vN` folders come first, then named folders such as `control`. |
 | `pnpm dev` | Watch all variations simultaneously. No clipboard copy. |
 
 ## Build
@@ -18,6 +18,7 @@ All commands available in a generated experiment project. Run them from the proj
 | `pnpm build` | Production build. Runs Biome lint first. Builds all variations to `dist/`. Aborts on lint errors. |
 | `pnpm live` | Opens `targetUrl`, watches the selected bundle, and injects it into the page. |
 | `pnpm new-variation N` | Creates `src/js/vN/index.jsx` from `v1`. |
+| `pnpm new-variation control` | Creates `src/js/control/index.jsx` from `v1`. |
 
 Build output:
 ```
@@ -38,12 +39,14 @@ dist/
 
 ```bash
 pnpm live -- --variation v2
+pnpm live -- --variation control
 pnpm live -- --url https://www.samsung.com/de/
 pnpm live -- --overlay hidden
 pnpm live -- --profile shared
 ```
 
-CLI flags override the matching values in `experiment.config.js`.
+CLI flags override the matching values in `experiment.config.js`. `--variation`
+accepts a zero-based index or a discovered folder name such as `v2` or `control`.
 
 ## Testing
 

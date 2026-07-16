@@ -8,7 +8,9 @@ pnpm start 1   # watches v2
 pnpm start 2   # watches v3
 ```
 
-The numeric argument is zero-indexed: `0` targets `src/js/v1/index.jsx`, `1` targets `src/js/v2/index.jsx`, and so on.
+The numeric argument is zero-indexed and follows discovered variation order:
+numeric `vN` folders first, then named folders such as `control`. With only
+`v1` and `control`, `pnpm start 1` watches `src/js/control/index.jsx`.
 
 Internally, `pnpm start 0` delegates to the package-owned `exp-start` binary, which runs the build watcher with:
 

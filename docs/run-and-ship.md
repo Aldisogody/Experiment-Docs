@@ -31,6 +31,7 @@ Use this page when an experiment has moved from scaffolding into the daily Adobe
 | `pnpm live` | Open `targetUrl`, watch a variation, and inject its bundle. |
 | `pnpm build` | Run the production lint gate and build all bundles. |
 | `pnpm new-variation 3` | Create `src/js/v3` from `v1`. |
+| `pnpm new-variation control` | Create `src/js/control` from `v1`. |
 | `pnpm lint` | Run the read-only Biome check. |
 | `pnpm format` | Format files and apply safe Biome fixes. |
 | `pnpm test:e2e` | Build and run Playwright tests when E2E is enabled. |
@@ -43,13 +44,15 @@ Run watch mode for the variation you are editing:
 pnpm start 0
 ```
 
-The command index is zero-based, but folders are one-based:
+The command index is zero-based and follows discovered variation order. Numeric
+folders are ordered first, followed by named folders such as `control`:
 
 | Command index | Variation folder | Output bundle |
 |---|---|---|
 | `0` | `src/js/v1` | `dist/v1-index.jsx` |
 | `1` | `src/js/v2` | `dist/v2-index.jsx` |
 | `2` | `src/js/v3` | `dist/v3-index.jsx` |
+| next index | `src/js/control` | `dist/control-index.jsx` |
 
 On each successful rebuild, the generated IIFE is copied to your clipboard. Paste it into Adobe Target custom code and refresh the preview page.
 
@@ -81,12 +84,14 @@ You can override live options without editing config:
 
 ```bash
 pnpm live -- --variation v2
+pnpm live -- --variation control
 pnpm live -- --url https://www.samsung.com/de/
 pnpm live -- --overlay hidden
 pnpm live -- --profile shared
 ```
 
-`variation` accepts a zero-based index (`1` means `v2`) or a folder name (`v2`).
+`variation` accepts a zero-based index or a discovered folder name such as `v2`
+or `control`.
 
 ## Production build
 
@@ -111,16 +116,19 @@ Create a new variation from `v1`:
 
 ```bash
 pnpm new-variation 3
+pnpm new-variation control
 pnpm start 2
 ```
 
 `pnpm new-variation 3` creates `src/js/v3/index.jsx` from `v1`. If you manually added `src/js/v1/styles.module.scss`, the command copies it too; the current scaffold does not generate that file.
+`pnpm new-variation control` creates `src/js/control/index.jsx` from `v1`.
 
 After creation:
 
 - Update labels in `src/js/v3/index.jsx`.
 - Change selector, props, or component logic for the variation.
 - Run `pnpm start 2` while editing `v3`.
+- Use the printed `pnpm start <index>` command when editing a named variation such as `control`.
 - Run `pnpm build` before shipping.
 
 ## Failure modes

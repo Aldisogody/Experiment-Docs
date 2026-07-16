@@ -4,6 +4,8 @@ This page summarizes user-facing scaffold changes. The package repository `CHANG
 
 ## Unreleased on `main`
 
+- Added `pnpm new-variation control` support and documented numeric-first,
+  named-last variation discovery for build, watch, and live preview.
 - Removed the product-card boilerplate, `template-minimal/` overlay system, CLI boilerplate selection, `boilerplateType` generator field, and `inferBoilerplateType` project detection.
 - Consolidated generated projects to one generic button boilerplate in `template/`.
 - Updated generated AI docs to describe the button-only project shape and markets/E2E URL guidance without product-card references.

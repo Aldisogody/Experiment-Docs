@@ -24,7 +24,7 @@ export default {
 | `targetUrl` | `string` | Page opened by `pnpm live`. The scaffold derives it from E2E market answers when available. |
 | `globalObject` | `string` | The IIFE window namespace. The bundle registers as `window[globalObject]`. Set at scaffold time - change only if it conflicts with another experiment. |
 | `includeEmergencyBrake` | `boolean` | Scaffolded compatibility setting. The current build and runtime do not read it; verify the deployment layer before relying on it. |
-| `live.variation` | `number \| string` | Variation used by `pnpm live`. Accepts a zero-based index or folder name such as `v2`. |
+| `live.variation` | `number \| string` | Variation used by `pnpm live`. Accepts a zero-based index or discovered folder name such as `v2` or `control`. |
 | `live.overlay` | `'visible' \| 'hidden'` | Shows or hides the live-injection status overlay. |
 | `live.profile` | `'ephemeral' \| 'shared'` | Uses a temporary browser profile or a persistent OS-cache profile. |
 

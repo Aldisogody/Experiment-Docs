@@ -9,11 +9,13 @@ pnpm start 0          # watch v1; copy a production-mode bundle without sourcema
 pnpm dev              # watch all variations
 pnpm build            # lint, then build production IIFE bundles into dist/vN-index.jsx
 pnpm new-variation 2  # create src/js/v2 from the scaffolded variation
+pnpm new-variation control  # create src/js/control from the scaffolded variation
 pnpm init-claude      # create CLAUDE.md on demand
 pnpm init-agents      # create AGENTS.md on demand
 pnpm lint             # Biome check without writing files
 pnpm format           # Biome formatting and safe fixes
 pnpm live             # watch v1 and inject it into the configured targetUrl
+pnpm live -- --variation control  # preview a named variation such as src/js/control/
 pnpm live -- --profile shared      # reuse one OS cache profile across experiments
 ```
 
@@ -49,8 +51,9 @@ for example `pnpm init-claude -- --force`.
 bundle, injects it into the page, and treats `window[globalObject][packageName]`
 registration as the loaded state.
 
-Use `pnpm live -- --variation v2` or `pnpm live -- --variation 1` to preview
-another variation. Use `pnpm live -- --profile shared` when you need cookies or
+Use `pnpm live -- --variation v2`, `pnpm live -- --variation 1`, or
+`pnpm live -- --variation control` to preview another variation. Use
+`pnpm live -- --profile shared` when you need cookies or
 login state to persist across runs.
 
 ## Config
@@ -90,11 +93,14 @@ is a compatibility shim because Preact is bundled by default.
 
 ```bash
 pnpm new-variation 2
+pnpm new-variation control
 pnpm start 1
 ```
 
-The `start` command uses zero-based indexes, so `pnpm start 1` watches `v2`.
-For manual copies, keep each variation under `src/js/vN/index.jsx`.
+The `start` command uses zero-based indexes. Numeric variation folders are
+ordered first, then named folders such as `control`. With only `v1` and
+`control`, `pnpm start 1` watches `control`.
+For manual copies, keep each variation under `src/js/*/index.jsx`.
 
 ## Mounting Pattern
 

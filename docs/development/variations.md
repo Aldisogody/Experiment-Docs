@@ -2,11 +2,20 @@
 
 ## Variation numbering
 
-Variations are numbered from 1. In a standard A/B test:
+Generated numeric variations are numbered from 1. In a standard A/B test:
 
 - `v1` - control (no change, or baseline treatment)
 - `v2` - treatment A
 - `v3` - treatment B (A/B/C test)
+
+The framework also supports a dedicated named control entry:
+
+```bash
+pnpm new-variation control
+```
+
+This creates `src/js/control/index.jsx` from `v1`. Numeric folders are always
+ordered before named folders, so `v1`, `v2`, and `control` build in that order.
 
 ## Adding a variation
 
@@ -14,9 +23,12 @@ The scaffolder generates `v1` and any additional variations you requested. To ad
 
 ```bash
 pnpm new-variation 3
+pnpm new-variation control
 ```
 
-This creates `src/js/v3/index.jsx` from `v1`. The command also copies `src/js/v1/styles.module.scss` when present; the current scaffold uses this file for mount-root styling.
+These commands create `src/js/v3/index.jsx` or `src/js/control/index.jsx` from `v1`.
+They also copy `src/js/v1/styles.module.scss` when present; the current scaffold
+uses this file for mount-root styling.
 
 After creation, open `src/js/v3/index.jsx` and update:
 
@@ -40,7 +52,16 @@ pnpm start 1   # variation 2 (src/js/v2/)
 pnpm start 2   # variation 3 (src/js/v3/)
 ```
 
-The index is always zero-based. Only one variation is watched at a time - switch by restarting with a different number.
+The index is always zero-based and follows discovered build order. Numeric
+folders come first, followed by named folders such as `control`.
+
+For example, with only `v1` and `control`, run:
+
+```bash
+pnpm start 1   # src/js/control/
+```
+
+Only one variation is watched at a time - switch by restarting with a different number.
 
 ## Production build
 
@@ -54,7 +75,8 @@ Builds all variations in parallel. Output:
 dist/
 ├── v1-index.jsx
 ├── v2-index.jsx
-└── vN-index.jsx
+├── vN-index.jsx
+└── control-index.jsx
 ```
 
 Biome runs before the build. The build aborts if linting fails.
