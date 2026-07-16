@@ -65,7 +65,7 @@ await takeScreenshot(page, market.code, 'after-render', testInfo);
 
 ## Multi-market parametrisation
 
-The `for...of` loop creates one independent test per market. `SEBN`, for example, creates tests for Belgium Dutch, Belgium French, and Netherlands.
+The `for...of` loop creates one independent test per market. `BENELUX`, for example, creates tests for Belgium Dutch, Belgium French, and Netherlands.
 
 ## URL configuration
 

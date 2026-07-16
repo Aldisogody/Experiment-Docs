@@ -15,7 +15,7 @@ Each market has a `urlPath` that maps to a URL path segment on samsung.com:
 
 ## Multi-country groups
 
-When you select a multi-country group at scaffold time, the E2E tests run against all countries in the group. For example, selecting **SEBN (Benelux)** generates three test iterations:
+When you select a multi-country group at scaffold time, the E2E tests run against all countries in the group. For example, selecting **BENELUX** generates three test iterations:
 
 ```
 smoke test - Belgium (NL)    → https://samsung.com/be/
