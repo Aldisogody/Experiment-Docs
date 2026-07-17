@@ -4,6 +4,11 @@ const ECOSYSTEM_LINKS = {
   samlinksV2: 'https://samlinks2.vercel.app/',
 } as const;
 
+const ECOSYSTEM_NAV = {
+  uiComponentsSoon:
+    'UI components <span class="VPBadge info small">soon</span>',
+} as const;
+
 const webcontainerHeaders = {
   'Cross-Origin-Opener-Policy': 'same-origin',
   'Cross-Origin-Embedder-Policy': 'require-corp',
@@ -174,6 +179,11 @@ export default defineConfig({
                 link: ECOSYSTEM_LINKS.samlinksV2,
                 target: '_blank',
                 rel: 'noopener noreferrer',
+              },
+              {
+                text: ECOSYSTEM_NAV.uiComponentsSoon,
+                link: '',
+                noIcon: true,
               },
             ],
           },
