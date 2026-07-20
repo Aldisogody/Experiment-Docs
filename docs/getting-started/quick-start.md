@@ -1,12 +1,21 @@
 # Quick Start
 
-Create a Vite + Preact experiment, start watch mode, and paste the generated IIFE bundle into Adobe Target.
+Create a Vite + Preact experiment, find where it should inject on the target page, start watch mode, and paste the generated IIFE bundle into Adobe Target.
 
-**Time to complete:** ~10 minutes
+**Time to complete:** ~15–20 minutes (includes finding a real selector on the target page)
 
 ::: tip Prerequisites
 Use Node 24 and pnpm >=10.26.0. If you have not set them up yet, complete [Installation](/getting-started/installation) first.
 :::
+
+## What you will do
+
+By the end of this page you will:
+
+1. Scaffold a button experiment.
+2. Use DevTools to find a stable CSS selector on the target page.
+3. Choose where the experiment injects relative to that element (`afterbegin`, `beforeend`, and so on).
+4. Paste a working bundle into Adobe Target and see the button on the page.
 
 ## Choose your path
 
@@ -36,7 +45,144 @@ When prompted:
 
 If you are unsure, keep the default answer.
 
-## Step 2: Start watch mode
+## Step 2: Know the two files you will edit first
+
+The scaffold generates more than a button. For your first run, focus on these two files:
+
+| File | What it controls |
+|---|---|
+| `src/config.js` | **Where** the experiment injects (`selectors`) and **what** the button says (`buttonText`). |
+| `src/js/v1/index.jsx` | **How** the variation runs: wait for DOM → mount container → render UI → attach tracking. |
+
+The variation entry point follows a fixed order:
+
+```jsx
+runScript(async () => {
+    const container = mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin', {
+        className: style.root,
+        dataset: { experiment: 'my-first-experiment' },
+    });
+    if (!container) return;
+
+    render(<ExperimentButton text={buttonText} />, container);
+
+    setupTracking(container, {
+        label: 'my-first-experiment: v1 button clicked',
+        selector: 'button',
+    });
+});
+```
+
+- `runScript()` waits until the page DOM is ready.
+- `mountExperiment()` finds your selector and inserts a wrapper `div`.
+- `render()` puts the Preact button inside that wrapper.
+- `setupTracking()` runs **after** render so the button exists.
+
+If nothing appears on the page, the problem is almost always the selector or mount position - not the button component.
+
+## Step 3: Find the mount point with DevTools
+
+Before editing code, inspect the real target page in the browser.
+
+### 3a. Open the target page
+
+Use the URL from your Adobe Target activity, or the scaffold default in `experiment.config.js`:
+
+```js
+// experiment.config.js
+export default {
+    targetUrl: 'https://www.samsung.com/uk/smartphones/all-smartphones/',
+    // ...
+};
+```
+
+Open that URL in Chrome or Edge.
+
+### 3b. Inspect the injection anchor
+
+1. Open **DevTools** (`F12` or `Cmd+Option+I` on macOS).
+2. Click the **element picker** (cursor icon in the top-left of DevTools).
+3. Click the page region where the experiment should appear - for example, above a product grid, inside a hero, or below a filter bar.
+4. In the **Elements** panel, note the highlighted node and its stable attributes.
+
+Prefer selectors that survive page reloads and market differences:
+
+| Prefer | Avoid |
+|---|---|
+| `[data-testid="…"]`, `[data-component="…"]` | Random hashed classes such as `.css-1a2b3c` |
+| Semantic wrappers: `main`, `[role="main"]` | `nth-child` chains that break when optional modules load |
+| A unique class on a layout container | IDs that change per session |
+
+### 3c. Test the selector in the console
+
+In the DevTools **Console** tab, verify the selector matches exactly one intended element:
+
+```js
+document.querySelector('[data-testid="product-list"]')
+// → should return the element you want, not null
+```
+
+If it returns `null`, refine the selector. If it returns the wrong element, pick a more specific anchor.
+
+### 3d. Decide the mount position
+
+`mountExperiment()` inserts a wrapper **relative to the matched element**. Choose the position based on where the UI should land:
+
+| Position | Where the wrapper goes | Typical use |
+|---|---|---|
+| `'afterbegin'` *(scaffold default)* | Inside the target, before its first child | Inject at the top of a section |
+| `'beforeend'` | Inside the target, after its last child | Append inside a container |
+| `'beforebegin'` | Immediately before the target element | Insert a full-width row above a block |
+| `'afterend'` | Immediately after the target element | Insert below a section |
+
+Visual model for target element `<section class="hero">`:
+
+```text
+beforebegin →  [ wrapper ] <section>…</section>
+afterbegin  →  <section> [ wrapper ] …children… </section>
+beforeend   →  <section> …children… [ wrapper ] </section>
+afterend    →  <section>…</section> [ wrapper ]
+```
+
+Use DevTools to confirm the anchor has room for your UI. A crowded flex row may need `'afterend'` instead of `'afterbegin'`.
+
+## Step 4: Configure selectors and mount position
+
+### 4a. Set selectors in `src/config.js`
+
+Replace the placeholders with the selector you tested in DevTools:
+
+```js
+export const selectors = {
+    primary: '[data-testid="product-list"]',
+    fallbacks: ['main', 'body'],
+};
+
+export const buttonText = 'Shop now';
+```
+
+Rules for the selector chain:
+
+- **`primary`** - the element you want to inject next to. Keep it as specific as the page allows.
+- **`fallbacks`** - ordered from more specific to broader. `mountExperiment()` tries `primary` first, then each fallback. Use fallbacks when templates differ across markets.
+- Do not rely on `body` unless you intentionally want a last-resort full-page mount.
+
+### 4b. Change mount position when needed
+
+The third argument to `mountExperiment()` in `src/js/v1/index.jsx` controls placement. The scaffold defaults to `'afterbegin'`.
+
+Example: inject **below** the product list instead of inside it:
+
+```jsx
+const container = mountExperiment(selectors.primary, selectors.fallbacks, 'afterend', {
+    className: style.root,
+    dataset: { experiment: 'my-first-experiment' },
+});
+```
+
+Save both files. You will rebuild in the next step.
+
+## Step 5: Start watch mode
 
 ```bash
 pnpm start 0
@@ -52,7 +198,15 @@ v1-index.jsx copied to clipboard
 Every save rebuilds the bundle and copies the latest output to your clipboard.
 :::
 
-## Step 3: Paste into Adobe Target
+Alternative: open the target page with live injection (uses `targetUrl` from `experiment.config.js`):
+
+```bash
+pnpm live
+```
+
+The overlay shows which selector matched. See [Run and Ship - Live injection](/run-and-ship#live-injection) for flags such as `--url` and `--overlay hidden`.
+
+## Step 6: Paste into Adobe Target
 
 1. Open your Adobe Target activity.
 2. Open the **Custom Code** editor for variation 1.
@@ -63,20 +217,19 @@ Every save rebuilds the bundle and copies the latest output to your clipboard.
 Paste the bundle into the matching Target variation. `pnpm start 0` builds `v1-index.jsx`.
 :::
 
-## Step 4: Make the first edit
+## Step 7: Verify and fix common issues
 
-Open `src/config.js` and replace the selector:
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| Nothing renders | Selector does not match on this page/market | Re-test in DevTools console on the **preview URL**; update `selectors.primary` |
+| UI appears in the wrong place | Mount position does not match layout | Change `'afterbegin'` → `'afterend'` or `'beforeend'` in `src/js/v1/index.jsx` |
+| UI flashes then disappears | SPA re-executes Target code | Add a dedup guard - see [mountExperiment SPA dedup](/framework-api/mount-experiment#spa-dedup-guard) |
+| Button missing but bundle runs | `mountExperiment` returned `null` | Check fallback order; confirm `if (!container) return` is present |
+| Click not tracked | Tracking runs before render | Keep `setupTracking()` **after** `render()` |
 
-```js
-export const selectors = {
-    primary: '.target-selector',
-    fallbacks: ['.alternate-selector', 'body'],
-};
-```
+After each fix: save → wait for clipboard message → paste again → refresh Target preview.
 
-Save the file, wait for the clipboard message, paste again in Target, and refresh.
-
-## Step 5: Build for shipping
+## Step 8: Build for shipping
 
 ```bash
 pnpm build
@@ -88,10 +241,14 @@ The production bundle is written to:
 dist/v1-index.jsx
 ```
 
+Before handoff, also run `pnpm format` and `pnpm lint`. See [Run and Ship](/run-and-ship) for the full release checklist.
+
 Optional AI support is available after the core workflow works. See [AI Project Support](/development/ai-project-support) when you need local agent instructions or reusable skills.
 
 ## Next steps
 
-- [Project Structure](/getting-started/project-structure)
-- [Run and Ship](/run-and-ship)
-- [Testing](/testing)
+- [Project Structure](/getting-started/project-structure) - full file map
+- [Build an Experiment](/build-an-experiment) - components, styles, and tracking
+- [`mountExperiment()`](/framework-api/mount-experiment) - mount options, styling, and edge cases
+- [Run and Ship](/run-and-ship) - watch mode, live injection, variations
+- [Testing](/testing) - optional Playwright coverage
