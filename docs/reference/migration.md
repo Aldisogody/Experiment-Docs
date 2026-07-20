@@ -1,38 +1,47 @@
 # Migration Guide
 
-Use this guide to align a legacy generated experiment with the current package-owned runtime and commands. Commit or back up the project before changing build files.
+This checklist covers the migration from the legacy Gulp framework to the current Vite-based framework. It follows the tested `legacy-experiment-test` migration and keeps the experiment's existing behavior unchanged.
 
-## 1. Align Node and pnpm
+## 1. Record the current behavior
 
-Add or update `.nvmrc`:
+Before changing files, note these values:
 
-```text
-24
-```
+- `package.json.name`;
+- `targetUrl`, `globalObject`, and `includeEmergencyBrake` from `config.json`;
+- the variation entry points;
+- where the experiment mounts;
+- the visible behavior and styles that must still work.
 
-Then run:
+Commit or back up the project before continuing.
 
-```bash
-nvm use
-corepack prepare pnpm@10.30.1 --activate
-```
+## 2. Replace the package setup
 
-Generated projects support pnpm >=10.26.0. Use pnpm 10.26-10.x on Node 20.19;
-pnpm 11 requires Node 22 or newer.
-
-## 2. Install package-owned tooling
-
-Current generated projects keep Preact as a runtime dependency and `@sogody/experiment-framework` as a development dependency:
+Add `"type": "module"`, Node and pnpm requirements, the current scripts, and the v2.1 dependencies:
 
 ```json
 {
+    "type": "module",
+    "engines": {
+        "node": ">=20.19.0",
+        "pnpm": ">=10.26.0"
+    },
+    "scripts": {
+        "start": "exp-start",
+        "dev": "exp-build --watch",
+        "build": "exp-build",
+        "new-variation": "exp-new-variation",
+        "add-e2e": "exp-add-e2e",
+        "lint": "biome check src",
+        "format": "biome check --write src",
+        "live": "exp-live"
+    },
     "dependencies": {
         "preact": "^10.29.2"
     },
     "devDependencies": {
         "@biomejs/biome": "^2.5.0",
         "@preact/preset-vite": "^2.10.5",
-        "@sogody/experiment-framework": "^2.0.0",
+        "@sogody/experiment-framework": "^2.1.0",
         "esbuild": "^0.27.0",
         "sass": "^1.101.0",
         "vite": "^8.0.16"
@@ -40,96 +49,41 @@ Current generated projects keep Preact as a runtime dependency and `@sogody/expe
 }
 ```
 
-Remove legacy framework packages only after imports and scripts have been migrated.
+Add `.nvmrc` containing `24`.
 
-## 3. Replace generated command scripts
+## 3. Add the new build files
 
-```json
-{
-    "scripts": {
-        "start": "exp-start",
-        "dev": "exp-build --watch",
-        "build": "exp-build",
-        "new-variation": "exp-new-variation",
-        "add-e2e": "exp-add-e2e",
-        "init-claude": "exp-init-claude",
-        "init-agents": "exp-init-agents",
-        "lint": "biome check src",
-        "format": "biome check --write src",
-        "live": "exp-live"
-    }
-}
-```
+Copy these files from a project generated with the same framework version:
 
-Replace older command names:
+- `vite.config.js`;
+- `biome.json`;
+- `jsconfig.json`;
+- `pnpm-workspace.yaml`;
+- `.editorconfig` and `.gitignore`.
 
-| Old | Current |
+In `vite.config.js`, update the package name, global object, emergency-brake value, and CSS Module prefix for the experiment. Keep the standard aliases such as `@components` and keep Preact bundled.
+
+The main file changes are:
+
+| Legacy | Current |
 |---|---|
-| `sogody-start` | `exp-start` |
-| `sogody-build` | `exp-build` |
-| `sogody-new-variation` | `exp-new-variation` |
+| `Gulpfile.js` | `vite.config.js` |
+| `config.json` | `experiment.config.js` |
+| `yarn.lock` | `pnpm-lock.yaml` |
+| `.babelrc`, ESLint, Stylelint | `biome.json`, `jsconfig.json` |
+| imported `styles.scss` | `styles.module.scss` |
 
-### Optional AI project support
+## 4. Convert the experiment config
 
-Current projects expose `init-claude` and `init-agents` scripts, but AI support
-remains opt-in. Upgrade the `@sogody/experiment-framework` dependency first. If the older
-project's `package.json` does not contain those scripts, invoke the
-package-owned binaries directly from the project root:
-
-```bash
-pnpm exec exp-init-claude
-pnpm exec exp-init-agents
-```
-
-They create `CLAUDE.md` or `AGENTS.md` after inferring the experiment name and
-E2E setup from the existing project. See
-[AI Project Support](/development/ai-project-support) before forcing an update
-over customized files.
-
-## 4. Import the package runtime
-
-Replace local or scoped framework imports:
-
-```js
-import {
-    mountExperiment,
-    runScript,
-    setupTracking,
-} from '@sogody/experiment-framework/framework';
-```
-
-The generated project no longer needs a copied `lib/framework.js`.
-
-## 5. Use structured selectors
-
-```js
-export const selectors = {
-    primary: '.target-selector',
-    fallbacks: ['.alternate-selector', 'body'],
-};
-```
-
-Mount with:
-
-```js
-import style from './styles.module.scss';
-
-const container = mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin', {
-    className: style.root,
-    dataset: { experiment: 'my-experiment' },
-});
-if (!container) return;
-```
-
-Existing projects can add `src/js/vN/styles.module.scss` and pass `style.root` when upgrading. See [mountExperiment()](/framework-api/mount-experiment) for all options.
-
-## 6. Update experiment config
+Create `experiment.config.js` using the values from `config.json`. Runtime values must be inside `runtime`, and `targetUrl` must include the protocol:
 
 ```js
 export default {
-    targetUrl: 'https://www.samsung.com/uk/smartphones/all-smartphones/',
-    globalObject: 'sgd',
-    includeEmergencyBrake: true,
+    targetUrl: 'https://www.sogody.com',
+    runtime: {
+        globalObject: 'sgd',
+        includeEmergencyBrake: true,
+    },
     live: {
         variation: 0,
         overlay: 'visible',
@@ -138,48 +92,72 @@ export default {
 };
 ```
 
-`includeEmergencyBrake` is retained as a scaffold setting and is injected into the runtime bundle by the package-owned build command.
+Standard entries under `src/js/*/index.jsx` are discovered automatically, so the old `entryPoints` list is normally unnecessary.
 
-## 7. Move to Biome
+## 5. Update imports and styles
 
-Remove ESLint, Prettier, and Stylelint scripts or packages that are no longer used. Copy `biome.json` from a newly generated project so globals and rule groups match the current scaffold.
+Import runtime helpers from the framework export and remove the old `withPreact` wrapper:
 
-```bash
-pnpm format
-pnpm lint
+```js
+import { render } from 'preact';
+import { runScript } from '@sogody/experiment-framework/framework';
+
+runScript(() => {
+    render(<Experiment />, document.body);
+});
 ```
 
-Direct `console` calls fail the generated Biome rules. Use framework `log()` or `debug()` for diagnostics.
+Keep the experiment's existing mount and behavior. Moving to `mountExperiment` or adding tracking is a separate optional refactor.
 
-## 8. Verify Vite compatibility
+When a stylesheet is imported as a class-name object, rename it to a CSS Module:
 
-Use the generated Vite configuration as the baseline. Important current settings include:
-
-- Preact bundled into each IIFE.
-- `@components` mapped to `src/components`.
-- CSS Module names formatted as `<project-prefix>--[local]`.
-- Runtime Sass helpers loaded from `@sogody/experiment-framework/runtime/scss`.
-
-## 9. Move pnpm build approvals to the workspace file
-
-Remove `package.json.pnpm.onlyBuiltDependencies` and add `pnpm-workspace.yaml`:
-
-```yaml
-allowBuilds:
-  '@biomejs/biome': true
-  '@parcel/watcher': true
-  esbuild: true
-strictDepBuilds: true
+```diff
+- import style from './styles.scss';
++ import style from './styles.module.scss';
 ```
 
-## 10. Reinstall and validate
+Remove old Sass imports from `@sogody/experiment-framework/src/scss`. The Vite config loads the packaged Sass helpers automatically. Global styles can remain `styles.scss`, but import them without assigning the result:
+
+```js
+import './styles.scss';
+```
+
+## 6. Add live-preview selectors
+
+`pnpm live` reads selectors from `src/config.js`. Add the experiment's real target, or use `body` when the experiment mounts directly there:
+
+```js
+export const selectors = {
+    primary: 'body',
+    fallbacks: [],
+};
+```
+
+The entry point does not need to import these selectors unless it uses them at runtime.
+
+## 7. Remove legacy files and validate
+
+Remove the old build files and dependencies:
+
+- `Gulpfile.js` and Gulp packages;
+- `config.json` after copying its values;
+- `.babelrc`, `.eslintrc`, `.eslintignore`, and `.stylelintrc`;
+- Babel, Cross Env, legacy ESLint/Stylelint, and `@sogody/eslint-config` packages;
+- `yarn.lock` and the old `node_modules` directory;
+- empty or unused stylesheets.
+
+Install and run the finite checks:
 
 ```bash
 pnpm install
 pnpm format
 pnpm lint
 pnpm build
-pnpm start 0
 ```
 
-Preview the bundle in Adobe Target or with `pnpm live`. For E2E-enabled projects, also run `pnpm test:e2e`.
+Confirm that `dist/v1-index.jsx` is created and that the experiment still mounts, looks, and behaves as before. Test the watchers separately because they keep running until stopped:
+
+```bash
+pnpm start 0
+pnpm live
+```
