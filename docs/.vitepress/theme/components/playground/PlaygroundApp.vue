@@ -488,19 +488,24 @@ async function cleanupRunningProcesses() {
   }
 }
 
-onMounted(() => {
-  boot();
-});
-
-onBeforeUnmount(() => {
+function disposePlayground() {
   operationId++;
   writeGeneration++;
   isTransitioning.value = false;
   clearPendingWrites();
   clearScheduledAutoCopy();
   window.clearTimeout(bundleCopiedTimer);
-  cleanupRunningProcesses();
+
+  const instance = webcontainer.value;
+  void cleanupRunningProcesses();
+  discardWebContainer(instance);
+}
+
+onMounted(() => {
+  boot();
 });
+
+onBeforeUnmount(disposePlayground);
 </script>
 
 <template>

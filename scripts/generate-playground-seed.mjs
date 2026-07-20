@@ -14,6 +14,18 @@ const sampleRoot = resolve(repoRoot, 'docs/playground/sample');
 const outputPath = resolve(repoRoot, 'docs/.vitepress/theme/playground/generated-seed.json');
 const frameworkPackageName = '@sogody/experiment-framework';
 const publishedFrameworkRange = '^2.0.0';
+const excludedRootFiles = new Set([
+  '.editorconfig',
+  '.gitignore',
+  '.nvmrc',
+  'README.md',
+  'biome.json',
+  'jsconfig.json',
+  'package-lock.json',
+  'pnpm-lock.yaml',
+  'pnpm-workspace.yaml',
+  'yarn.lock',
+]);
 
 function readFiles(root) {
   const files = {};
@@ -33,6 +45,8 @@ function readFiles(root) {
 
       const fullPath = join(dir, entry);
       const relativePath = relative(root, fullPath).replaceAll('\\', '/');
+      if (excludedRootFiles.has(relativePath)) continue;
+
       const stat = statSync(fullPath);
 
       if (stat.isDirectory()) {
@@ -55,12 +69,8 @@ function withSandboxPackageMetadata(files) {
     [frameworkPackageName]: packageJson.devDependencies?.[frameworkPackageName] || publishedFrameworkRange,
   };
   delete packageJson.devDependencies['@biomejs/biome'];
-
-  if (Array.isArray(packageJson.pnpm?.onlyBuiltDependencies)) {
-    packageJson.pnpm.onlyBuiltDependencies = packageJson.pnpm.onlyBuiltDependencies.filter(
-      (dependency) => dependency !== '@biomejs/biome',
-    );
-  }
+  delete packageJson.engines?.pnpm;
+  delete packageJson.pnpm;
 
   return {
     ...files,

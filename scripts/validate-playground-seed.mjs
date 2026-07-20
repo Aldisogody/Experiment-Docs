@@ -19,6 +19,18 @@ const requiredFiles = [
   'src/js/v1/styles.module.scss',
   'vite.config.js',
 ];
+const forbiddenFiles = [
+  '.editorconfig',
+  '.gitignore',
+  '.nvmrc',
+  'README.md',
+  'biome.json',
+  'jsconfig.json',
+  'package-lock.json',
+  'pnpm-lock.yaml',
+  'pnpm-workspace.yaml',
+  'yarn.lock',
+];
 
 if (!artifact || typeof artifact !== 'object') {
   throw new Error('Playground seed artifact must be an object.');
@@ -38,6 +50,12 @@ for (const file of requiredFiles) {
   }
 }
 
+for (const file of forbiddenFiles) {
+  if (file in artifact.files) {
+    throw new Error(`npm-native playground seed must not include ${file}.`);
+  }
+}
+
 const packageJson = JSON.parse(artifact.files['package.json']);
 if (packageJson.scripts?.dev !== 'exp-build --watch') {
   throw new Error('Generated project must expose the expected watch command.');
@@ -51,8 +69,8 @@ if (packageJson.devDependencies?.['@biomejs/biome']) {
   throw new Error('Sandbox package metadata must not install @biomejs/biome.');
 }
 
-if (packageJson.pnpm?.onlyBuiltDependencies?.includes('@biomejs/biome')) {
-  throw new Error('Sandbox package metadata must not approve @biomejs/biome native builds.');
+if (packageJson.engines?.pnpm || packageJson.pnpm) {
+  throw new Error('npm-native sandbox package metadata must not include pnpm configuration.');
 }
 
 if (!artifact.files['src/js/v1/index.jsx'].includes('@sogody/experiment-framework/framework')) {
@@ -75,6 +93,17 @@ if (packageJson.scripts?.['playground:preview']) {
   throw new Error('Generated project must not expose the preview command.');
 }
 
+if (!playgroundApp.includes("instance.spawn('npm', ['install'])")) {
+  throw new Error('Playground dependency installation must use npm.');
+}
+
+if (
+  !playgroundApp.includes('function disposePlayground()') ||
+  !playgroundApp.includes('onBeforeUnmount(disposePlayground)')
+) {
+  throw new Error('Playground must dispose its WebContainer when the component unmounts.');
+}
+
 if (playgroundApp.includes('.then(() => refreshPendingBundle())')) {
   throw new Error('Playground must not refresh the copyable bundle after source writes only.');
 }
@@ -92,6 +121,10 @@ if (
   !playgroundPage.includes('src/js/v1/styles.module.scss')
 ) {
   throw new Error('Playground page must explain button styles versus mount-root styles.');
+}
+
+if (!playgroundPage.includes('uses npm') || !playgroundPage.includes('does not ship a lockfile')) {
+  throw new Error('Playground page must document the npm-native sandbox install policy.');
 }
 
 console.log(`Validated ${requiredFiles.length} required playground seed files.`);

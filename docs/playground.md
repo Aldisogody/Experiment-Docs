@@ -8,6 +8,10 @@ aside: false
 The editor below runs a sandboxed sample project directly in the browser. The
 sandbox installs dependencies, builds the experiment bundle, starts watch mode,
 and lets you copy the generated bundle without writing to your local filesystem.
+The browser sandbox uses npm and does not ship a lockfile, keeping the initial
+download small. npm resolves the declared dependency ranges when the sandbox
+boots and may create a temporary `package-lock.json` inside that browser session.
+Generated projects used locally continue to use pnpm and their checked-in lockfile.
 
 Visual button styles live in
 `src/components/ExperimentButton/styles.module.scss`. The default
@@ -25,4 +29,3 @@ For the full workflow, see [Run and Ship](/run-and-ship) and
     <p>Loading playground...</p>
   </template>
 </ClientOnly>
-
