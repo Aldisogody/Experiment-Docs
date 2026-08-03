@@ -1,7 +1,7 @@
 <template>
   <a
     class="framework-feedback"
-    href="https://github.com/Sogody/experiment-framework/issues/new?template=framework-feedback.yml"
+    href="/feedback"
     target="_blank"
     rel="noopener noreferrer"
   >
