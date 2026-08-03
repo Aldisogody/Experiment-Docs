@@ -7,7 +7,8 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "playground:generate": "node scripts/generate-playground-seed.mjs",
-    "playground:validate": "node scripts/validate-playground-seed.mjs"
+    "playground:validate": "node scripts/validate-playground-seed.mjs",
+    "test:feedback": "node --test test/feedback-function.test.js"
   },
   "peerDependencies": {
     "vue": "^3.5.0"
