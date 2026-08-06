@@ -5,19 +5,17 @@ aside: false
 
 # Playground
 
-The editor below runs a sandboxed sample project directly in the browser. The
-sandbox installs dependencies, builds the experiment bundle, starts watch mode,
-and lets you copy the generated bundle without writing to your local filesystem.
-The browser sandbox uses npm and does not ship a lockfile, keeping the initial
-download small. npm resolves the declared dependency ranges when the sandbox
-boots and may create a temporary `package-lock.json` inside that browser session.
-Generated projects used locally continue to use pnpm and their checked-in lockfile.
+The editor runs a sample project in a browser sandbox. It installs dependencies,
+builds the bundle, starts watch mode, and lets you copy the result without writing
+to your computer.
 
-Visual button styles live in
-`src/components/ExperimentButton/styles.module.scss`. The default
-`src/js/v1/styles.module.scss` file styles the mount wrapper; its `.root` class
-uses `display: contents`, so wrapper-only visual changes may be bundled without
-changing the rendered button.
+The sandbox uses npm without a lockfile to keep the initial download small. It may
+create a temporary `package-lock.json` during the session. Projects created on your
+computer use pnpm and include a lockfile.
+
+Button styles live in `src/components/ExperimentButton/styles.module.scss`.
+`src/js/v1/styles.module.scss` styles the mount wrapper. Its default `.root`
+class uses `display: contents`, so the wrapper does not disturb the host layout.
 
 For the watch-and-paste workflow, see [Watch Mode & Clipboard](/development/watch-mode).
 For the full workflow, see [Run and Ship](/run-and-ship) and

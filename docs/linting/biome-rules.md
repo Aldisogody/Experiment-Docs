@@ -1,4 +1,4 @@
-# Biome Rules
+# Biome rules
 
 [Biome](https://biomejs.dev) is the linter and formatter for JavaScript, JSX, and JSON in generated experiment projects. It replaces ESLint and Prettier.
 
@@ -52,9 +52,9 @@ The generated `biome.json`:
 
 | Setting | Value | Reason |
 |---|---|---|
-| `indentStyle` | `space` | Consistent with surrounding Samsung codebase |
+| `indentStyle` | `space` | Uses spaces rather than tabs |
 | `indentWidth` | `4` | 4-space indentation |
-| `lineWidth` | `120` | Wider than the 80-char default to accommodate JSX |
+| `lineWidth` | `120` | Leaves room for JSX without forcing frequent wraps |
 | `quoteStyle` | `single` | Single quotes throughout |
 
 ## Import sorting
@@ -76,10 +76,10 @@ The generated config keeps the top-level `recommended` setting off, then enables
 ### `noConsole: error`
 
 ```js
-// WRONG - will fail the build
+// Fails the build
 console.log('debug value:', data);
 
-// CORRECT - use the runtime's opt-in diagnostic helper
+// Use the runtime's opt-in diagnostic helper instead
 debug('product data', data);
 ```
 
@@ -96,7 +96,7 @@ import { waitFor, watchFor } from '@sogody/experiment-framework/framework';
 import { waitFor } from '@sogody/experiment-framework/framework';
 ```
 
-Unused variables and imports increase bundle size unnecessarily. This rule enforces clean imports.
+This rule catches imports and variables left behind during editing.
 
 ## Globals
 

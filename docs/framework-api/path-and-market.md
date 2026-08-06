@@ -1,4 +1,4 @@
-# Path and Market
+# Path and market
 
 The runtime includes small URL helpers for market-aware experiment logic. They do not validate Samsung market codes; they only parse the browser path.
 
@@ -91,7 +91,7 @@ The lowercase first segment, or `null` when no segment exists.
 
 Current package
 
-### See Also
+### Related pages
 
 - [Markets Reference](/reference/markets)
 - [`runScript()`](/framework-api/run-script)

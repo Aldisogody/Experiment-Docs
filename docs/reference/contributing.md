@@ -1,6 +1,6 @@
 # Contributing
 
-The scaffolder and documentation are separate repositories in the local workspace.
+The framework source and this documentation site live in separate repositories.
 
 | Project | Repository |
 |---|---|
@@ -41,7 +41,7 @@ pnpm install
 pnpm test
 ```
 
-The project uses ESM, Vitest, node-plop, 2-space indentation in repository source, and focused modules under `lib/` and `generator/`.
+The framework uses ESM, Vitest, node-plop, and two-space indentation. Shared generator logic belongs in focused modules under `lib/` and `generator/`.
 
 ## Template changes
 
@@ -63,6 +63,6 @@ Add or update tests that generate real files in a temporary directory. Run the f
 - AI instruction files remain opt-in and their paths match the init binaries.
 - Commands are run from the correct repository or generated project root.
 
-## Pull requests
+## Before opening a pull request
 
 Use a Conventional Commit title such as `docs: update live injection guide` or `fix: correct scaffold output`. Include the validation commands you ran and call out any behavior that exists on `main` but is not yet published.

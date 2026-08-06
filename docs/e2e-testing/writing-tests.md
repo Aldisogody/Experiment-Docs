@@ -1,4 +1,4 @@
-# Writing Tests
+# Writing tests
 
 ## The smoke spec
 
@@ -30,7 +30,7 @@ for (const market of urlsConfig.markets) {
 
 ### `setupPage(page, market, testInfo)`
 
-The helper:
+`setupPage()`:
 
 1. Opens the market URL.
 2. Creates the primary target when it is a missing simple class selector.
@@ -63,9 +63,9 @@ Captures the experiment container and attaches the image to the Playwright HTML 
 await takeScreenshot(page, market.code, 'after-render', testInfo);
 ```
 
-## Multi-market parametrisation
+## Run the test for each market
 
-The `for...of` loop creates one independent test per market. `BENELUX`, for example, creates tests for Belgium Dutch, Belgium French, and Netherlands.
+The `for...of` loop creates one test per market. `BENELUX`, for example, creates tests for Belgium Dutch, Belgium French, and the Netherlands.
 
 ## URL configuration
 
@@ -86,7 +86,7 @@ export const urlsConfig = {
 
 Change the page path in `setupPage()` when the experiment belongs to a route other than `/`.
 
-## Add assertions
+## Add experiment assertions
 
 ```js
 test(`price renders - ${market.name}`, async ({ page }, testInfo) => {

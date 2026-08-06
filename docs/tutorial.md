@@ -2,11 +2,11 @@
 title: Tutorial
 ---
 
-# Tutorial
+# Short tutorial
 
-Build a button experiment from scaffold to production bundle. Use [Quick Start](/getting-started/quick-start) when you want the shortest version of the same workflow.
+This is the compact version of the button workflow. [Quick Start](/getting-started/quick-start) includes selector guidance, mount positions, Adobe Target steps, and troubleshooting.
 
-## 1. Scaffold
+## 1. Create the project
 
 ```bash
 npx @sogody/experiment-framework button-cta-test
@@ -16,7 +16,7 @@ nvm use
 
 Choose one variation, the default `sgd` namespace, the default emergency brake setting, and no E2E testing for this walkthrough.
 
-## 2. Configure the Target
+## 2. Configure the target
 
 Update `src/config.js`:
 
@@ -31,7 +31,7 @@ export const buttonText = 'Shop now';
 
 Keep the selector chain ordered from the most specific target to the broadest fallback.
 
-## 3. Review the Entry Point
+## 3. Check the entry point
 
 `src/js/v1/index.jsx` mounts the wrapper, renders the button, and attaches tracking:
 
@@ -52,7 +52,7 @@ setupTracking(container, {
 
 Tracking stays after `render()` so the button exists before `setupTracking()` queries it.
 
-## 4. Style the Button
+## 4. Style the button
 
 Edit `src/components/ExperimentButton/styles.module.scss` for the visible UI. Edit `src/js/v1/styles.module.scss` only when the mount wrapper needs layout changes.
 

@@ -2,17 +2,17 @@
 title: Real-World Examples
 ---
 
-# Real-World Experiment Handling Examples
+# Experiment patterns from real projects
 
-These examples teach situations and strategies, not complete experiments. Each pattern is intentionally generalized and anonymized; adapt selectors, copy, tracking labels, and configuration to the experiment at hand.
+These are small patterns taken from real experiment work, not complete projects. The names and selectors are generalized. Adapt the code, copy, tracking labels, and configuration to your experiment.
 
 Use these patterns alongside the [`runScript()`](/framework-api/run-script), [`mountExperiment()`](/framework-api/mount-experiment), [`waitFor()` and `watchFor()`](/framework-api/wait-for), and [tracking](/framework-api/tracking) references.
 
-## 1. Wait for Multiple Lazy Dependencies Before Moving Content
+## 1. Wait for lazy dependencies before moving content
 
 **Source:** `coe-158-sebn-miracle-highlight-colours-and-emphasize-on-pdp`
 
-**Stack:** Modern source — `@sogody/experiment-framework`, async DOM utilities, raw DOM movement.
+**Built with:** Current framework, async DOM utilities, and direct DOM movement.
 
 **When to use:** A host page renders both the content to move and its destination asynchronously.
 
@@ -20,7 +20,7 @@ Use these patterns alongside the [`runScript()`](/framework-api/run-script), [`m
 
 **Approach:** Wait for all required elements with one bounded timeout, exit silently if any dependency never appears, make the move idempotent, and temporarily hide the moving element until the next animation frame.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 async function moveWhenReady() {
@@ -47,11 +47,11 @@ async function moveWhenReady() {
 
 **Modern equivalent:** Prefer `watchFor` for each lazy selector when available, then coordinate the resulting promises inside `runScript`.
 
-## 2. Personalize From Device Detection Without Fighting Host Rewrites
+## 2. Personalize from device detection without fighting host rewrites
 
 **Source:** `coe-156-miracle-ti-value-personalized-messaging`
 
-**Stack:** Modern source — `@sogody/experiment-framework`, browser device hints, `MutationObserver`.
+**Built with:** Current framework, browser device hints, and `MutationObserver`.
 
 **When to use:** Messaging depends on a visitor device that can be detected in-browser and mapped to supported business data.
 
@@ -59,7 +59,7 @@ async function moveWhenReady() {
 
 **Approach:** Treat detection as optional, normalize model aliases, require a supported value before rendering, and attach one guarded observer that restores the intended text only when the host changes it.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 async function resolveSupportedDevice(deviceAliases, valuesByDevice) {
@@ -94,11 +94,11 @@ function keepTextApplied(element, text) {
 }
 ```
 
-## 3. Maintain Recently Viewed State With a Separate PDP Updater
+## 3. Maintain recently viewed state with a separate PDP updater
 
 **Source:** `coe-284-sebn-olympics-2026-campaign-page-recently-viewed-module`
 
-**Stack:** Modern source — separate framework entry point, host product data, Adobe Target profile update.
+**Built with:** A separate framework entry point, host product data, and an Adobe Target profile update.
 
 **When to use:** A later landing page needs browsing history that must be collected on product pages first.
 
@@ -106,7 +106,7 @@ function keepTextApplied(element, text) {
 
 **Approach:** Deploy a small PDP-only updater separately from the renderer. Parse old and legacy formats defensively, put the current product first, deduplicate, cap the history, and resend after host product-selection events.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 function parseHistory(raw) {
@@ -139,11 +139,11 @@ hostEvents.on('productSelectionChanged', () => {
 
 **Modern equivalent:** Keep the updater in its own `runScript` entry point and use a profile-update-only Web SDK event rather than requesting or rendering Target decisions.
 
-## 4. Blend Personalization With Deduplicated Fallback Products
+## 4. Blend personalization with deduplicated fallback products
 
 **Source:** `coe-284-sebn-olympics-2026-campaign-page-recently-viewed-module`
 
-**Stack:** Modern source — Preact renderer, URL-driven categories, host mutation observers.
+**Built with:** Preact, URL-driven categories, and host mutation observers.
 
 **When to use:** Personalized recommendations may not fill the full module and configured products must complete the list.
 
@@ -151,7 +151,7 @@ hostEvents.on('productSelectionChanged', () => {
 
 **Approach:** Select a small personalized prefix, deduplicate fallback items by model family and exact ID, fill the remaining capacity, and rebuild only when the active category changes.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 const familyKey = (id) => id.slice(0, 8);
@@ -181,11 +181,11 @@ function rebuildForCategory(category) {
 }
 ```
 
-## 5. Resolve Personalization Through an Explicit Fallback Chain
+## 5. Resolve personalization through an explicit fallback chain
 
 **Source:** `coe-602-sebn-crm-leadership-campaign`
 
-**Stack:** Modern source — `@sogody/experiment-framework`, cookies, URL parameters, Target profile data.
+**Built with:** Current framework, cookies, URL parameters, and Target profile data.
 
 **When to use:** The same personalized value may arrive from a deep link, a first-party cookie, or a persisted profile.
 
@@ -193,7 +193,7 @@ function rebuildForCategory(category) {
 
 **Approach:** Define priority in one function, return on the first valid value, record values that should be persisted, and exit before mounting when every source is empty.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 function resolvePersonalizedValue({ search, cookieValue, profileValue }) {
@@ -223,11 +223,11 @@ const resolved = resolvePersonalizedValue(inputs);
 if (!resolved.value) return;
 ```
 
-## 6. Reject Unresolved Adobe Target Placeholders
+## 6. Reject unresolved Adobe Target placeholders
 
 **Source:** `coe-602-sebn-crm-leadership-campaign`
 
-**Stack:** Modern source — Adobe Target literal placeholders, Preact state initialization.
+**Built with:** Adobe Target literal placeholders and Preact state initialization.
 
 **When to use:** A Target profile placeholder controls eligibility, prior interaction state, or personalized content.
 
@@ -235,7 +235,7 @@ if (!resolved.value) return;
 
 **Approach:** Recognize placeholder syntax before applying business rules. Keep the placeholder as a single-quoted literal in source and treat unresolved values as absent.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 const unresolvedPrefix = '$' + '{';
@@ -257,11 +257,11 @@ const rawProfileFlag = '${user.example_flag}';
 const initialCompletedState = hasCompletedAction(rawProfileFlag);
 ```
 
-## 7. Use a Selector Cascade Across Page Templates
+## 7. Use a selector cascade across page templates
 
 **Source:** `coe-602-sebn-crm-leadership-campaign`
 
-**Stack:** Modern source — raw DOM mounting across home, category, product, and navigation layouts.
+**Built with:** Direct DOM mounting across home, category, product, and navigation layouts.
 
 **When to use:** One experience must appear at the same logical position on pages with different markup.
 
@@ -269,7 +269,7 @@ const initialCompletedState = hasCompletedAction(rawProfileFlag);
 
 **Approach:** Order selectors from most specific to most general, choose the first existing anchor, and stop without rendering if no approved anchor exists.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 function firstMatchingElement(selectors) {
@@ -292,11 +292,11 @@ container.dataset.experimentContainer = 'true';
 anchor.insertAdjacentElement('beforebegin', container);
 ```
 
-## 8. Inject the Same Promotion Into Multiple Locations Safely
+## 8. Inject the same promotion into several locations safely
 
 **Source:** `coe-108-sebn-b2c-solden-2026-pd-promo-signposting`
 
-**Stack:** Modern source — Preact, multiple `waitFor` branches, per-location duplicate guards.
+**Built with:** Preact, separate `waitFor` branches, and a duplicate guard for each location.
 
 **When to use:** The same offer must appear in two host modules that load independently.
 
@@ -304,7 +304,7 @@ anchor.insertAdjacentElement('beforebegin', container);
 
 **Approach:** Treat each location as an independent mount, wait for its own dependencies, and guard duplicates inside the nearest owning container rather than globally.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 function injectOnce(owner, createContainer, renderContent) {
@@ -333,11 +333,11 @@ watchFor('[data-trade-in] [data-offer-copy]', (copy) => {
 });
 ```
 
-## 9. Apply Path-Specific Copy Within Market Configuration
+## 9. Apply path-specific copy within market configuration
 
 **Source:** `coe-313-miracle-ios-switching-ticker-banner`
 
-**Stack:** Modern source — Preact, market configuration, exact-path overrides.
+**Built with:** Preact, market configuration, and exact-path overrides.
 
 **When to use:** Most pages in a market share copy, but a small number of products require different wording.
 
@@ -345,7 +345,7 @@ watchFor('[data-trade-in] [data-offer-copy]', (copy) => {
 
 **Approach:** Resolve the market first, then layer a narrow path override over the market default. Fall back to the default when no exact override exists.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 const config = {
@@ -373,11 +373,11 @@ function getCopies(market, pathname) {
 }
 ```
 
-## 10. Resolve Language and Store Variants From the Route
+## 10. Resolve language and store variants from the route
 
 **Source:** `coe-313-miracle-ios-switching-ticker-banner`, `coe-602-sebn-crm-leadership-campaign`
 
-**Stack:** Modern source — route parsing for localized and multistore configuration.
+**Built with:** Route parsing for localized and multistore configuration.
 
 **When to use:** A country has a language-specific site or multiple storefronts with different copy and placement.
 
@@ -385,7 +385,7 @@ function getCopies(market, pathname) {
 
 **Approach:** Centralize route resolution, check specific multistore paths before the country fallback, and use the resolved key for both copy and placement.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 function resolveStoreKey(pathname) {
@@ -408,11 +408,11 @@ const storeConfig = config[storeKey];
 if (!storeConfig) return;
 ```
 
-## 11. Recalculate Dynamic Price Comparisons Idempotently
+## 11. Recalculate dynamic price comparisons safely
 
 **Source:** `coe-1324-mx-buy-page-kpn-subscription-ux-improvement`
 
-**Stack:** Source map — Preact, `@sogody/experiment-framework` runtime, host-price mutation observer.
+**Built with:** Preact, the current framework runtime, and a host-price mutation observer.
 
 **When to use:** A host buying tool changes model, plan, or sticky-bar prices without a full page load.
 
@@ -420,7 +420,7 @@ if (!storeConfig) return;
 
 **Approach:** Re-read canonical host values on every mutation, preserve original markup in data attributes, skip unchanged states using a signature, and fully restore the host UI when inputs are missing or savings are no longer positive.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 function applyPriceComparison() {
@@ -462,11 +462,11 @@ runScript(() => {
 });
 ```
 
-## 12. Move One Banner Between Normal and Sticky Navigation States
+## 12. Move one banner between normal and sticky navigation states
 
 **Source:** `coe-2767-abandoned-browser-by-ecid`
 
-**Stack:** Source map — Preact, `@sogody/experiment-framework` runtime, class-based host state observation.
+**Built with:** Preact, the current framework runtime, and class-based host state observation.
 
 **When to use:** The host page swaps between normal and sticky navigation and the experiment must remain adjacent to the active navigation.
 
@@ -474,7 +474,7 @@ runScript(() => {
 
 **Approach:** Create one guarded container, mount it according to the initial host class, then move the same node when the sticky signal changes.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 function placeBanner(container, { sticky, normalAnchor, stickyAnchor }) {
@@ -503,11 +503,11 @@ function observePlacement(container, selectors) {
 
 **Modern equivalent:** Use `mountExperiment` for the initial placement and `watchFor` to obtain the sticky signal before attaching the class observer.
 
-## 13. Gate Messaging With Paid-Media Attribution in the Landing URL
+## 13. Gate messaging with paid-media attribution in the landing URL
 
 **Source:** `coe-1943-a-series-usp-banner-for-all-paid-media-users`
 
-**Stack:** Source map — Preact, `@sogody/experiment-framework` runtime, URL eligibility guard.
+**Built with:** Preact, the current framework runtime, and a URL eligibility guard.
 
 **When to use:** Messaging should appear only for visitors arriving through a named paid-media route and product family.
 
@@ -515,7 +515,7 @@ function observePlacement(container, selectors) {
 
 **Approach:** Normalize the landing URL, require all attribution and product tokens before mounting, and keep this gate ahead of all DOM work.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 function isEligiblePaidLanding(location) {
@@ -538,11 +538,11 @@ runScript(() => {
 });
 ```
 
-## 14. Choose Different Presentation Patterns by Page Type
+## 14. Choose a presentation pattern by page type
 
 **Source:** `coe-1001-cro-installation-service`
 
-**Stack:** Source map — Preact, `@sogody/experiment-framework` runtime, route-based page classification.
+**Built with:** Preact, the current framework runtime, and route-based page classification.
 
 **When to use:** One proposition belongs in a slim category-page banner but needs a richer product-page upsell.
 
@@ -550,7 +550,7 @@ runScript(() => {
 
 **Approach:** Classify the route first, return for unsupported pages, and give each page type its own component, anchor, and mount position while sharing only the proposition data that is truly common.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 function getPageType(pathname, eligibleProductIds) {
@@ -575,11 +575,11 @@ runScript(() => {
 });
 ```
 
-## 15. Reorder Existing Content by Semantic Landmarks
+## 15. Reorder existing content by semantic landmarks
 
 **Source:** `coe-654-a-series-reordering-content-device-detection-pdp`
 
-**Stack:** Legacy built artifact — `@sogody/experiment-framework`, raw DOM reordering.
+**Built with:** A legacy bundle, the framework runtime, and direct DOM reordering.
 
 **When to use:** Existing host sections must be reordered, but positional selectors are unstable.
 
@@ -587,7 +587,7 @@ runScript(() => {
 
 **Approach:** Describe sections through semantic landmarks, resolve all order-sensitive nodes before moving, hide only the owning container, and restore its previous visibility in `finally`.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 function findSection(container, landmark) {
@@ -620,11 +620,11 @@ runScript(() => {
 
 **Modern equivalent:** Keep the semantic resolver as plain DOM code, but run it through `runScript` and use `watchFor` when the feature container is lazy-rendered.
 
-## 16. Patch an Existing Host Component Instead of Duplicating It
+## 16. Patch an existing host component instead of duplicating it
 
 **Source:** `coe-707-sebn-miracle-contingency-crm-voucher`
 
-**Stack:** Legacy built artifact — raw DOM patching of a host carousel, host component reinitialization.
+**Built with:** A legacy bundle, direct DOM changes to a host carousel, and host component reinitialization.
 
 **When to use:** The page already has the correct component type and adding another instance would duplicate navigation, spacing, or behavior.
 
@@ -632,7 +632,7 @@ runScript(() => {
 
 **Approach:** Wait for the host component, patch only the required fields, mark injected or wired nodes, synchronize host-controlled text after mutations, and call the host component's supported refresh API when structure changes.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 function patchHostSlide(slide, patch) {
@@ -668,11 +668,11 @@ watchFor('[data-host-carousel]', () => {
 
 **Modern equivalent:** Use `watchFor` for the host root and keep patching inside `runScript`; use `mountExperiment` only when the host component cannot be safely extended.
 
-## 17. Track Impressions After Viewport Entry and Interactions After Render
+## 17. Track impressions after viewport entry and interactions after render
 
 **Source:** `coe-602-sebn-crm-leadership-campaign`
 
-**Stack:** Modern source — Preact hooks, `IntersectionObserver`, Adobe Analytics interaction tracking.
+**Built with:** Preact hooks, `IntersectionObserver`, and Adobe Analytics interaction tracking.
 
 **When to use:** A rendered component needs one exposure event plus click or dismiss events.
 
@@ -680,7 +680,7 @@ watchFor('[data-host-carousel]', () => {
 
 **Approach:** Render first, observe the rendered root, unobserve after the first intersection, and bind interactions only after their DOM exists.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 function trackOnceInView(element, label, threshold = 0.1) {
@@ -704,11 +704,11 @@ setupTracking(container, { selector: '[data-primary-action]', label: 'experiment
 setupTracking(container, { selector: '[data-dismiss]', label: 'experiment: dismiss' });
 ```
 
-## 18. Align Control and Variant Exposure to the Same Logical Landmark
+## 18. Align control and variant exposure to the same landmark
 
 **Source:** `eo-916-mx-intuitive-ai-style-summary-on-pdp`
 
-**Stack:** Modern source — separate control and variant entry points, shared viewport tracking helper.
+**Built with:** Separate control and variant entry points with a shared viewport tracking helper.
 
 **When to use:** The test KPI depends on visitors actually reaching the area changed by the variant.
 
@@ -716,7 +716,7 @@ setupTracking(container, { selector: '[data-dismiss]', label: 'experiment: dismi
 
 **Approach:** Define a shared logical landmark. The control observes the existing host section; the variant inserts its replacement at the equivalent position and observes the replacement with the same threshold and event semantics.
 
-**Minimal generalized pattern:**
+**Example:**
 
 ```js
 function observeExposure(element, experience) {

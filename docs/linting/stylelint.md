@@ -2,7 +2,7 @@
 
 Generated projects use Sass CSS Modules for UI styles. Biome does not lint SCSS, and the active templates do not generate a `.stylelintrc` file.
 
-Use this page as the styling convention reference.
+These are the styling conventions used by generated projects.
 
 ## CSS Modules
 
@@ -73,16 +73,16 @@ preprocessorOptions: {
 
 That means component SCSS can use the framework media-query and fluid-property helpers without adding local imports.
 
-## Style locations
+## Where styles belong
 
 The scaffold keeps component styling inside `ExperimentButton`.
 
-Generated variations include **mount-root** styles in `src/js/v1/styles.module.scss`. This file styles the outer wrapper created by `mountExperiment()`, not the Preact component inside it.
+Generated variations include mount-root styles in `src/js/v1/styles.module.scss`. This file styles the outer wrapper created by `mountExperiment()`, not the Preact component inside it.
 
 ```text
 src/js/v1/
   index.jsx
-  styles.module.scss   # mount wrapper — pass style.root to mountExperiment()
+  styles.module.scss   # mount wrapper; pass style.root to mountExperiment()
 ```
 
 Keep shared component styles in `src/components/*/styles.module.scss`. Extend per-variation mount styles when a variation needs different wrapper layout or spacing. `pnpm new-variation N` copies `v1/styles.module.scss` into the new variation folder when the file exists.

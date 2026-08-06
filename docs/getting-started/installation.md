@@ -8,15 +8,15 @@ Run the create command with your project name:
 npx @sogody/experiment-framework my-experiment
 ```
 
-The CLI guides you through a series of prompts, then generates a complete project, installs dependencies, and optionally runs Playwright setup and a smoke test.
+The CLI asks a few setup questions, creates the project, and installs its dependencies. It can also configure Playwright and run an initial smoke test.
 
 ## CLI prompts
 
 | Prompt | Default | What it controls |
 |---|---|---|
 | **Number of variations** | `1` | Generates `src/js/v1/` through `src/js/vN/`. Pick 2 for A/B, 3 for A/B/C. |
-| **Window namespace** | `sgd` | The IIFE output name on `window` (e.g. `window.sgd`). Must be a valid JS identifier. Keep the default unless it conflicts with another experiment on the same page. |
-| **Include emergency brake** | `true` | Records `includeEmergencyBrake` in `experiment.config.js`. The current build/runtime does not consume this field, so verify the deployment integration before relying on it. |
+| **Window namespace** | `sgd` | The IIFE output name on `window`, such as `window.sgd`. It must be a valid JavaScript identifier. Change it only if another experiment on the page uses the same name. |
+| **Include emergency brake** | `true` | Sets `runtime.includeEmergencyBrake` in `experiment.config.js`. When enabled, `runScript()` checks the Adobe Target emergency-brake configuration before running the experiment. |
 | **Enable E2E testing** | `false` | Generates `e2e/`, `playwright.config.js`, and wires up `pnpm test:e2e`. Enable if you have a stable preview URL to test against. |
 | **Base URL** _(E2E only)_ | `https://samsung.com` | The root URL for Playwright tests. |
 | **Market** _(E2E only)_ | - | Selects which Samsung market(s) to parametrise tests against. See the [Markets reference](/reference/markets). |
@@ -24,7 +24,7 @@ The CLI guides you through a series of prompts, then generates a complete projec
 
 ## After scaffolding
 
-The CLI prints the next steps. Start developing immediately:
+After scaffolding, start the watcher for the first variation:
 
 ```bash
 cd my-experiment
@@ -33,12 +33,12 @@ cd my-experiment
 pnpm start 0
 ```
 
-Open Adobe Target, navigate to your experiment's custom code editor, and paste. That's the full inner loop.
+Paste the copied bundle into the matching Adobe Target variation, save, and refresh the preview.
 
-### Optional: add AI project support
+### Optional AI project support
 
 Generated projects do not include AI instruction files automatically.
-From the project root, create the support used by your tooling:
+From the project root, create the instruction file your tool uses:
 
 ```bash
 pnpm init-claude

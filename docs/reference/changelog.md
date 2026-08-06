@@ -1,7 +1,6 @@
 # Changelog
 
-This page summarizes user-facing scaffold changes. The package repository
-`CHANGELOG.md` remains the release source of truth.
+This page summarizes changes that affect generated projects. The package repository's `CHANGELOG.md` is the release source of truth.
 
 ## Unreleased on `main`
 

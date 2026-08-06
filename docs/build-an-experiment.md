@@ -1,6 +1,6 @@
-# Build an Experiment
+# Build an experiment
 
-Use this page when you have a generated project and need to know which files to edit.
+Most experiment work happens in the config, variation entry point, component, and local styles.
 
 ## Editing map
 
@@ -62,9 +62,9 @@ The important order is:
 3. Your experiment renders into that container.
 4. `setupTracking()` runs after render so the tracked element exists.
 
-## Generated scaffold
+## What the scaffold includes
 
-The current scaffold generates a locale-neutral button experiment:
+The scaffold starts with a locale-neutral button:
 
 - `ExperimentButton`.
 - `buttonText` in `src/config.js`.
@@ -127,7 +127,7 @@ Use the API reference when you need exact parameters:
 - [Path and market helpers](/framework-api/path-and-market)
 - [Logging and debugging](/framework-api/logging)
 
-## Next
+## Continue
 
 - [Run and Ship](/run-and-ship) explains watch mode, live injection, builds, and variations.
 - [Testing](/testing) explains optional Playwright tests.

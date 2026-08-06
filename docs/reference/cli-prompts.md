@@ -1,6 +1,6 @@
-# CLI Prompts Reference
+# CLI prompts
 
-Complete reference for every prompt shown when running `npx @sogody/experiment-framework`.
+These are the questions asked by `npx @sogody/experiment-framework`.
 
 ## Usage
 
@@ -38,7 +38,7 @@ The current CLI uses one generic button scaffold for every project. It does not 
 | **Default** | `sgd` |
 | **Validation** | Must be a valid JavaScript identifier |
 
-Sets the `globalObject` field in `experiment.config.js`. The IIFE bundle registers itself as `window[globalObject]` - for example, `window.sgd`.
+Sets `runtime.globalObject` in `experiment.config.js`. The IIFE bundle registers under that namespace, for example `window.sgd`.
 
 Keep the default `sgd` unless it conflicts with another experiment running on the same Adobe Target page.
 
@@ -51,7 +51,7 @@ Keep the default `sgd` unless it conflicts with another experiment running on th
 | **Type** | Confirm |
 | **Default** | `true` |
 
-Sets `includeEmergencyBrake` in `experiment.config.js`. The current package records but does not consume this value, so verify any deployment-layer kill-switch integration.
+Sets `runtime.includeEmergencyBrake` in `experiment.config.js`. When enabled, `runScript()` checks the Adobe Target emergency-brake configuration before running the experiment.
 
 ---
 
@@ -100,4 +100,4 @@ Selects which Samsung market(s) to run E2E tests against. Multi-country groups (
 | **Default** | `false` |
 | **Condition** | Only shown when E2E is enabled |
 
-When `true`, the CLI runs `pnpm build` and then `pnpm test:e2e` immediately after project setup. Useful to verify the scaffold is working end-to-end before you start developing.
+When `true`, the CLI runs `pnpm build` followed by `pnpm test:e2e` after setup. This checks the generated project before you start editing it.

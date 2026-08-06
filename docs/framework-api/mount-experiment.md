@@ -1,6 +1,6 @@
 # mountExperiment()
 
-Creates a container `div` and injects it adjacent to a target element. Returns the container so you can render into it immediately.
+Creates a container `div`, inserts it relative to a target element, and returns it for rendering.
 
 The mount wrapper sits **outside** the Preact component tree. Component CSS Modules, such as `ExperimentButton` styles, do not apply to it automatically. Pass a scoped class from `src/js/vN/styles.module.scss` via the optional fourth argument.
 
@@ -46,13 +46,13 @@ const container = mountExperiment('.target', 'afterend');
 
 Options are applied **after** `createElement('div')` and **before** `insertAdjacentElement`.
 
-## How styles are passed and injected
+## How wrapper styles reach the bundle
 
-The runtime package (`@sogody/experiment-framework/framework`) is plain ESM. It is **not** processed by Vite and **cannot** import `.scss`.
+The runtime package is plain ESM, so it cannot import `.scss`. Import the wrapper stylesheet from the variation entry point instead.
 
 | Layer | Responsibility |
 |---|---|
-| Variation entry (`src/js/vN/index.jsx`) | `import style from './styles.module.scss'` — pulls SCSS into the IIFE build graph |
+| Variation entry (`src/js/vN/index.jsx`) | `import style from './styles.module.scss'` pulls SCSS into the IIFE build graph |
 | Vite (`vite.config.js`) | Compiles SCSS to scoped class names (`{{ classPrefix }}--root`) and injects `<style>` at bundle runtime |
 | `mountExperiment` | Applies the resolved class string to `container.className` |
 
@@ -70,7 +70,7 @@ Vite turns `.root` in `styles.module.scss` into something like `my-experiment--r
 This adds a class to the DOM but **does not** bundle the styles unless the same class is defined elsewhere in the import graph:
 
 ```js
-// Avoid — no CSS in bundle
+// Avoid: no CSS in bundle
 mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin', {
     className: 'my-experiment--root',
 });
@@ -79,7 +79,7 @@ mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin', {
 
 ## Usage
 
-### Scaffold default (recommended)
+### Scaffold default
 
 The scaffold generates `src/js/v1/styles.module.scss` with a `.root` class using `display: contents` so the wrapper does not affect flex/grid layout:
 
@@ -108,7 +108,7 @@ runScript(async () => {
 });
 ```
 
-Always guard on `null` — if the target page changes structure or the selector is wrong, `mountExperiment` returns `null` and the guard prevents a runtime error.
+Always handle `null`. It means neither the primary selector nor a fallback matched.
 
 ### Full-width mount wrapper
 
@@ -153,7 +153,7 @@ mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin', {
 
 `mountExperiment` assigns `className` as-is; it does not split or join values.
 
-### E2E-friendly `data-experiment` hook
+### Stable E2E selector
 
 The scaffold sets `dataset.experiment` to the project name. Playwright can target a stable attribute:
 
@@ -189,9 +189,9 @@ const container = mountExperiment(selectors.primary, selectors.fallbacks, 'after
 });
 ```
 
-### Insert position with styling
+### Styled insert positions
 
-No fallbacks — pass options as the third argument when the second argument is a position:
+Without fallbacks, pass the position second and the options third:
 
 ```js
 const container = mountExperiment(selectors.primary, 'afterend', {
@@ -265,7 +265,7 @@ container.className = style.root;
 container.dataset.experiment = 'my-experiment';
 ```
 
-## InsertPosition values
+## Insert positions
 
 | Value | Where the container is inserted |
 |---|---|
@@ -276,7 +276,7 @@ container.dataset.experiment = 'my-experiment';
 
 The current scaffold passes `'afterbegin'`.
 
-## Why the wrapper div exists
+## Why the wrapper exists
 
 Preact `render()` replaces all children of its parent element. Rendering directly into a populated Samsung host node can wipe existing page content. The mount wrapper:
 
@@ -288,18 +288,18 @@ Removing the wrapper is only safe when the target is an empty placeholder elemen
 
 ## Returns
 
-`HTMLElement` — the created container `div`, ready to render into.
+`HTMLElement` if the container was created and inserted.
 
-`null` — if neither `selector` nor `fallback` match any element.
+`null` if neither `selector` nor a fallback matches an element.
 
 ## Since
 
-- `v2.0.0` — initial helper, ordered fallbacks, position shorthand.
-- Current package — optional fourth `options` argument; scaffolded `src/js/vN/styles.module.scss` for mount-root styling.
+- `v2.0.0`: initial helper, ordered fallbacks, and position shorthand.
+- Current package: optional fourth `options` argument and scaffolded `src/js/vN/styles.module.scss` for mount-root styling.
 
-## See Also
+## Related pages
 
-- [`runScript()`](/framework-api/run-script) — always wrap `mountExperiment` inside `runScript`
-- [`setupTracking()`](/framework-api/tracking#setuptracking) — attach click tracking after rendering into the container
-- [Styling (SCSS Modules)](/linting/stylelint) — CSS Modules conventions and mount-root vs component styles
-- [Variations](/development/variations) — copying mount styles when adding `v2`, `v3`, …
+- [`runScript()`](/framework-api/run-script) explains how to start the experiment after DOM readiness.
+- [`setupTracking()`](/framework-api/tracking#setuptracking) attaches click tracking after rendering.
+- [Styling with SCSS Modules](/linting/stylelint) covers component and mount-wrapper styles.
+- [Variations](/development/variations) covers copying mount styles to another variation.

@@ -1,6 +1,6 @@
 # Testing
 
-Use this page when an experiment needs repeatable smoke coverage before release. E2E testing is optional; add it after the Adobe Target workflow is stable.
+Add E2E coverage when a stable experiment needs repeatable checks before release. Early prototypes are usually faster to verify in the Adobe Target preview.
 
 ## Testing checklist
 
@@ -10,7 +10,7 @@ Use this page when an experiment needs repeatable smoke coverage before release.
 - Run `pnpm test:e2e` after the build passes.
 - Add assertions for experiment-owned behavior only.
 
-## When to add E2E
+## Decide when to add E2E
 
 | Situation | Add E2E? | Why |
 |---|---|---|
@@ -19,7 +19,7 @@ Use this page when an experiment needs repeatable smoke coverage before release.
 | Multi-market launch | Yes | Market iterations catch URL and locale-specific selector issues. |
 | One-off copy or style tweak | Usually no | Manual Target preview is often enough unless the release risk is high. |
 
-If you are unsure, skip E2E until the core watch, paste, and preview loop works.
+Get the watch, paste, and preview loop working before adding E2E.
 
 ## What gets generated
 
@@ -68,11 +68,9 @@ This command builds first, then runs Playwright. Fix lint or build errors before
 | `e2e/helpers.js` | Loads the IIFE bundle, prepares the page, injects the bundle, and captures screenshots. |
 | `e2e/smoke.spec.js` | Runs one smoke test per configured market. |
 
-Product-card helpers also mock the Samsung product API before injection. Minimal helpers keep setup smaller because no product API data is required.
-
 ## Smoke test flow
 
-The generated smoke test does this for each configured market:
+For each configured market, the generated smoke test:
 
 1. Build `dist/v1-index.jsx` through `pnpm test:e2e`.
 2. Resolve the market URL from `e2e/config.js`.
@@ -98,7 +96,7 @@ export const urlsConfig = {
 
 Custom market codes fall back to lowercase URL paths in the scaffolder.
 
-## Add assertions
+## Add experiment assertions
 
 Start from the smoke test. Add assertions after setup finishes:
 

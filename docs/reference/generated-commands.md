@@ -1,6 +1,6 @@
-# Generated Project Commands
+# Generated project commands
 
-All commands available in a generated experiment project. Run them from the project root after `pnpm install`.
+Run these commands from the root of a generated project after `pnpm install`.
 
 ## Development
 
@@ -20,7 +20,7 @@ All commands available in a generated experiment project. Run them from the proj
 | `pnpm new-variation N` | Creates `src/js/vN/index.jsx` from `v1`. |
 | `pnpm new-variation control` | Creates `src/js/control/index.jsx` from `v1`. |
 
-Build output:
+The build writes:
 ```
 dist/
 ├── v1-index.jsx   ← IIFE bundle for variation 1
@@ -57,16 +57,14 @@ accepts a zero-based index or a discovered folder name such as `v2` or `control`
 
 ## AI project support
 
-AI instruction files are not generated automatically. Run
-the optional commands from the generated project root:
+AI instruction files are optional. Create the file your tool uses from the generated project root:
 
 | Command | Output |
 |---|---|
 | `pnpm init-claude` | `CLAUDE.md` |
 | `pnpm init-agents` | `AGENTS.md` |
 
-The commands infer the experiment name and E2E setup from the existing project
-files. Review the generated instructions for the experiment.
+The commands infer the experiment name and E2E setup from the project files. Review the instructions before relying on them.
 
 If a destination exists, the command stops without replacing it. Replace it
 intentionally with:

@@ -1,6 +1,6 @@
-# Logging and Debugging
+# Logging and debugging
 
-The runtime provides logging helpers that prefix output with the generated project name. They avoid unconditional production console output.
+The runtime prefixes log output with the project name. `log()` is limited to development builds, while `debug()` works only when a user opts in.
 
 ## log()
 
@@ -68,7 +68,7 @@ debug('mount failed', selectors);
 
 Current package
 
-### See Also
+### Related pages
 
 - [Playground](/playground)
 - [Error Reference](/error-reference)

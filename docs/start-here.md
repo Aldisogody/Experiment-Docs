@@ -1,8 +1,6 @@
 # Start Here
 
-Looking for the first experiment walkthrough? Go to [Quick Start](/getting-started/quick-start).
-
-`Quick Start` is the canonical path for creating a Vite + Preact experiment, starting watch mode, pasting the bundle into Adobe Target, and making the first edit.
+Start with [Quick Start](/getting-started/quick-start) to create a Vite + Preact experiment, run the watcher, and preview the bundle in Adobe Target.
 
 ## Related pages
 

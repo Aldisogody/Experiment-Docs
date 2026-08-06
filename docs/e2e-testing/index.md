@@ -1,22 +1,10 @@
-# E2E Testing
+# E2E testing
 
-::: tip Optional feature
-E2E testing is opt-in. You choose whether to include it when scaffolding. Skip this section entirely if you didn't enable it - you can always add it later by revisiting [Setup](/e2e-testing/setup).
-:::
-
-E2E testing is optional and configured at scaffold time. When enabled, the scaffolder generates a Playwright setup with per-market smoke tests.
+The optional Playwright setup runs the same smoke test against each configured market. Enable it while scaffolding or add it later with `pnpm add-e2e`.
 
 ## When to enable E2E
 
-Enable E2E testing when:
-- You have a stable preview URL to test against
-- You need to verify the experiment renders correctly across multiple markets
-- You want to catch regressions before deploying to Adobe Target
-
-Skip E2E testing when:
-- You're in early experimentation and don't yet have a stable URL
-- The experiment is a simple copy change with no API calls
-- You're prototyping and plan to add tests later
+Add E2E when you have a stable preview URL, repeated QA work, or several market URLs to cover. For a changing prototype or a one-off copy edit, the Target preview is often enough.
 
 ## What gets generated
 
@@ -34,8 +22,8 @@ my-experiment/
 
 ## Sections
 
-- [Setup](/e2e-testing/setup) - installing browsers, running tests, debugging
-- [Writing Tests](/e2e-testing/writing-tests) - smoke spec walkthrough, helpers, multi-market patterns
-- [Markets](/e2e-testing/markets) - URL path mapping, multi-country group behaviour
+- [Setup](/e2e-testing/setup) covers browser installation, test runs, and debugging.
+- [Writing tests](/e2e-testing/writing-tests) explains the smoke spec, helpers, and multi-market patterns.
+- [Markets](/e2e-testing/markets) explains URL paths and multi-country groups.
 
 Generated smoke tests assert the scaffolded button renders with the configured `buttonText`. Add product API mocks or extra assertions when your experiment introduces those dependencies.

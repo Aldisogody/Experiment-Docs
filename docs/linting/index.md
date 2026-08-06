@@ -1,13 +1,13 @@
-# Linting & Formatting
+# Linting and formatting
 
-Generated experiment projects use Biome as the JavaScript, JSX, JSON, and formatting quality gate.
+Generated projects use Biome to format and check JavaScript, JSX, and JSON.
 
-Biome is installed in generated projects, `biome.json` stores formatting and linting rules, and the production build runs a read-only check before bundling. Run `pnpm format` before committing or handing off an experiment.
+The production build runs a read-only Biome check before bundling. Run `pnpm format` before committing or handing off an experiment.
 
 SCSS is handled through Sass CSS Modules in Vite. The active generated templates do not generate a `.stylelintrc` file.
 
 ::: warning There is no ESLint in generated projects
-Biome replaced ESLint entirely (migrated in commit `bb91734`). Do not add an `.eslintrc` file - it will not be picked up and will conflict with editor integrations.
+Biome replaced ESLint. An `.eslintrc` file will not be used and may conflict with editor integrations.
 :::
 
 ## Team commands
@@ -30,7 +30,7 @@ Recommended generated project scripts:
 
 Use `pnpm format` as the normal local repair command. Use `pnpm lint` in CI because it is read-only and matches the generated production build gate.
 
-## Auto-fix behavior
+## What `pnpm format` changes
 
 `biome check --write src` is the default local fix command. It formats files and applies safe fixes.
 
@@ -38,7 +38,7 @@ Safe fixes are changes Biome can make without changing intended behavior. Unsafe
 
 If `pnpm format` does not fix an issue, read the diagnostic and edit the code manually. Biome does not fix every lint error.
 
-## New or existing project setup
+## Add Biome to an older project
 
 Generated projects already include Biome. Use this setup sequence only when adding Biome to an older or manually created project:
 
@@ -53,7 +53,7 @@ pnpm lint
 
 ## `biome.json` notes
 
-The docs do not need to duplicate the whole config. Check these decisions when reviewing or updating `biome.json`:
+When reviewing `biome.json`, check these project decisions:
 
 - Formatter is enabled so code style is automatic.
 - Linter is enabled so correctness and suspicious patterns are caught early.

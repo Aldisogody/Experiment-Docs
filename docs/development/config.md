@@ -4,13 +4,15 @@ Experiment projects have two configuration files with distinct responsibilities.
 
 ## `experiment.config.js`
 
-Top-level runtime configuration. Located at the project root.
+This file sits at the project root and configures the build and live-preview tools.
 
 ```js
 export default {
     targetUrl: 'https://www.samsung.com/uk/smartphones/all-smartphones/',
-    globalObject: 'sgd',
-    includeEmergencyBrake: true,
+    runtime: {
+        globalObject: 'sgd',
+        includeEmergencyBrake: true,
+    },
     live: {
         variation: 0,
         overlay: 'visible',
@@ -22,15 +24,15 @@ export default {
 | Field | Type | Description |
 |---|---|---|
 | `targetUrl` | `string` | Page opened by `pnpm live`. The scaffold derives it from E2E market answers when available. |
-| `globalObject` | `string` | The IIFE window namespace. The bundle registers as `window[globalObject]`. Set at scaffold time - change only if it conflicts with another experiment. |
-| `includeEmergencyBrake` | `boolean` | Scaffolded compatibility setting. The current build and runtime do not read it; verify the deployment layer before relying on it. |
+| `runtime.globalObject` | `string` | The IIFE window namespace. The bundle registers as `window[globalObject]`. Change the scaffolded value only if it conflicts with another experiment. |
+| `runtime.includeEmergencyBrake` | `boolean` | Enables the runtime emergency-brake check in `runScript()`. |
 | `live.variation` | `number \| string` | Variation used by `pnpm live`. Accepts a zero-based index or discovered folder name such as `v2` or `control`. |
 | `live.overlay` | `'visible' \| 'hidden'` | Shows or hides the live-injection status overlay. |
 | `live.profile` | `'ephemeral' \| 'shared'` | Uses a temporary browser profile or a persistent OS-cache profile. |
 
 ## `src/config.js`
 
-Experiment-specific values. This is the first file you edit when setting up an experiment.
+Keep experiment-specific selectors and copy here. This is usually the first file you edit.
 
 ```js
 export const selectors = {
@@ -48,7 +50,7 @@ export const buttonText = 'Click Me';
 | `buttonText` | `string` | Scaffolded button copy. |
 
 ::: tip Finding the right primary selector
-Use your browser's DevTools to inspect the page and pick a stable, unique CSS class or attribute selector near where the experiment should inject. Avoid selectors that change across page loads.
+Inspect the page in DevTools and choose a stable, unique class or attribute near the injection point. Avoid session-specific IDs, generated class names, and long `nth-child` chains.
 :::
 
 Add locale, translations, model codes, or API-specific values only when the experiment needs them.

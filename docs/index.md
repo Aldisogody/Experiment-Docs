@@ -15,9 +15,9 @@ npx @sogody/experiment-framework my-experiment
 
 </div>
 
-## Documentation map
+## Find the right page
 
-<p class="home-doc-map-intro">Follow the learning path first. Use reference pages only when you need exact commands, API signatures, or market tables.</p>
+<p class="home-doc-map-intro">Start with the learning path. Use the reference pages when you need an exact command, API signature, or market code.</p>
 
 <div class="home-doc-map">
   <section class="home-doc-section" aria-labelledby="home-doc-getting-started">
@@ -61,17 +61,15 @@ npx @sogody/experiment-framework my-experiment
 
 ---
 
-::: details How it works - scaffold → develop → ship
+::: details The workflow: scaffold → develop → ship
 
-The tooling follows a three-step workflow from scaffold to production.
-
-**1. Scaffold** - Run the create command and answer a handful of prompts. The CLI generates a complete Vite + Preact button project with your variation count and market configuration.
+1. Scaffold the project. The CLI creates a Vite + Preact button experiment from your answers.
 
 ```bash
 npx @sogody/experiment-framework my-experiment
 ```
 
-**2. Develop** - Start the watcher for your active variation. On every save, Vite rebuilds the IIFE bundle and copies it to your clipboard automatically.
+2. Develop the variation. Every save rebuilds the IIFE bundle and copies it to your clipboard.
 
 ```bash
 cd my-experiment
@@ -80,7 +78,7 @@ pnpm start 0   # watches v1, copies to clipboard on save
 
 Paste the clipboard contents into Adobe Target's custom code editor and refresh your preview.
 
-**3. Ship** - Run a production build. Every variation compiles to a self-contained IIFE bundle ready to deploy.
+3. Ship the experiment. The production build creates one self-contained IIFE bundle per variation.
 
 ```bash
 pnpm build

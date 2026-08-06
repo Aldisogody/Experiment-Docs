@@ -1,4 +1,4 @@
-# Project Structure
+# Project structure
 
 `@sogody/experiment-framework` scaffolds a Vite + Preact project for Adobe Target. Each variation builds to a self-contained IIFE bundle in `dist/vN-index.jsx`.
 
@@ -38,7 +38,7 @@ my-experiment/
 │   ├── config.js                      # Market URLs
 │   └── helpers.js
 │
-├── experiment.config.js               # targetUrl, globalObject, live options
+├── experiment.config.js               # target URL, runtime, and live-preview options
 ├── vite.config.js                     # IIFE lib mode, Preact plugin, CSS Modules, aliases
 ├── playwright.config.js               # Only present when E2E is enabled
 ├── biome.json                         # Biome linter + formatter
@@ -60,17 +60,19 @@ project-specific AI support remains local by default. See
 [AI Project Support](/development/ai-project-support) for the complete skill
 tree.
 
-## Key files explained
+## Key files
 
 ### `experiment.config.js`
 
-Top-level runtime configuration. Keep this at the root - it's imported by the build script.
+This root-level file configures the build and live-preview tools.
 
 ```js
 export default {
     targetUrl: 'https://www.samsung.com/uk/smartphones/all-smartphones/',
-    globalObject: 'sgd',
-    includeEmergencyBrake: true,
+    runtime: {
+        globalObject: 'sgd',
+        includeEmergencyBrake: true,
+    },
     live: {
         variation: 0,
         overlay: 'visible',
@@ -83,7 +85,7 @@ See [Configuration](/development/config) for details.
 
 ### `src/config.js`
 
-Experiment-specific values. Edit this file first when setting up a new experiment.
+This is where you keep experiment-specific selectors and values. Edit it first when setting up a project.
 
 ```js
 export const selectors = {
@@ -98,20 +100,20 @@ export const buttonText = 'Click Me';
 
 The experiment runtime is imported from `@sogody/experiment-framework/framework`. Every variation entry point can use:
 
-- `runScript(fn)` - ensures DOM is ready before executing
-- `mountExperiment(selector, fallback?, position?, options?)` — creates and injects the container `div`; pass `className: style.root` from `src/js/vN/styles.module.scss` for mount-wrapper styling
-- `trackAAEvent(evar, event, data)` - fires Adobe Analytics events
-- `waitFor(selectors, callback)` - polls until elements are present
-- `watchFor(selector, callback, options?)` - waits via MutationObserver
-- `setupTracking(container, options)` - attaches click tracking to a rendered element
-- `getPath()`, `getPathSegments()`, `getMarket()` - resolve browser path and market context
-- `log()`, `debug()` - development and opt-in diagnostic logging
+- `runScript(fn)` waits for the DOM before running the experiment.
+- `mountExperiment(selector, fallback?, position?, options?)` creates and inserts the mount `div`. Pass `className: style.root` from `src/js/vN/styles.module.scss` to style the wrapper.
+- `trackAAEvent(evar, event, data)` sends an Adobe Analytics event.
+- `waitFor(selectors, callback)` polls until the elements are present.
+- `watchFor(selector, callback, options?)` waits with a `MutationObserver`.
+- `setupTracking(container, options)` attaches click tracking after rendering.
+- `getPath()`, `getPathSegments()`, and `getMarket()` read the current path and market.
+- `log()` and `debug()` provide development and opt-in diagnostic output.
 
 See the [Framework API](/framework-api/) for full documentation.
 
 ### `src/js/v1/index.jsx`
 
-The variation entry point. Every variation follows the same four-step pattern:
+Each variation has its own entry point. Mount the container, render the component, and then attach tracking:
 
 ```jsx
 import { render } from 'preact';
@@ -121,17 +123,15 @@ import { buttonText, selectors } from '../../config';
 import style from './styles.module.scss';
 
 runScript(async () => {
-    // 1. Mount container
     const container = mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin', {
         className: style.root,
         dataset: { experiment: 'my-experiment' },
     });
     if (!container) return;
 
-    // 2. Render component
     render(<ExperimentButton text={buttonText} />, container);
 
-    // 3. Set up tracking - MUST come after render
+    // Attach tracking after render.
     setupTracking(container, {
         label: 'my-experiment: v1 button clicked',
         selector: 'button',

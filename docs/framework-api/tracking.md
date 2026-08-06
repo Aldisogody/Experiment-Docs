@@ -1,6 +1,6 @@
 # Tracking
 
-The framework provides two tracking functions: `trackAAEvent` fires a raw Adobe Analytics event, and `setupTracking` attaches a click listener that calls `trackAAEvent` automatically.
+Use `trackAAEvent` to send an Adobe Analytics event directly. Use `setupTracking` to attach a click listener that sends the event for you.
 
 ## trackAAEvent()
 
@@ -41,7 +41,7 @@ Examples:
 - `'homepage-banner: v2 cta clicked'`
 - `'product-page: v3 image clicked'`
 
-This format makes it easy to filter by experiment in Adobe Analytics.
+Using one label format makes experiments easier to filter in Adobe Analytics.
 
 ### How it works
 
@@ -65,7 +65,7 @@ The `s` object is a browser global provided by Adobe Analytics. It is declared i
 
 `v2.0.0`
 
-### See Also
+### Related APIs
 
 - [`setupTracking()`](#setuptracking) - attaches a click listener that calls `trackAAEvent` automatically
 
@@ -122,7 +122,7 @@ setupTracking(container, {
 });
 ```
 
-### Correct order in a variation entry point
+### Call order
 
 ```js
 runScript(async () => {
@@ -131,7 +131,7 @@ runScript(async () => {
     // 4. Render first
     render(<ExperimentCard ... />, container);
 
-    // 5. Track after - element guaranteed to exist now
+    // Track after render so the element exists.
     setupTracking(container, { label: 'my-experiment: v1 cta clicked' });
 });
 ```
@@ -144,7 +144,7 @@ runScript(async () => {
 
 `v2.0.0`
 
-### See Also
+### Related APIs
 
 - [`trackAAEvent()`](#trackaaevent) - fire a raw Adobe Analytics event directly
 - [`runScript()`](/framework-api/run-script) - entry point wrapper; `setupTracking` must be called inside it, after `render()`

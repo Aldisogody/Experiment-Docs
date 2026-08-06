@@ -1,4 +1,4 @@
-# Editor Setup
+# Editor setup
 
 Generated projects include `biome.json`. The active templates do not generate `.vscode/` workspace settings, so configure your editor manually if you want format-on-save.
 
@@ -24,7 +24,7 @@ Add workspace settings if you want VSCode to format source files on save:
 
 With these settings, saving a `.js`, `.jsx`, or `.json` file runs the Biome formatter automatically.
 
-### Prettier conflict
+### Avoid a Prettier conflict
 
 If you have the Prettier extension installed globally, it may compete with Biome for JS/JSX formatting. Disable Prettier for this workspace:
 

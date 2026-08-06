@@ -35,9 +35,9 @@ read those files. They are opt-in and ignored by Git in a generated project by
 default. Create them with `pnpm init-claude` and `pnpm init-agents`. See
 [AI Project Support](/development/ai-project-support).
 
-## Does `includeEmergencyBrake` change the current bundle?
+## What does `includeEmergencyBrake` do?
 
-The scaffold records the field in `experiment.config.js`, but the current package build and runtime do not read it. Verify the deployment integration before relying on it as a kill switch.
+The build includes the setting in the bundle. When `runtime.includeEmergencyBrake` is `true`, `runScript()` checks the Adobe Target emergency-brake configuration before running the experiment.
 
 ## Why does `pnpm live` fail before opening a browser?
 

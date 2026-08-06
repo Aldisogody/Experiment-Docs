@@ -61,7 +61,7 @@ For example, with only `v1` and `control`, run:
 pnpm start 1   # src/js/control/
 ```
 
-Only one variation is watched at a time - switch by restarting with a different number.
+`pnpm start N` watches one variation. Restart it with a different index to switch variations.
 
 ## Production build
 
@@ -81,9 +81,9 @@ dist/
 
 Biome runs before the build. The build aborts if linting fails.
 
-## Dedup guard
+## Prevent duplicate mounts
 
-On Samsung's SPA pages, Adobe Target may re-execute custom code on route changes, causing the experiment to mount twice. `mountExperiment` does not include a built-in dedup guard - if your target page is an SPA, add a manual check before mounting:
+Adobe Target may run custom code again after an SPA route change. Because `mountExperiment` does not check for an existing instance, add a guard before mounting on SPA pages:
 
 ```js
 import style from './styles.module.scss';

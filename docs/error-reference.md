@@ -2,7 +2,7 @@
 title: Error Reference
 ---
 
-# Error Reference
+# Error reference
 
 ## `Usage: experiment-framework <project-name>`
 
@@ -14,7 +14,7 @@ npx @sogody/experiment-framework my-experiment
 
 ## `Failed to load experiment.config.js`
 
-Run the command from the generated project root and check that `experiment.config.js` exports a default object with `globalObject`.
+Run the command from the generated project root and check that `experiment.config.js` exports a default object with `runtime.globalObject`.
 
 ## `No variation entry points found`
 
@@ -67,14 +67,14 @@ Generated E2E helpers can create only a simple class target such as `.target-sel
 
 - The variation entry point does not call `runScript`
 - `package.json` `name` does not match the registered key
-- `experiment.config.js` `globalObject` does not match the runtime namespace
+- `experiment.config.js` `runtime.globalObject` does not match the runtime namespace
 - The bundle threw before registration completed
 
 Fix the variation entry point and confirm the built bundle executes without errors in the browser console.
 
 ## `No target matched selectors`
 
-Live injection could not match `selectors.primary` or any fallback. This is informational only — injection still runs when the bundle registers on `window[globalObject][packageName]`. Verify the target URL, page state, and selector chain when you need mount-point context in the overlay.
+Live injection could not match `selectors.primary` or a fallback. Injection still runs if the bundle registers on `window[globalObject][packageName]`. Check the target URL, page state, and selector chain when the overlay needs mount-point information.
 
 ## `AGENTS.md already exists.`
 

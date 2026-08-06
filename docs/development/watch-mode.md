@@ -1,6 +1,6 @@
-# Watch Mode & Clipboard
+# Watch mode and clipboard
 
-## Starting a variation watch
+## Watch one variation
 
 ```bash
 pnpm start 0   # watches v1
@@ -18,7 +18,7 @@ Internally, `pnpm start 0` delegates to the package-owned `exp-start` binary, wh
 exp-build --watch -e0
 ```
 
-The `-e0` flag tells the build script to focus on variation 1 and enable clipboard copy on each successful rebuild.
+The `-e0` flag selects the first discovered variation and enables clipboard copying after successful builds.
 
 ## Clipboard copy
 
@@ -30,7 +30,7 @@ On every save, the IIFE bundle is automatically copied to your clipboard:
 | Linux | `xclip -selection clipboard` |
 | Windows | `clip` (built-in) |
 
-If the clipboard tool is unavailable, the build continues silently - you'll just need to copy the bundle manually from `dist/v1-index.jsx`.
+If the clipboard tool is unavailable, the build still succeeds. Copy the bundle from `dist/v1-index.jsx` instead.
 
 ::: tip Linux: install xclip
 ```bash
@@ -44,13 +44,13 @@ sudo pacman -S xclip
 
 ## Pasting into Adobe Target
 
-1. Open your Adobe Target activity and navigate to the custom code editor for the variation you're developing.
-2. Switch to your terminal - the clipboard already contains the latest bundle.
+1. Open the custom code editor for the variation you are developing.
+2. Switch to your terminal. The clipboard already contains the latest bundle.
 3. Select all existing content in the code editor and paste.
 4. Click **Save** in Adobe Target and refresh your preview page.
 
 ::: info How the bundle works
-The IIFE bundle registers itself under `window.sgd` (or your chosen namespace). Adobe Target's custom code editor accepts raw JavaScript - no module loader is required.
+The IIFE bundle registers under `window.sgd`, or the namespace you chose. Adobe Target accepts the bundle as raw JavaScript and does not need a module loader.
 :::
 
 ## Watching all variations

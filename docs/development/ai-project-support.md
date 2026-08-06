@@ -1,8 +1,6 @@
-# AI Project Support
+# AI project support
 
-Generated experiments can opt into project-specific instructions for Claude Code,
-Codex-compatible agents, and similar tools. Nothing is installed during normal scaffolding.
-Run only the commands needed by your team from the generated project root:
+Generated experiments can include local instructions for Claude Code, Codex-compatible agents, and similar tools. Normal scaffolding does not create them. Run the command for the tool your team uses:
 
 ```bash
 pnpm init-claude
@@ -21,9 +19,7 @@ deliberately changes that policy.
 
 ## Instruction files
 
-`CLAUDE.md` and `AGENTS.md` provide repository-wide instructions that an
-appropriate agent reads while working in the project. Use them for stable rules,
-commands, architecture, and verification expectations.
+`CLAUDE.md` and `AGENTS.md` hold project-wide rules, commands, architecture notes, and verification steps for tools that support them.
 
 Both commands refuse existing files unless passed `-- --force`.
 
@@ -42,9 +38,7 @@ Run them from a project root containing a valid `package.json` and either
 
 ## Customize generated guidance
 
-Review the generated Markdown before relying on it. The files are intentionally
-local by default, so teams can adjust commands, verification steps, or workflow
-rules without changing the scaffolded project.
+Review the generated Markdown before using it. The files stay local by default, so you can adjust commands and workflow rules without changing the shared scaffold.
 
 To share AI support through Git, remove only the relevant entries from the
 generated `.gitignore` and review the content for project-specific or sensitive

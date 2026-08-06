@@ -1,10 +1,10 @@
-# E2E Setup
+# E2E setup
 
 ## Browser installation
 
-If you enabled E2E at scaffold time, the CLI runs `pnpm playwright install` automatically during project setup. No manual step is required.
+When E2E is enabled during scaffolding, the CLI runs `pnpm playwright install` for you.
 
-To install browsers manually (e.g. after cloning a project that has E2E enabled):
+After cloning an E2E-enabled project, install the browsers manually:
 
 ```bash
 cd my-experiment
@@ -25,13 +25,13 @@ pnpm test:e2e
 
 Runs `pnpm build` first, then all tests in `e2e/` against the configured base URL and markets.
 
-### Headed mode (for debugging)
+### Debug in a visible browser
 
 ```bash
 pnpm playwright test --headed
 ```
 
-Opens a real browser window so you can see the test executing. Useful when a test fails and you need to inspect the page state.
+This opens a browser window so you can inspect the page while the test runs.
 
 ### Run a single test file
 
@@ -72,7 +72,7 @@ export default defineConfig({
 | `screenshot` | `only-on-failure` | Screenshots saved only when a test fails |
 | `trace` | `on-first-retry` | Trace recorded on first retry for debugging |
 
-## CI usage
+## Run in CI
 
 Set the `CI` environment variable to enable CI-specific behaviour (retries, `forbidOnly`):
 

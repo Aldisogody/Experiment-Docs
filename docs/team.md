@@ -1,18 +1,18 @@
 ---
 title: Team
-description: Samsung Experimentation team structure, contacts, and operational responsibilities.
+description: Contacts for the Samsung experimentation team.
 aside: false
 pageClass: team-doc-page
 ---
 
 # Meet the team
 
-<p class="team-hero-lead">The development of CRO COE and its ecosystem is guided by the internal team.</p>
+<p class="team-hero-lead">Contact the team that maintains the CRO COE framework.</p>
 
 <div class="team-layout">
   <section class="team-intro" aria-labelledby="core-team-heading">
-    <h2 id="core-team-heading">Core Team Members</h2>
-    <p>The core team maintains and supports the CRO COE framework, helping teams build and deliver reliable experiments.</p>
+    <h2 id="core-team-heading">Core team</h2>
+    <p>These are the main contacts for framework support and experiment delivery.</p>
   </section>
 
   <ul class="team-list" aria-label="Core team contacts">

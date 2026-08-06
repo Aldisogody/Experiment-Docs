@@ -1,18 +1,24 @@
 # runScript()
 
-Wraps your experiment's entry function and guarantees the DOM is ready before execution.
+Runs an experiment entry function after the DOM is ready. It can also prevent duplicate runs or skip the DOM-ready wait.
 
 ## Signature
 
 ```ts
-runScript(fn: () => void | Promise<void>): void
+runScript(
+    fn: () => void | Promise<void>,
+    singleInstance?: boolean,
+    waitDomReady?: boolean,
+): void
 ```
 
 ## Parameters
 
 | Parameter | Type | Description |
 |---|---|---|
-| `fn` | `Function` | The experiment logic to execute. Can be `async`. |
+| `fn` | `Function` | Experiment logic. The function can be `async`. |
+| `singleInstance` | `boolean` | When `true`, skips the function if this package is already registered. Defaults to `false`. |
+| `waitDomReady` | `boolean` | When `true`, waits for DOM readiness. Defaults to `true`. |
 
 ## Usage
 
@@ -30,7 +36,7 @@ runScript(async () => {
 });
 ```
 
-## Why it's needed
+## Why it is needed
 
 Adobe Target executes custom code as soon as it loads, which can happen before `DOMContentLoaded`. Without `runScript`, a `document.querySelector` call at the top level may return `null` even if the element exists later in the HTML.
 
@@ -66,13 +72,13 @@ runScript(async () => {
 
 `void`
 
-`runScript()` does not await or return the callback result. Handle rejected promises inside async experiment logic when failure needs explicit reporting.
+`runScript()` does not return or await the callback result. Handle rejected promises inside the experiment when failures need explicit reporting.
 
 ## Since
 
 `v2.0.0`
 
-## See Also
+## Related APIs
 
 - [`waitFor()`](/framework-api/wait-for#waitfor) - poll until DOM selectors are present before proceeding
 - [`watchFor()`](/framework-api/wait-for#watchfor) - MutationObserver-based alternative to `waitFor`

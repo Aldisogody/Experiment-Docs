@@ -1,16 +1,15 @@
-# Migration Guide
+# Migration guide
 
-This checklist covers the migration from the legacy Gulp framework to the current Vite-based framework. It follows the tested `legacy-experiment-test` migration and keeps the experiment's existing behavior unchanged.
+Use this checklist to move a legacy Gulp experiment to the current Vite-based framework without changing its behavior.
 
 ## 1. Record the current behavior
 
 Before changing files, note these values:
 
-- `package.json.name`;
-- `targetUrl`, `globalObject`, and `includeEmergencyBrake` from `config.json`;
-- the variation entry points;
-- where the experiment mounts;
-- the visible behavior and styles that must still work.
+- `package.json.name`
+- `targetUrl`, `globalObject`, and `includeEmergencyBrake` from `config.json`
+- Variation entry points and mount locations
+- Visible behavior and styles that must still work
 
 Commit or back up the project before continuing.
 
@@ -135,7 +134,7 @@ export const selectors = {
 
 The entry point does not need to import these selectors unless it uses them at runtime.
 
-## 7. Remove legacy files and validate
+## 7. Remove legacy files and verify the migration
 
 Remove the old build files and dependencies:
 
@@ -146,7 +145,7 @@ Remove the old build files and dependencies:
 - `yarn.lock` and the old `node_modules` directory;
 - empty or unused stylesheets.
 
-Install and run the finite checks:
+Install the dependencies, then run the checks that finish on their own:
 
 ```bash
 pnpm install

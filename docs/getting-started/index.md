@@ -1,8 +1,8 @@
 # Introduction
 
-`@sogody/experiment-framework` helps you scaffold, develop, and ship Vite + Preact experiments for Adobe Target. This page explains the core workflow and points you to the right guide when you are ready to build.
+`@sogody/experiment-framework` scaffolds Vite + Preact experiments for Adobe Target. It provides the project structure, development commands, runtime helpers, and production build.
 
-## What is @sogody/experiment-framework?
+## What the framework provides
 
 `@sogody/experiment-framework` is a CLI scaffolder for A/B experiment projects. It creates the variation entry points, configuration, Preact button UI, linting, and build tooling needed to produce code for Adobe Target.
 
@@ -16,7 +16,7 @@ For a first project, choose one variation. The generated files keep selectors an
 
 [See the generated project structure](/getting-started/project-structure)
 
-## The Adobe Target Experiment Workflow
+## The Adobe Target workflow
 
 The development loop follows five steps:
 
@@ -30,7 +30,7 @@ Watch mode rebuilds the active variation after every source change and copies th
 
 Use Node 20.19+ and pnpm >=10.26.0. Node 24 is recommended. See [Prerequisites](/getting-started/prerequisites) before creating your first project.
 
-## Single-File Bundles
+## One bundle per variation
 
 Each variation compiles to a self-contained IIFE bundle:
 
@@ -46,9 +46,9 @@ During development, `pnpm start 0` watches `src/js/v1` and updates `dist/v1-inde
 
 [Learn how to watch, build, and ship variations](/run-and-ship)
 
-## Framework API Style
+## Runtime helpers
 
-Generated variations import runtime helpers from `@sogody/experiment-framework/framework`. These helpers are bundled into the final IIFE and provide a consistent lifecycle:
+Generated variations import runtime helpers from `@sogody/experiment-framework/framework`. The helpers are included in the final IIFE bundle:
 
 ```jsx
 import { render } from 'preact';
@@ -81,22 +81,7 @@ runScript(async () => {
 
 [Browse the Framework API reference](/framework-api/)
 
-## Still Got Questions?
-
-Use the focused reference pages when you need an exact answer:
-
-| Question | Reference |
-|---|---|
-| Which files should I edit? | [Build an Experiment](/build-an-experiment) |
-| How do selectors and package settings work? | [Configuration](/development/config) |
-| What does the scaffold generate? | [Scaffold Template](/development/templates) |
-| What does a framework helper return? | [Framework API](/framework-api/) |
-| Why is a command or build failing? | [Error Reference](/error-reference) |
-| Where are common team questions answered? | [FAQ](/faq) |
-
-## Pick Your Learning Path
-
-Choose the page that matches what you need to do next:
+## Where to go next
 
 | Goal | Start here |
 |---|---|
@@ -106,3 +91,4 @@ Choose the page that matches what you need to do next:
 | Use watch mode and ship bundles | [Run and Ship](/run-and-ship) |
 | Add Playwright coverage | [Testing](/testing) |
 | Look up helper signatures | [Framework API](/framework-api/) |
+| Fix a command or build failure | [Error Reference](/error-reference) |

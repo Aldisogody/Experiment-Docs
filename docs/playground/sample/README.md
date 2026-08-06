@@ -1,8 +1,8 @@
-# sample
+# Sample experiment
 
-A/B testing experiment built with Preact, bundled as a self-contained IIFE for Adobe Target.
+A small Preact experiment that builds to a self-contained IIFE bundle for Adobe Target.
 
-## Dev workflow
+## Development commands
 
 ```bash
 pnpm start 0          # watch v1; copy the development bundle on save
@@ -33,21 +33,24 @@ dist/               # generated bundles, e.g. v1-index.jsx
 Framework utilities and build/start/new-variation/init commands come from the
 `@sogody/experiment-framework` package dependency.
 
-## Adding E2E Tests
+## Add E2E tests
 
 ```bash
 pnpm add-e2e
 ```
 
-This command adds the same Playwright setup offered during scaffolding. Use
-`pnpm add-e2e -- --force` to replace generated E2E files, `-- --dry-run` to
-preview changes, `-- --yes` to accept defaults, `-- --skip-install` to skip
-dependency installation, and `-- --run-smoke` to run the smoke test after setup.
+This adds the same Playwright setup offered during scaffolding. The command supports:
+
+- `-- --force` to replace generated E2E files
+- `-- --dry-run` to preview changes
+- `-- --yes` to accept defaults
+- `-- --skip-install` to skip dependency installation
+- `-- --run-smoke` to run the smoke test after setup
 
 `pnpm add-e2e` does not install Playwright browsers. If the first smoke run reports
 missing browsers, install them on demand with `pnpm playwright install`.
 
-## AI documentation
+## Local AI instructions
 
 AI documentation is opt-in and is not created during scaffolding:
 
@@ -59,7 +62,7 @@ pnpm init-agents
 Each command refuses to replace an existing file. Add `-- --force` to regenerate it,
 for example `pnpm init-claude -- --force`.
 
-## Live Injection
+## Live injection
 
 `pnpm live` runs the package-owned `exp-live` command. It opens `targetUrl` from
 `experiment.config.js` or legacy `config.json`, watches the selected variation
@@ -75,9 +78,9 @@ login state to persist across runs.
 
 All experiment-specific values live in `src/config.js`:
 
-- `selectors.primary` — CSS selector for the primary injection point
-- `selectors.fallbacks` — ordered fallback selectors for alternate injection points
-- `buttonText` — text rendered by the scaffolded button component
+- `selectors.primary`: CSS selector for the primary injection point
+- `selectors.fallbacks`: ordered fallback selectors for alternate injection points
+- `buttonText`: text rendered by the scaffolded button component
 
 Project-level runtime config lives in `experiment.config.js`. Legacy `config.json`
 is also supported by package-owned build and live commands when present.
@@ -117,7 +120,7 @@ ordered first, then named folders such as `control`. With only `v1` and
 `control`, `pnpm start 1` watches `control`.
 For manual copies, keep each variation under `src/js/*/index.jsx`.
 
-## Mounting Pattern
+## Mounting pattern
 
 Use `mountExperiment` to create an isolated mount container and insert it relative to the target element.
 Mount-root styles live in `src/js/vN/styles.module.scss` and are passed as a CSS Modules class:

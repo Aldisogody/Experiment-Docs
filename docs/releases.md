@@ -4,7 +4,7 @@ title: Releases
 
 # Releases
 
-The package is `@sogody/experiment-framework`. Generated projects depend on it for runtime helpers and the `exp-*` commands.
+Generated projects get their runtime helpers and `exp-*` commands from `@sogody/experiment-framework`.
 
 ## Current published line
 
@@ -16,7 +16,7 @@ The current package line is `2.1.0`.
 | `2.0.1` | Adds package type declarations, pnpm 10.26+/11 build approvals, development watch logging, and source-map fixes. |
 | `2.0.0` | Introduces the scoped package line, generic button scaffold, package-owned runtime, build/live tooling, and optional E2E setup. |
 
-Use the repository changelog as the source of truth when preparing a release.
+Use the package repository's `CHANGELOG.md` when preparing a release.
 
 ## Upgrade a generated project
 

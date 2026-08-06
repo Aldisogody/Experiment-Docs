@@ -1,11 +1,11 @@
 # Prerequisites
 
-Before creating your first experiment, make sure your environment meets the following requirements.
+You need Node 20.19 or newer and pnpm 10.26 or newer. Node 24 with pnpm 10.30.1 is the recommended setup.
 
 ## Node version {#node-version}
 
 ::: warning Node 20.19 is the minimum. Node 24 is recommended.
-The generated project's `.nvmrc` is set to `24`. Running an older Node version will cause compatibility issues with current pnpm releases.
+The generated `.nvmrc` selects Node 24. Older Node versions are not compatible with current pnpm releases.
 :::
 
 Install and manage Node versions with [nvm](https://github.com/nvm-sh/nvm):
@@ -32,7 +32,7 @@ The system default Node on some machines is 16. Generated projects require Node 
 Generated projects support pnpm >=10.26.0. Node 20.19 users must stay on pnpm 10.26-10.x; pnpm 11 requires Node 22 or newer.
 :::
 
-**Install via Corepack (recommended):**
+### Install with Corepack
 
 ```bash
 corepack enable
@@ -40,7 +40,7 @@ corepack prepare pnpm@10.30.1 --activate
 pnpm --version   # 10.30.1
 ```
 
-**Install via npm (alternative):**
+### Install with npm
 
 ```bash
 npm install -g pnpm
@@ -61,11 +61,11 @@ This format is compatible with pnpm 10.26+ and pnpm 11.
 
 ## Playwright {#playwright}
 
-Playwright is only needed if you enable E2E testing during scaffolding (the CLI prompts you).
+You only need Playwright for E2E testing.
 
-If you answered **Yes** to E2E at scaffold time, the CLI installs browsers automatically after generating your project. You do not need to do anything extra.
+If you enable E2E while scaffolding, the CLI installs the browsers for you.
 
-To install browsers manually (e.g. after cloning an existing E2E-enabled project):
+After cloning an E2E-enabled project, install the browsers manually:
 
 ```bash
 cd my-experiment

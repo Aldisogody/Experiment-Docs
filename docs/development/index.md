@@ -1,14 +1,12 @@
 # Development
 
-The experiment framework is built around a fast inner loop: save a file, get a clipboard-ready bundle, paste it into Adobe Target.
+The usual development loop is short: save a file, paste the rebuilt bundle into Adobe Target, and refresh the preview.
 
 ## The inner loop
 
 ```
 Edit source → Vite rebuilds → IIFE bundle → copied to clipboard → paste into Adobe Target → refresh preview
 ```
-
-Everything in this section describes how that loop works and how to extend it.
 
 For browser-first iteration, `pnpm live` starts the same focused watcher, opens `targetUrl`, and reinjects after bundle changes.
 

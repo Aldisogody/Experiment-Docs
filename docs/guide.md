@@ -2,15 +2,15 @@
 title: Guide
 ---
 
-# Guide
+# Development guide
 
-Use this guide to choose the right workflow after a project has been scaffolded.
+This page summarizes the development rules. For a complete first-project walkthrough, use [Quick Start](/getting-started/quick-start).
 
-## Start from the generated button scaffold
+## Start with the generated button
 
 The CLI generates a single generic button template. Use it as the base for copy, CTA, layout, and small UI experiments. Add product API calls, custom data helpers, or replacement components only when the experiment needs them.
 
-## Work in the generated layers
+## Keep each concern in the right file
 
 1. Put selectors and editable values in `src/config.js`.
 2. Keep DOM mounting, data loading, rendering, and tracking in `src/js/vN/index.jsx`.
@@ -18,7 +18,7 @@ The CLI generates a single generic button template. Use it as the base for copy,
 4. Keep component styles beside the component in `styles.module.scss`.
 5. Put reusable API and formatting logic in `src/helpers.js` only when the experiment needs shared data helpers.
 
-## Keep the runtime order
+## Mount, render, then track
 
 ```jsx
 runScript(async () => {
@@ -36,7 +36,7 @@ runScript(async () => {
 
 Mount before rendering, guard a missing target, and attach tracking after rendering.
 
-## Choose a preview loop
+## Choose how to preview
 
 | Workflow | Command | Best use |
 |---|---|---|
@@ -45,7 +45,7 @@ Mount before rendering, guard a missing target, and attach tracking after render
 | All variations | `pnpm dev` | Confirm every variation still compiles |
 | Production | `pnpm build` | Lint and create final IIFE bundles |
 
-## Ship deliberately
+## Before handoff
 
 Before handing off a bundle:
 
@@ -57,4 +57,4 @@ Before handing off a bundle:
 - Verify click tracking labels and elements.
 - Run `pnpm test:e2e` when the project includes Playwright.
 
-Continue with [Build an Experiment](/build-an-experiment) for file-level guidance or [Run and Ship](/run-and-ship) for commands.
+See [Build an Experiment](/build-an-experiment) for file-level guidance and [Run and Ship](/run-and-ship) for the full command reference.

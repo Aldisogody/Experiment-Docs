@@ -1,13 +1,13 @@
-# Markets Reference
+# Markets reference
 
-All Samsung markets available when selecting E2E test targets during scaffolding.
+These market groups and codes are available when you configure E2E tests.
 
 The group codes in this page are the current CLI choices from `experiment-framework/lib/markets.js`.
 The generated `markets` array uses country identifiers such as `BE` and `BE_FR`; canonical team references may call those `BENL` and `BEFR`.
 
 ## Multi-country groups
 
-These groups run one E2E test per country - selecting `BENELUX` generates three test iterations.
+Each group runs one E2E test per country. Selecting `BENELUX`, for example, creates three test cases.
 
 | Group code | Name | Countries | URL paths |
 |---|---|---|---|

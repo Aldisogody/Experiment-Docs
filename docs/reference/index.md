@@ -1,6 +1,6 @@
 # Reference
 
-Technical reference for the Create Experiment scaffolder and generated projects.
+Look up scaffold prompts, generated commands, market codes, releases, and contribution details here.
 
 ## Scaffold
 
@@ -9,11 +9,11 @@ Technical reference for the Create Experiment scaffolder and generated projects.
 - [Markets](/reference/markets) - Samsung market codes and configuration
 - [AI Project Support](/development/ai-project-support) - opt-in instruction files and reusable skills
 
-## Project & team
+## Project and team
 
 - [Migration guide](/reference/migration) - upgrading from the legacy framework
 - [Changelog](/reference/changelog) - release history
 - [Contributing](/reference/contributing) - issues, PRs, and docs for this repo
 - [Releases](/releases) - published versions and unreleased source status
 
-For day-to-day experiment work, use [Development](/development/) and [Framework API](/framework-api/).
+For day-to-day work, use [Development](/development/) and the [Framework API](/framework-api/).

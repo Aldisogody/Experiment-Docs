@@ -1,6 +1,6 @@
-# Markets in E2E Tests
+# Markets in E2E tests
 
-For the complete list of all available markets and their codes, see the [Markets Reference](/reference/markets).
+See the [Markets reference](/reference/markets) for every available market and code.
 
 ## How market codes map to URLs
 
@@ -44,4 +44,4 @@ export const urlsConfig = {
 };
 ```
 
-The test loop will automatically pick up the updated market list on the next run.
+The next test run uses the updated list.

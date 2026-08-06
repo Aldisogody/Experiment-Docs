@@ -1,6 +1,6 @@
 # Scaffold Template
 
-The scaffolder currently generates one generic Adobe Target / Preact template. It is intentionally small: a button component, structured selectors, per-variation entry points, and package-owned build commands.
+The scaffolder generates one small Adobe Target and Preact template: a button component, structured selectors, variation entry points, and package-owned build commands.
 
 ## Generated UI
 
@@ -11,7 +11,7 @@ The template includes:
 - `src/js/vN/index.jsx` - variation entry points that mount, render, and attach tracking.
 - `src/js/vN/styles.module.scss` - mount-wrapper styles passed to `mountExperiment()`.
 
-## When You Need More
+## Extending the template
 
 Add experiment-specific pieces inside the generated project:
 
