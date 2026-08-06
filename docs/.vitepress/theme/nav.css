@@ -105,7 +105,7 @@
 
 .VPNavBarMenuGroup .VPMenuLink .link.active {
   color: var(--vp-c-brand-1);
-  background-color: var(--vp-c-brand-soft);
+  background-color: transparent;
 }
 
 /* ─── Non-clickable “soon” items (match Samlinks row chrome) ─────────────── */
@@ -216,12 +216,12 @@
 
 .dark .VPNavBarMenuGroup .VPMenuLink .link:hover {
   color: rgba(255, 255, 255, 0.92);
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: transparent;
 }
 
 .dark .VPNavBarMenuGroup .VPMenuLink .link.active {
   color: var(--vp-c-brand-1);
-  background-color: var(--vp-c-brand-soft);
+  background-color: transparent;
 }
 
 .dark .VPNavBarMenuGroup .VPMenuGroup .title {
