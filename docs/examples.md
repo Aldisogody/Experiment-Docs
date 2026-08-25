@@ -672,34 +672,27 @@ watchFor('[data-host-carousel]', () => {
 
 **Source:** `coe-602-sebn-crm-leadership-campaign`
 
-**Built with:** Preact hooks, `IntersectionObserver`, and Adobe Analytics interaction tracking.
+**Built with:** `trackInView`, Preact, and Adobe Analytics interaction tracking.
 
 **When to use:** A rendered component needs one exposure event plus click or dismiss events.
 
 **Problem:** Firing an impression on injection overcounts content below the fold, while binding interactions before render attaches listeners to nothing.
 
-**Approach:** Render first, observe the rendered root, unobserve after the first intersection, and bind interactions only after their DOM exists.
+**Approach:** Render first, observe the rendered root with a stable `onceKey`, and bind interactions only after their DOM exists.
 
 **Example:**
 
 ```js
-function trackOnceInView(element, label, threshold = 0.1) {
-    if (!element) return null;
-
-    const observer = new IntersectionObserver((entries, currentObserver) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        trackEvent(label);
-        currentObserver.unobserve(element);
-    }, { threshold });
-
-    observer.observe(element);
-    return observer;
-}
+import { setupTracking, trackInView } from '@sogody/experiment-framework/framework';
 
 render(<Banner />, container);
 
 const banner = container.querySelector('[data-banner]');
-trackOnceInView(banner, 'experiment: impression');
+trackInView(banner, {
+    label: 'experiment: impression',
+    threshold: 0.1,
+    onceKey: 'experiment:banner-impression',
+});
 setupTracking(container, { selector: '[data-primary-action]', label: 'experiment: primary action' });
 setupTracking(container, { selector: '[data-dismiss]', label: 'experiment: dismiss' });
 ```
@@ -721,7 +714,11 @@ setupTracking(container, { selector: '[data-dismiss]', label: 'experiment: dismi
 ```js
 function observeExposure(element, experience) {
     if (!element) return;
-    trackOnceInView(element, `experiment: ${experience}: exposed`, 0.1);
+    trackInView(element, {
+        label: `experiment: ${experience}: exposed`,
+        threshold: 0.1,
+        onceKey: `experiment:${experience}:exposure`,
+    });
 }
 
 // Control entry point

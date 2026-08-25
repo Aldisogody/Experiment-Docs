@@ -6,9 +6,10 @@ Run the create command with your project name:
 
 ```bash
 npx @sogody/experiment-framework my-experiment
+npx @sogody/experiment-framework my-experiment --control
 ```
 
-The CLI asks a few setup questions, creates the project, and installs its dependencies. It can also configure Playwright and run an initial smoke test.
+The CLI asks a few setup questions, creates the project, and installs its dependencies. Pass `--control` when the experiment needs a separate impression-only entry for the unchanged page. The CLI can also configure Playwright and run an initial smoke test.
 
 ## CLI prompts
 
@@ -19,8 +20,10 @@ The CLI asks a few setup questions, creates the project, and installs its depend
 | **Include emergency brake** | `true` | Sets `runtime.includeEmergencyBrake` in `experiment.config.js`. When enabled, `runScript()` checks the Adobe Target emergency-brake configuration before running the experiment. |
 | **Enable E2E testing** | `false` | Generates `e2e/`, `playwright.config.js`, and wires up `pnpm test:e2e`. Enable if you have a stable preview URL to test against. |
 | **Base URL** _(E2E only)_ | `https://samsung.com` | The root URL for Playwright tests. |
-| **Market** _(E2E only)_ | - | Selects which Samsung market(s) to parametrise tests against. See the [Markets reference](/reference/markets). |
+| **Markets** _(E2E only)_ | - | Selects one or more groups or individual markets for the generated tests. See the [Markets reference](/reference/markets). |
 | **Run smoke test** _(E2E only)_ | `false` | Runs `pnpm build` and `pnpm test:e2e` immediately after setup. |
+
+Market groups expand to their member countries. You can mix a group with individual markets; the resolver removes duplicates and writes the result in the framework's canonical order. The first resolved market becomes the default `targetUrl` for `pnpm live`.
 
 ## After scaffolding
 
@@ -35,21 +38,11 @@ pnpm start 0
 
 Paste the copied bundle into the matching Adobe Target variation, save, and refresh the preview.
 
-### Optional AI project support
+### Agent guidance
 
-Generated projects do not include AI instruction files automatically.
-From the project root, create the instruction file your tool uses:
+The scaffold creates tracked `AGENTS.md` and `CLAUDE.md` files. They direct coding tools to the version-matched guides installed with `@sogody/experiment-framework`, starting at `node_modules/@sogody/experiment-framework/llms.txt`.
 
-```bash
-pnpm init-claude
-pnpm init-agents
-```
-
-The commands create `CLAUDE.md` and `AGENTS.md` after inferring the experiment
-name and E2E setup from the scaffolded project.
-
-See [AI Project Support](/development/ai-project-support) for generated paths,
-replacement behavior, and older-project usage.
+See [AI Project Support](/development/ai-project-support) for the discovery flow and the safe refresh command for older projects.
 
 ::: tip Current scaffold
 The CLI now generates one generic button template. Add experiment-specific data loading or custom components in the generated project when needed.

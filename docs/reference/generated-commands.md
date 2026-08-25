@@ -20,6 +20,14 @@ Run these commands from the root of a generated project after `pnpm install`.
 | `pnpm new-variation N` | Creates `src/js/vN/index.jsx` from `v1`. |
 | `pnpm new-variation control` | Creates `src/js/control/index.jsx` from `v1`. |
 
+To generate an impression-only control at project creation time, pass `--control` to the package CLI:
+
+```bash
+npx @sogody/experiment-framework my-experiment --control
+```
+
+Unlike `pnpm new-variation control`, the generator flag creates an entry that observes the native page and does not copy the variant UI.
+
 The build writes:
 ```
 dist/
@@ -57,34 +65,16 @@ accepts a zero-based index or a discovered folder name such as `v2` or `control`
 
 ## AI project support
 
-AI instruction files are optional. Create the file your tool uses from the generated project root:
-
-| Command | Output |
-|---|---|
-| `pnpm init-claude` | `CLAUDE.md` |
-| `pnpm init-agents` | `AGENTS.md` |
-
-The commands infer the experiment name and E2E setup from the project files. Review the instructions before relying on them.
-
-If a destination exists, the command stops without replacing it. Replace it
-intentionally with:
+New projects already contain tracked `AGENTS.md` and `CLAUDE.md` files. After upgrading an older project to 2.2.0, create or refresh them with the package binaries:
 
 ```bash
-pnpm init-claude -- --force
-pnpm init-agents -- --force
-```
-
-Run these commands from the project root, where `package.json` and either `experiment.config.js` or `src/config.js` are present.
-
-Older generated projects may not have the package scripts. After upgrading `@sogody/experiment-framework`, run the package-owned binaries directly:
-
-```bash
-pnpm exec exp-init-claude
 pnpm exec exp-init-agents
+pnpm exec exp-init-claude
 ```
 
-See [AI Project Support](/development/ai-project-support) for generated
-resources, local `.gitignore` behavior, and replacement behavior.
+`exp-init-agents` updates only the framework-managed block when it finds valid markers. Add `--force` to replace an unmarked file intentionally. `exp-init-claude` still refuses an existing file unless you pass `--force`.
+
+See [AI Project Support](/development/ai-project-support) for the version-matched documentation flow.
 
 ## Notes
 

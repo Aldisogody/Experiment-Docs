@@ -133,12 +133,7 @@ If it returns `null`, refine the selector. If it returns the wrong element, pick
 
 Visual model for target element `<section class="hero">`:
 
-```text
-beforebegin →  [ wrapper ] <section>…</section>
-afterbegin  →  <section> [ wrapper ] …children… </section>
-beforeend   →  <section> …children… [ wrapper ] </section>
-afterend    →  <section>…</section> [ wrapper ]
-```
+<MountPositionDiagram />
 
 Use DevTools to confirm the anchor has room for your UI. A crowded flex row may need `'afterend'` instead of `'afterbegin'`.
 

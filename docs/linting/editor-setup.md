@@ -49,4 +49,4 @@ After installation:
 
 ## SCSS
 
-Biome does not format or lint SCSS. Use your editor's Sass support for syntax highlighting, but keep formatting changes aligned with the generated 4-space style and the [SCSS Modules guide](/linting/stylelint).
+Biome does not format or lint SCSS. Use your editor's Sass support for syntax highlighting, but keep formatting changes aligned with the generated two-space style and the [SCSS Modules guide](/linting/stylelint).

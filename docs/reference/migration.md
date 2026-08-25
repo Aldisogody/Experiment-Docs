@@ -40,7 +40,7 @@ Add `"type": "module"`, Node and pnpm requirements, the current scripts, and the
     "devDependencies": {
         "@biomejs/biome": "^2.5.0",
         "@preact/preset-vite": "^2.10.5",
-        "@sogody/experiment-framework": "^2.1.0",
+        "@sogody/experiment-framework": "^2.2.0",
         "esbuild": "^0.27.0",
         "sass": "^1.101.0",
         "vite": "^8.0.16"

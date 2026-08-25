@@ -1,5 +1,26 @@
 # E2E setup
 
+## Add E2E to an existing project
+
+Current generated projects include the `add-e2e` script:
+
+```bash
+pnpm add-e2e
+```
+
+The command now uses the same multi-market prompt as the main generator. It also updates `experiment.config.js#targetUrl` to the first resolved market, so the next `pnpm live` run opens the new E2E target.
+
+Options can follow pnpm's `--` separator:
+
+```bash
+pnpm add-e2e -- --dry-run
+pnpm add-e2e -- --force
+pnpm add-e2e -- --yes --skip-install
+pnpm add-e2e -- --run-smoke
+```
+
+Use `--dry-run` to inspect planned file changes, `--force` to refresh generated E2E files, and `--yes` to accept the UK defaults without opening the prompt. `--skip-install` leaves dependency installation to you; `--run-smoke` runs the generated test after setup.
+
 ## Browser installation
 
 When E2E is enabled during scaffolding, the CLI runs `pnpm playwright install` for you.

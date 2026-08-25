@@ -11,8 +11,6 @@ pnpm build            # lint, then build production IIFE bundles into dist/vN-in
 pnpm new-variation 2  # create src/js/v2 from the scaffolded variation
 pnpm new-variation control  # create src/js/control from the scaffolded variation
 pnpm add-e2e          # add Playwright E2E setup to an existing project
-pnpm init-claude      # create CLAUDE.md on demand
-pnpm init-agents      # create AGENTS.md on demand
 pnpm lint             # Biome check without writing files
 pnpm format           # Biome formatting and safe fixes
 pnpm live             # watch v1 and inject it into the configured targetUrl
@@ -25,13 +23,15 @@ pnpm live -- --profile shared      # reuse one OS cache profile across experimen
 ```
 src/
   components/       # Shared Preact components
+  helpers.js        # Shared tracking labels and page context
   js/v1/            # Variation 1 entry point
   config.js         # selectors and scaffold-specific values
 dist/               # generated bundles, e.g. v1-index.jsx
 ```
 
-Framework utilities and build/start/new-variation/init commands come from the
+Framework utilities and build/start/new-variation commands come from the
 `@sogody/experiment-framework` package dependency.
+Generated source and configuration use two-space indentation.
 
 ## Add E2E tests
 
@@ -50,17 +50,17 @@ This adds the same Playwright setup offered during scaffolding. The command supp
 `pnpm add-e2e` does not install Playwright browsers. If the first smoke run reports
 missing browsers, install them on demand with `pnpm playwright install`.
 
-## Local AI instructions
+The interactive setup accepts several market groups or individual countries. It expands groups, removes duplicates, and uses the first resolved market for `experiment.config.js#targetUrl`.
 
-AI documentation is opt-in and is not created during scaffolding:
+## Agent guidance
 
-```bash
-pnpm init-claude
-pnpm init-agents
+`AGENTS.md` and `CLAUDE.md` are tracked with the project. They direct coding tools to the guides installed with the current framework version:
+
+```text
+node_modules/@sogody/experiment-framework/llms.txt
 ```
 
-Each command refuses to replace an existing file. Add `-- --force` to regenerate it,
-for example `pnpm init-claude -- --force`.
+Add sample-specific rules outside the framework-managed block in `AGENTS.md`.
 
 ## Live injection
 
@@ -130,8 +130,8 @@ import { selectors } from '../../config';
 import style from './styles.module.scss';
 
 const container = mountExperiment(selectors.primary, selectors.fallbacks, 'afterbegin', {
-    className: style.root,
-    dataset: { experiment: 'sample' },
+  className: style.root,
+  dataset: { experiment: 'sample' },
 });
 if (!container) return;
 ```
@@ -142,11 +142,16 @@ E2E tests can also target `[data-experiment="sample"]`.
 
 ## Tracking
 
-`setupTracking` defaults to `eVar26` and `event26`; set `selector` to match the rendered control:
+The sample uses `trackInView` for its impression and `setupTracking` for its click. Both default to `eVar26` and `event26`, and both use the label format from `src/helpers.js`:
 
 ```js
+trackInView(container.querySelector('button'), {
+  label: getTrackingLabel('v', 'scrolled into view'),
+  onceKey: 'sample:v1:button-impression',
+});
+
 setupTracking(container, {
-    label: 'sample: v1 button clicked',
-    selector: 'button',
+  label: getTrackingLabel('v', 'cta clicked'),
+  selector: 'button',
 });
 ```

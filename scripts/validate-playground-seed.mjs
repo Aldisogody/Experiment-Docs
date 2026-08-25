@@ -13,6 +13,7 @@ const requiredFiles = [
   'package.json',
   'experiment.config.js',
   'src/config.js',
+  'src/helpers.js',
   'src/components/ExperimentButton/index.jsx',
   'src/components/ExperimentButton/styles.module.scss',
   'src/js/v1/index.jsx',
@@ -61,7 +62,7 @@ if (packageJson.scripts?.dev !== 'exp-build --watch') {
   throw new Error('Generated project must expose the expected watch command.');
 }
 
-if (packageJson.devDependencies?.['@sogody/experiment-framework'] !== '^2.0.0') {
+if (packageJson.devDependencies?.['@sogody/experiment-framework'] !== '^2.2.0') {
   throw new Error('Generated project must use the published @sogody/experiment-framework package.');
 }
 
@@ -123,7 +124,7 @@ if (
   throw new Error('Playground page must explain button styles versus mount-root styles.');
 }
 
-if (!playgroundPage.includes('uses npm') || !playgroundPage.includes('does not ship a lockfile')) {
+if (!playgroundPage.includes('uses npm') || !playgroundPage.includes('without a lockfile')) {
   throw new Error('Playground page must document the npm-native sandbox install policy.');
 }
 

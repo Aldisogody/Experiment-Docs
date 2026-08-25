@@ -8,6 +8,7 @@ Most experiment work happens in the config, variation entry point, component, an
 |---|---|
 | `experiment.config.js` | Tooling settings such as `globalObject`, `targetUrl`, and emergency brake behavior. |
 | `src/config.js` | Selectors and scaffolded button text. |
+| `src/helpers.js` | Shared tracking label format and reusable page-aware logic. |
 | `src/js/v1/index.jsx` | Variation entry point: mount, render, track. |
 | `src/components/*` | Preact components and local styles. |
 
@@ -34,9 +35,10 @@ The variation entry point follows the same order in every generated variation:
 
 ```jsx
 import { render } from 'preact';
-import { mountExperiment, runScript, setupTracking } from '@sogody/experiment-framework/framework';
+import { mountExperiment, runScript, setupTracking, trackInView } from '@sogody/experiment-framework/framework';
 import ExperimentButton from '@components/ExperimentButton';
 import { buttonText, selectors } from '../../config';
+import { getTrackingLabel } from '../../helpers';
 import style from './styles.module.scss';
 
 runScript(async () => {
@@ -48,8 +50,13 @@ runScript(async () => {
 
     render(<ExperimentButton text={buttonText} />, container);
 
+    trackInView(container.querySelector('button'), {
+        label: getTrackingLabel('v', 'scrolled into view'),
+        onceKey: 'my-experiment:v1:button-impression',
+    });
+
     setupTracking(container, {
-        label: 'my-experiment: v1 button clicked',
+        label: getTrackingLabel('v', 'cta clicked'),
         selector: 'button',
     });
 });
@@ -60,7 +67,8 @@ The important order is:
 1. `runScript()` waits for DOM readiness.
 2. `mountExperiment()` creates the injected container.
 3. Your experiment renders into that container.
-4. `setupTracking()` runs after render so the tracked element exists.
+4. `trackInView()` observes the rendered element for an impression.
+5. `setupTracking()` attaches the click listener after render.
 
 ## What the scaffold includes
 
@@ -111,6 +119,7 @@ import {
     runScript,
     setupTracking,
     trackAAEvent,
+    trackInView,
     getMarket,
     debug,
     waitFor,

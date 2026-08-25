@@ -124,6 +124,22 @@ export default defineConfig({
   title: 'Experiment Docs',
   description: 'Scaffold Adobe Target A/B experiments with Vite + Preact',
   lastUpdated: true,
+  markdown: {
+    config(markdown) {
+      const defaultFence = markdown.renderer.rules.fence;
+
+      markdown.renderer.rules.fence = (tokens, index, options, environment, renderer) => {
+        const token = tokens[index];
+
+        if (token.info.trim() === 'mermaid') {
+          const source = encodeURIComponent(token.content);
+          return `<ClientOnly><MermaidDiagram source="${source}" /></ClientOnly>`;
+        }
+
+        return defaultFence?.(tokens, index, options, environment, renderer) ?? renderer.renderToken(tokens, index, options);
+      };
+    },
+  },
   vite: {
     plugins: [webcontainerHeadersPlugin],
     server: {

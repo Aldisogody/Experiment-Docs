@@ -7,7 +7,7 @@ Look up scaffold prompts, generated commands, market codes, releases, and contri
 - [CLI prompts](/reference/cli-prompts) - questions the generator asks at scaffold time
 - [Generated commands](/reference/generated-commands) - `pnpm` scripts in a new project
 - [Markets](/reference/markets) - Samsung market codes and configuration
-- [AI Project Support](/development/ai-project-support) - opt-in instruction files and reusable skills
+- [AI Project Support](/development/ai-project-support) - version-matched guidance for coding agents
 
 ## Project and team
 

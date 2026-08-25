@@ -4,18 +4,43 @@
 
 Generated numeric variations are numbered from 1. In a standard A/B test:
 
-- `v1` - control (no change, or baseline treatment)
-- `v2` - treatment A
-- `v3` - treatment B (A/B/C test)
+- `v1` - first variant
+- `v2` - second variant
+- `v3` - third variant
 
-The framework also supports a dedicated named control entry:
+## Scaffold an unchanged control
+
+Use the generator flag when the control should leave the page unchanged and track only exposure:
+
+```bash
+npx @sogody/experiment-framework my-experiment --control
+```
+
+This creates `src/js/control/index.jsx` alongside the numeric variations. The generated control waits for the native element selected by `selectors.primary`, then calls `trackInView()` with experience code `c`. It does not mount a component or add styles.
+
+Control and variant should observe equivalent landmarks with the same impression threshold:
+
+```mermaid
+flowchart TD
+    accTitle: Comparable control and variant exposure tracking
+    accDescr: The control observes the native landmark and the variant observes its rendered replacement. Both use the same impression threshold before sending their control or variant exposure label for comparison.
+    A["Control: native page landmark"] --> B["Observe the native element"]
+    C["Variant: rendered replacement"] --> D["Observe the equivalent element"]
+    B --> E["Apply the same impression threshold"]
+    D --> E
+    E --> F["Send control or variant exposure label"]
+    F --> G["Compare equivalent exposed audiences"]
+```
+
+## Add a named entry later
+
+The existing variation command still supports a named folder:
 
 ```bash
 pnpm new-variation control
 ```
 
-This creates `src/js/control/index.jsx` from `v1`. Numeric folders are always
-ordered before named folders, so `v1`, `v2`, and `control` build in that order.
+This copies `v1`, including its UI. If the new folder represents an unchanged control, remove the mounted UI and keep only native-element tracking. Numeric folders are always ordered before named folders, so `v1`, `v2`, and `control` build in that order.
 
 ## Adding a variation
 

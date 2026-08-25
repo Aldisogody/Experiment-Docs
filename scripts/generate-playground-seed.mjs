@@ -13,7 +13,7 @@ const repoRoot = resolve(__dirname, '..');
 const sampleRoot = resolve(repoRoot, 'docs/playground/sample');
 const outputPath = resolve(repoRoot, 'docs/.vitepress/theme/playground/generated-seed.json');
 const frameworkPackageName = '@sogody/experiment-framework';
-const publishedFrameworkRange = '^2.0.0';
+const publishedFrameworkRange = '^2.2.0';
 const excludedRootFiles = new Set([
   '.editorconfig',
   '.gitignore',

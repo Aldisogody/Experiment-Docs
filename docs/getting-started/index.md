@@ -18,13 +18,17 @@ For a first project, choose one variation. The generated files keep selectors an
 
 ## The Adobe Target workflow
 
-The development loop follows five steps:
-
-1. Scaffold a project with `npx @sogody/experiment-framework`.
-2. Set the target selectors and experiment content.
-3. Start watch mode with `pnpm start 0`.
-4. Paste the clipboard-ready bundle into Adobe Target custom code.
-5. Save your changes and refresh the preview page.
+```mermaid
+flowchart TD
+    accTitle: Experiment framework lifecycle
+    accDescr: Scaffold and configure an experiment, develop and preview it in Adobe Target, validate the result, then build production bundles and hand them off for release.
+    A["Scaffold the experiment"] --> B["Configure selectors and content"]
+    B --> C["Develop with watch mode"]
+    C --> D["Preview in Adobe Target"]
+    D --> E["Validate behavior and tracking"]
+    E --> F["Build production bundles"]
+    F --> G["Hand off for release"]
+```
 
 Watch mode rebuilds the active variation after every source change and copies the latest bundle to your clipboard. When the experiment is ready to ship, `pnpm build` creates production bundles for every variation.
 

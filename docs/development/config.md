@@ -23,7 +23,7 @@ export default {
 
 | Field | Type | Description |
 |---|---|---|
-| `targetUrl` | `string` | Page opened by `pnpm live`. The scaffold derives it from E2E market answers when available. |
+| `targetUrl` | `string` | Page opened by `pnpm live`. Scaffolding and `pnpm add-e2e` derive it from the first resolved E2E market. |
 | `runtime.globalObject` | `string` | The IIFE window namespace. The bundle registers as `window[globalObject]`. Change the scaffolded value only if it conflicts with another experiment. |
 | `runtime.includeEmergencyBrake` | `boolean` | Enables the runtime emergency-brake check in `runScript()`. |
 | `live.variation` | `number \| string` | Variation used by `pnpm live`. Accepts a zero-based index or discovered folder name such as `v2` or `control`. |

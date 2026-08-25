@@ -30,10 +30,7 @@ Yes. Run `pnpm add-e2e` from a current generated project, or `pnpm exec exp-add-
 
 ## What AI support can I add?
 
-`CLAUDE.md` and `AGENTS.md` are repository-wide instructions for tools that
-read those files. They are opt-in and ignored by Git in a generated project by
-default. Create them with `pnpm init-claude` and `pnpm init-agents`. See
-[AI Project Support](/development/ai-project-support).
+New projects include tracked `AGENTS.md` and `CLAUDE.md` files. They point coding tools to the version-matched documentation installed with the framework. Older projects can add them with `pnpm exec exp-init-agents` and `pnpm exec exp-init-claude`. See [AI Project Support](/development/ai-project-support).
 
 ## What does `includeEmergencyBrake` do?
 
