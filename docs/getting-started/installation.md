@@ -20,8 +20,10 @@ The CLI asks a few setup questions, creates the project, and installs its depend
 | **Include emergency brake** | `true` | Sets `runtime.includeEmergencyBrake` in `experiment.config.js`. When enabled, `runScript()` checks the Adobe Target emergency-brake configuration before running the experiment. |
 | **Enable E2E testing** | `false` | Generates `e2e/`, `playwright.config.js`, and wires up `pnpm test:e2e`. Enable if you have a stable preview URL to test against. |
 | **Base URL** _(E2E only)_ | `https://samsung.com` | The root URL for Playwright tests. |
-| **Market** _(E2E only)_ | - | Selects which Samsung market(s) to parametrise tests against. See the [Markets reference](/reference/markets). |
+| **Markets** _(E2E only)_ | - | Selects one or more groups or individual markets for the generated tests. See the [Markets reference](/reference/markets). |
 | **Run smoke test** _(E2E only)_ | `false` | Runs `pnpm build` and `pnpm test:e2e` immediately after setup. |
+
+Market groups expand to their member countries. You can mix a group with individual markets; the resolver removes duplicates and writes the result in the framework's canonical order. The first resolved market becomes the default `targetUrl` for `pnpm live`.
 
 ## After scaffolding
 

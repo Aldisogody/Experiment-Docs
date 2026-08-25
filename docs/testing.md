@@ -82,7 +82,7 @@ For each configured market, the generated smoke test:
 
 ## Markets
 
-Market groups expand into one test iteration per country. For example, `BENELUX` runs Belgium Dutch, Belgium French, and Netherlands.
+Market groups expand into one test iteration per country. You can combine a group with individual countries; the framework removes duplicate countries and restores canonical order. For example, `BENELUX` plus `DE` runs Belgium Dutch, Belgium French, Netherlands, and Germany.
 
 Use `e2e/config.js` when you need to adjust market coverage after scaffolding:
 

@@ -83,15 +83,15 @@ The root URL for Playwright tests. Written to `e2e/config.js` as `urlsConfig.bas
 
 ---
 
-### Market _(E2E only)_
+### Markets _(E2E only)_
 
 | | |
 |---|---|
-| **Type** | Select |
+| **Type** | Multiselect |
 | **Default** | - |
 | **Condition** | Only shown when E2E is enabled |
 
-Selects which Samsung market(s) to run E2E tests against. Multi-country groups (`BENELUX`, `NORDICS`, `IBERIA`) generate one test per configured country. See the [Markets Reference](/reference/markets) for all available options.
+Select one or more groups or individual markets with Space, then press Enter. Multi-country groups (`BENELUX`, `NORDICS`, `IBERIA`) expand to their countries. Mixed selections are combined, deduplicated, and written in canonical order. See the [Markets Reference](/reference/markets) for every option.
 
 ---
 

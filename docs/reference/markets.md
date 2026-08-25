@@ -7,7 +7,7 @@ The generated `markets` array uses country identifiers such as `BE` and `BE_FR`;
 
 ## Multi-country groups
 
-Each group runs one E2E test per country. Selecting `BENELUX`, for example, creates three test cases.
+Each group runs one E2E test per country. Selecting `BENELUX`, for example, creates three test cases. You can select groups and individual countries in the same run.
 
 | Group code | Name | Countries | URL paths |
 |---|---|---|---|
@@ -48,6 +48,19 @@ Each group runs one E2E test per country. Selecting `BENELUX`, for example, crea
 | `SK` | Slovakia | `SK` | `sk` |
 | `SI` | Slovenia | `SI` | `si` |
 | `CH` | Switzerland | `CH` | `ch` |
+| `UA` | Ukraine | `UA` | `ua` |
+
+## Mixed selections
+
+The CLI and `pnpm add-e2e` accept more than one choice. Group members and individual selections are combined, duplicates are removed, and known markets are written in the framework's canonical order.
+
+For example, selecting `BENELUX`, `BE_FR`, and `GERMANY` resolves to:
+
+```text
+BE, BE_FR, NL, DE
+```
+
+`BE_FR` appears once even though it was selected directly and through `BENELUX`. The first result, `BE`, becomes the generated `targetUrl` for live preview. Playwright still runs the smoke test for all four markets.
 
 ## URL resolution
 
