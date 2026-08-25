@@ -33,7 +33,8 @@ my-experiment/
 │   │       ├── index.jsx              # Variation 2 entry point
 │   │       └── styles.module.scss     # Mount-wrapper styles
 │   │
-│   └── config.js                      # selectors and button text
+│   ├── config.js                      # selectors and button text
+│   └── helpers.js                     # shared tracking labels and page context
 │
 ├── e2e/                               # Only present when E2E is enabled
 │   ├── smoke.spec.js
@@ -100,6 +101,7 @@ The experiment runtime is imported from `@sogody/experiment-framework/framework`
 - `runScript(fn)` waits for the DOM before running the experiment.
 - `mountExperiment(selector, fallback?, position?, options?)` creates and inserts the mount `div`. Pass `className: style.root` from `src/js/vN/styles.module.scss` to style the wrapper.
 - `trackAAEvent(evar, event, data)` sends an Adobe Analytics event.
+- `trackInView(element, options)` sends a viewport impression and returns a cleanup handle.
 - `waitFor(selectors, callback)` polls until the elements are present.
 - `watchFor(selector, callback, options?)` waits with a `MutationObserver`.
 - `setupTracking(container, options)` attaches click tracking after rendering.
@@ -114,9 +116,10 @@ Each variation has its own entry point. Mount the container, render the componen
 
 ```jsx
 import { render } from 'preact';
-import { mountExperiment, runScript, setupTracking } from '@sogody/experiment-framework/framework';
+import { mountExperiment, runScript, setupTracking, trackInView } from '@sogody/experiment-framework/framework';
 import ExperimentButton from '@components/ExperimentButton';
 import { buttonText, selectors } from '../../config';
+import { getTrackingLabel } from '../../helpers';
 import style from './styles.module.scss';
 
 runScript(async () => {
@@ -128,9 +131,14 @@ runScript(async () => {
 
     render(<ExperimentButton text={buttonText} />, container);
 
+    trackInView(container.querySelector('button'), {
+        label: getTrackingLabel('v', 'scrolled into view'),
+        onceKey: 'my-experiment:v1:button-impression',
+    });
+
     // Attach tracking after render.
     setupTracking(container, {
-        label: 'my-experiment: v1 button clicked',
+        label: getTrackingLabel('v', 'cta clicked'),
         selector: 'button',
     });
 });

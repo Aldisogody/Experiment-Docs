@@ -13,6 +13,8 @@ import {
     runScript,
     setupTracking,
     trackAAEvent,
+    trackInView,
+    trackOnceInView,
     waitFor,
     watchFor,
 } from '@sogody/experiment-framework/framework';
@@ -28,6 +30,8 @@ import {
 | [`watchFor(selector, callback, options?)`](/framework-api/wait-for) | MutationObserver-based alternative to `waitFor` | `v2.0.0` |
 | [`trackAAEvent(evar, event, data)`](/framework-api/tracking) | Fires an Adobe Analytics event via the global `s` object | `v2.0.0` |
 | [`setupTracking(container, options)`](/framework-api/tracking) | Attaches click tracking to a rendered element | `v2.0.0` |
+| [`trackInView(element, options?)`](/framework-api/tracking#trackinview) | Tracks viewport impressions and returns a cleanup handle | `v2.2.0` |
+| [`trackOnceInView(element, label, options?)`](/framework-api/tracking#compatibility-wrapper) | Compatibility wrapper around `trackInView()` | `v2.2.0` |
 | [`getPath()`](/framework-api/path-and-market#getpath) | Returns the current path, query string, and hash | Current package |
 | [`getPathSegments(path?)`](/framework-api/path-and-market#getpathsegments) | Splits a path into non-empty pathname segments | Current package |
 | [`getMarket(path?)`](/framework-api/path-and-market#getmarket) | Returns the lowercase first path segment | Current package |
