@@ -70,15 +70,18 @@ This command builds first, then runs Playwright. Fix lint or build errors before
 
 ## Smoke test flow
 
-For each configured market, the generated smoke test:
+For each configured market, the generated smoke test follows the same sequence:
 
-1. Build `dist/v1-index.jsx` through `pnpm test:e2e`.
-2. Resolve the market URL from `e2e/config.js`.
-3. Navigate to the page.
-4. Inject or find the target element.
-5. Add the IIFE bundle to the page.
-6. Wait for the selector-derived experiment container.
-7. Attach screenshots or page metadata to the Playwright report.
+```mermaid
+flowchart TD
+    accTitle: Generated E2E smoke test sequence
+    accDescr: The test command builds the variation, resolves and opens each market URL, prepares the target page, injects the IIFE bundle, verifies the experiment container, and attaches diagnostic evidence to the report.
+    A["Build dist/v1-index.jsx"] --> B["Resolve and open the market URL"]
+    B --> C["Prepare the page and target element"]
+    C --> D["Inject the IIFE bundle"]
+    D --> E["Wait for the experiment container"]
+    E --> F["Attach screenshots or page metadata"]
+```
 
 ## Markets
 

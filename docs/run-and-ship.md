@@ -2,6 +2,18 @@
 
 This is the working loop after scaffolding: watch, paste, preview, build, and hand off.
 
+```mermaid
+flowchart TD
+    accTitle: Watch, preview, and release loop
+    accDescr: Saving source starts a watched rebuild and copies the active bundle. Paste or inject it into Adobe Target, refresh and review the preview, then either revise the source or build and hand off the production bundle.
+    A["Save source changes"] --> B["Watcher rebuilds and copies the bundle"]
+    B --> C["Paste into Target or use live injection"]
+    C --> D["Refresh and review the preview"]
+    D -->|More changes| A
+    D -->|Ready| E["Format and build all variations"]
+    E --> F["Hand off the matching production bundles"]
+```
+
 ## Release checklist
 
 - Run the watcher for the variation you are editing.
