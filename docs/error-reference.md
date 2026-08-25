@@ -4,12 +4,13 @@ title: Error Reference
 
 # Error reference
 
-## `Usage: experiment-framework <project-name>`
+## `Usage: experiment-framework <project-name> [--control]`
 
 The project argument is missing.
 
 ```bash
 npx @sogody/experiment-framework my-experiment
+npx @sogody/experiment-framework my-experiment --control
 ```
 
 ## `Failed to load experiment.config.js`

@@ -20,6 +20,14 @@ Run these commands from the root of a generated project after `pnpm install`.
 | `pnpm new-variation N` | Creates `src/js/vN/index.jsx` from `v1`. |
 | `pnpm new-variation control` | Creates `src/js/control/index.jsx` from `v1`. |
 
+To generate an impression-only control at project creation time, pass `--control` to the package CLI:
+
+```bash
+npx @sogody/experiment-framework my-experiment --control
+```
+
+Unlike `pnpm new-variation control`, the generator flag creates an entry that observes the native page and does not copy the variant UI.
+
 The build writes:
 ```
 dist/

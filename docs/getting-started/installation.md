@@ -6,9 +6,10 @@ Run the create command with your project name:
 
 ```bash
 npx @sogody/experiment-framework my-experiment
+npx @sogody/experiment-framework my-experiment --control
 ```
 
-The CLI asks a few setup questions, creates the project, and installs its dependencies. It can also configure Playwright and run an initial smoke test.
+The CLI asks a few setup questions, creates the project, and installs its dependencies. Pass `--control` when the experiment needs a separate impression-only entry for the unchanged page. The CLI can also configure Playwright and run an initial smoke test.
 
 ## CLI prompts
 

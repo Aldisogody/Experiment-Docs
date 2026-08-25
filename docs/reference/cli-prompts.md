@@ -6,9 +6,12 @@ These are the questions asked by `npx @sogody/experiment-framework`.
 
 ```bash
 npx @sogody/experiment-framework my-experiment
+npx @sogody/experiment-framework my-experiment --control
 ```
 
 The project name is a required argument. The CLI exits if it is not provided.
+
+`--control` adds `src/js/control/index.jsx` during scaffolding. That entry observes the existing page and sends an impression event. It does not mount Preact or change the control experience.
 
 ## Prompts
 
@@ -22,7 +25,7 @@ The project name is a required argument. The CLI exits if it is not provided.
 
 Controls how many variation directories are generated under `src/js/`.
 
-- `1` - generates `src/js/v1/` only (control)
+- `1` - generates `src/js/v1/` only
 - `2` - generates `src/js/v1/` and `src/js/v2/` (A/B)
 - `custom` - prompts for a number between 1 and 10
 

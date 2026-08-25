@@ -107,6 +107,14 @@ pnpm start 2
 `pnpm new-variation 3` creates `src/js/v3/index.jsx` from `v1` and copies `src/js/v1/styles.module.scss` when present.
 `pnpm new-variation control` creates `src/js/control/index.jsx` from `v1`.
 
+For a clean, impression-only control in a new project, scaffold it from the start:
+
+```bash
+npx @sogody/experiment-framework my-experiment --control
+```
+
+The flag creates a control entry that tracks the existing page without mounting the variant UI.
+
 After creation:
 
 - Update labels in `src/js/v3/index.jsx`.
