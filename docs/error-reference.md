@@ -76,20 +76,20 @@ Fix the variation entry point and confirm the built bundle executes without erro
 
 Live injection could not match `selectors.primary` or a fallback. Injection still runs if the bundle registers on `window[globalObject][packageName]`. Check the target URL, page state, and selector chain when the overlay needs mount-point information.
 
-## `AGENTS.md already exists.`
+## `AGENTS.md has no valid framework-managed block.`
 
-`pnpm init-agents` found an existing `AGENTS.md` and left it unchanged. To intentionally replace the file, run:
+`exp-init-agents` found an existing `AGENTS.md` without one valid pair of framework markers. It left the file unchanged. Review the file before replacing it:
 
 ```bash
-pnpm init-agents -- --force
+pnpm exec exp-init-agents --force
 ```
 
 ## `CLAUDE.md already exists.`
 
-`pnpm init-claude` found an existing `CLAUDE.md` and left it unchanged. To intentionally replace the file, run:
+`exp-init-claude` found an existing `CLAUDE.md` and left it unchanged. To intentionally replace the file, run:
 
 ```bash
-pnpm init-claude -- --force
+pnpm exec exp-init-claude --force
 ```
 
 ## Invalid project metadata for AI initialization
@@ -106,11 +106,10 @@ Restore valid package metadata and experiment configuration.
 
 ## `Unknown option "<option>". Supported option: --force`
 
-The `init-claude` and `init-agents` commands accept only `--force`. Through a
-generated package script, include the separator:
+The package-owned initialization binaries accept only `--force`:
 
 ```bash
-pnpm init-agents -- --force
+pnpm exec exp-init-agents --force
 ```
 
 ## Chromium executable is missing

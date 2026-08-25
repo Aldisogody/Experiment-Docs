@@ -46,19 +46,12 @@ my-experiment/
 ├── .nvmrc                             # Node 24
 ├── .editorconfig
 ├── .gitignore
-├── CLAUDE.md                           # Optional local AI instructions; created by pnpm init-claude
-├── AGENTS.md                           # Optional local AI instructions; created by pnpm init-agents
-├── .claude/skills/<skill-name>/        # Optional Claude Code project skill; same generated content
-├── .cursor/skills/<skill-name>/        # Optional Cursor project skill; same generated content
+├── CLAUDE.md                           # Points Claude Code to AGENTS.md
+├── AGENTS.md                           # Tracked framework and project rules
 └── package.json
 ```
 
-The instruction files and skill directories are opt-in and are not present
-immediately after scaffolding. The generated `.gitignore` excludes
-`CLAUDE.md`, `AGENTS.md`, `.agents`, `.claude`, and `.cursor`, so
-project-specific AI support remains local by default. See
-[AI Project Support](/development/ai-project-support) for the complete skill
-tree.
+The instruction files are part of the scaffold. `AGENTS.md` sends coding tools to the documentation installed with the current framework version, while `CLAUDE.md` imports the same rules. See [AI Project Support](/development/ai-project-support) for the discovery and refresh flow.
 
 ## Key files
 

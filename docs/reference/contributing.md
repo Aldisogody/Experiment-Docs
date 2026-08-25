@@ -60,7 +60,7 @@ Add or update tests that generate real files in a temporary directory. Run the f
 - Runtime signatures match `runtime/framework.js`.
 - Market codes and URLs match the current market references.
 - Examples avoid legacy package names and copied runtime files.
-- AI instruction files remain opt-in and their paths match the init binaries.
+- Agent instruction files and package-local documentation match the current scaffold and refresh binaries.
 - Commands are run from the correct repository or generated project root.
 
 ## Before opening a pull request

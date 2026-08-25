@@ -35,21 +35,11 @@ pnpm start 0
 
 Paste the copied bundle into the matching Adobe Target variation, save, and refresh the preview.
 
-### Optional AI project support
+### Agent guidance
 
-Generated projects do not include AI instruction files automatically.
-From the project root, create the instruction file your tool uses:
+The scaffold creates tracked `AGENTS.md` and `CLAUDE.md` files. They direct coding tools to the version-matched guides installed with `@sogody/experiment-framework`, starting at `node_modules/@sogody/experiment-framework/llms.txt`.
 
-```bash
-pnpm init-claude
-pnpm init-agents
-```
-
-The commands create `CLAUDE.md` and `AGENTS.md` after inferring the experiment
-name and E2E setup from the scaffolded project.
-
-See [AI Project Support](/development/ai-project-support) for generated paths,
-replacement behavior, and older-project usage.
+See [AI Project Support](/development/ai-project-support) for the discovery flow and the safe refresh command for older projects.
 
 ::: tip Current scaffold
 The CLI now generates one generic button template. Add experiment-specific data loading or custom components in the generated project when needed.
