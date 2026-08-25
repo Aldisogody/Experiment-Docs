@@ -14,12 +14,14 @@ The framework documentation ships inside the installed package. This keeps the g
 
 ```mermaid
 flowchart TD
-    A["Agent opens a generated experiment"] --> B["Reads AGENTS.md or CLAUDE.md"]
-    B --> C["Reads the installed framework version"]
-    C --> D["Opens node_modules/@sogody/experiment-framework/llms.txt"]
-    D --> E["Chooses the relevant installed guide"]
-    E --> F["Writes or reviews code using current conventions"]
-    F --> G["Runs lint, build, and applicable E2E checks"]
+    accTitle: How an agent finds version-matched guidance
+    accDescr: The agent reads the generated project instructions, checks the installed framework version and documentation manifest, chooses the relevant guide, then writes or reviews code and validates it.
+    A["Open generated experiment"] --> B["Read AGENTS.md or CLAUDE.md"]
+    B --> C["Check installed framework version"]
+    C --> D["Open the installed llms.txt manifest"]
+    D --> E["Read the relevant guide"]
+    E --> F["Write or review experiment code"]
+    F --> G["Run lint, build, and E2E checks"]
 ```
 
 The manifest links to the package's experiment-development, API, and build-and-test guides. Agents should read the smallest relevant guide and check the installed declarations or source when an edge case is not documented.

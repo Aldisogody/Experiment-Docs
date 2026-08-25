@@ -30,15 +30,14 @@ This happens automatically because `urlsConfig.markets` is populated with all co
 Mixed selections are unioned and deduplicated. The result follows the framework's market order rather than the order in which you pressed Space:
 
 ```mermaid
-flowchart LR
-    A["Select BENELUX"] --> D["Expand to BE, BE_FR, NL"]
-    B["Select BE_FR"] --> E["Combine selections"]
-    C["Select DE"] --> E
-    D --> E
-    E --> F["Remove duplicate BE_FR"]
-    F --> G["Resolve as BE, BE_FR, NL, DE"]
-    G --> H["Run one smoke test per market"]
-    G --> I["Use BE as the live-preview default"]
+flowchart TD
+    accTitle: How mixed market selections are resolved
+    accDescr: Selecting BENELUX, BE_FR, and DE expands the group, removes the duplicate BE_FR market, orders the result as BE, BE_FR, NL, and DE, then tests every market while using BE for live preview by default.
+    A["Select BENELUX, BE_FR, and DE"] --> B["Expand BENELUX to BE, BE_FR, and NL"]
+    B --> C["Combine selections and remove duplicate BE_FR"]
+    C --> D["Canonical order: BE, BE_FR, NL, DE"]
+    D --> E["E2E: test all four markets"]
+    D --> F["Live preview: use BE by default"]
 ```
 
 The E2E config uses scaffold identifiers such as `BE` and `BE_FR`. Team targeting and reporting references may use canonical labels such as `BENL` and `BEFR`; do not substitute them without also updating `e2e/config.js`.

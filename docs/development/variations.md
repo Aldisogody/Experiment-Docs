@@ -21,13 +21,15 @@ This creates `src/js/control/index.jsx` alongside the numeric variations. The ge
 Control and variant should observe equivalent landmarks with the same impression threshold:
 
 ```mermaid
-flowchart LR
-    A["Native page section"] --> B["control/index.jsx observes native element"]
-    C["Variant replacement at the same position"] --> D["v1/index.jsx observes rendered element"]
-    B --> E["c: ... : scrolled into view"]
-    D --> F["v: ... : scrolled into view"]
-    E --> G["Comparable exposure populations"]
-    F --> G
+flowchart TD
+    accTitle: Comparable control and variant exposure tracking
+    accDescr: The control observes the native landmark and the variant observes its rendered replacement. Both use the same impression threshold before sending their control or variant exposure label for comparison.
+    A["Control: native page landmark"] --> B["Observe the native element"]
+    C["Variant: rendered replacement"] --> D["Observe the equivalent element"]
+    B --> E["Apply the same impression threshold"]
+    D --> E
+    E --> F["Send control or variant exposure label"]
+    F --> G["Compare equivalent exposed audiences"]
 ```
 
 ## Add a named entry later
