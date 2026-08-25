@@ -8,43 +8,44 @@ The generated `biome.json`:
 
 ```json
 {
-    "$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
-    "files": {
-        "includes": ["**", "!dist", "!scripts", "!lib"]
-    },
+  "$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
+  "files": {
+    "includes": ["**", "!dist", "!scripts", "!lib"]
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 120
+  },
+  "javascript": {
     "formatter": {
-        "indentStyle": "space",
-        "indentWidth": 4,
-        "lineWidth": 120
+      "quoteStyle": "single"
     },
-    "javascript": {
-        "formatter": {
-            "quoteStyle": "single"
-        },
-        "globals": [
-            "window", "document", "fetch",
-            "setTimeout", "setInterval", "clearInterval", "clearTimeout",
-            "MutationObserver", "HTMLElement", "Intl", "s"
-        ]
-    },
-    "assist": { "actions": { "source": { "organizeImports": "off" } } },
-    "linter": {
-        "enabled": true,
-        "rules": {
-            "preset": "none",
-            "correctness": {
-                "preset": "recommended",
-                "noUnusedVariables": "error"
-            },
-            "suspicious": {
-                "preset": "recommended",
-                "noConsole": "error"
-            },
-            "a11y": {
-                "preset": "recommended"
-            }
-        }
+    "globals": [
+      "window", "document", "fetch",
+      "setTimeout", "setInterval", "clearInterval", "clearTimeout",
+      "MutationObserver", "HTMLElement", "Intl", "s"
+    ]
+  },
+  "assist": { "actions": { "source": { "organizeImports": "off" } } },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "none",
+      "correctness": {
+        "preset": "recommended",
+        "noUndeclaredVariables": "error",
+        "noUnusedVariables": "error"
+      },
+      "suspicious": {
+        "preset": "recommended",
+        "noConsole": "error"
+      },
+      "a11y": {
+        "preset": "recommended"
+      }
     }
+  }
 }
 ```
 
@@ -53,7 +54,7 @@ The generated `biome.json`:
 | Setting | Value | Reason |
 |---|---|---|
 | `indentStyle` | `space` | Uses spaces rather than tabs |
-| `indentWidth` | `4` | 4-space indentation |
+| `indentWidth` | `2` | Two-space indentation, matching generated source and config files |
 | `lineWidth` | `120` | Leaves room for JSX without forcing frequent wraps |
 | `quoteStyle` | `single` | Single quotes throughout |
 

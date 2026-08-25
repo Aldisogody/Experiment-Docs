@@ -2,6 +2,8 @@
 
 The scaffolder generates one small Adobe Target and Preact template: a button component, structured selectors, variation entry points, and package-owned build commands.
 
+Version 2.2.0 writes generated source, configuration, E2E files, and examples with two-space indentation. `biome.json` and `.editorconfig` agree on that width.
+
 ## Generated UI
 
 The template includes:

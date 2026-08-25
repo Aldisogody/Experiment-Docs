@@ -19,8 +19,8 @@ importers:
         specifier: ^2.10.5
         version: 2.10.5(@babel/core@7.29.7)(preact@10.29.3)(vite@8.1.0(@types/node@26.0.1)(esbuild@0.27.7)(sass@1.101.0))
       '@sogody/experiment-framework':
-        specifier: ^2.0.0
-        version: 2.0.0(@types/node@26.0.1)
+        specifier: ^2.2.0
+        version: 2.2.0(@types/node@26.0.1)
       esbuild:
         specifier: ^0.27.0
         version: 0.27.7
@@ -621,8 +621,8 @@ packages:
       rollup:
         optional: true
 
-  '@sogody/experiment-framework@2.0.0':
-    resolution: {integrity: sha512-BqrPvtdHH+JkhATq+bH3vxOXKhDejKeZLmqIwW4dG2weHgO4AuJaFfBfvv+DaHla3R9QIXw2Z11dtqJKacJh8g==}
+  '@sogody/experiment-framework@2.2.0':
+    resolution: {integrity: sha512-SxtMchcqq4kqvVtK83vT+2RQL7xnuuUJYjUoPkFKgq3bnUeCFpE56Oqg+my6RHDtUBYIfSdDIaAEjxxEteHNsw==}
     engines: {node: '>=20.19.0'}
     hasBin: true
 
@@ -1728,7 +1728,7 @@ snapshots:
       estree-walker: 2.0.2
       picomatch: 4.0.4
 
-  '@sogody/experiment-framework@2.0.0(@types/node@26.0.1)':
+  '@sogody/experiment-framework@2.2.0(@types/node@26.0.1)':
     dependencies:
       '@clack/prompts': 1.6.0
       '@playwright/test': 1.61.1
