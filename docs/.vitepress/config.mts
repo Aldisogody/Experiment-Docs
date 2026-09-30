@@ -2,11 +2,7 @@ import { defineConfig } from 'vitepress';
 
 const ECOSYSTEM_LINKS = {
   samlinksV2: 'https://samlinks2.vercel.app/',
-} as const;
-
-const ECOSYSTEM_NAV = {
-  uiComponentsSoon:
-    'UI components <span class="VPBadge info small">soon</span>',
+  uiComponents: 'https://sgd-cro-design-system.vercel.app/',
 } as const;
 
 const webcontainerHeaders = {
@@ -197,9 +193,10 @@ export default defineConfig({
                 rel: 'noopener noreferrer',
               },
               {
-                text: ECOSYSTEM_NAV.uiComponentsSoon,
-                link: '',
-                noIcon: true,
+                text: 'UI Components',
+                link: ECOSYSTEM_LINKS.uiComponents,
+                target: '_blank',
+                rel: 'noopener noreferrer',
               },
             ],
           },
